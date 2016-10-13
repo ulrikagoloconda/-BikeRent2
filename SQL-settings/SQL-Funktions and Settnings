@@ -1,0 +1,367 @@
+//  userID fname lname memberlevel email phone username passw memberSince
+   /*
+     ____________________ FEL START...
+DROP FUNCTION IF EXISTS check_password;
+DELIMITER //
+CREATE FUNCTION check_password(tryusername varchar(50), trypassword varchar(50)) RETURNS smallint(6)
+    BEGIN
+    DECLARE pw VARBINARY(56);
+    SET pw = (SELECT passw FROM bikeuser WHERE userName=tryusername);
+    if exists(SELECT * from bikeuser WHERE userName= tryusername AND pw=AES_ENCRYPT(trypassword,'tackforkaffet'))
+    THEN
+    RETURN 1;
+    ELSE
+    RETURN 0;
+    END IF;
+    END//
+DELIMITER ;
+    */
+//'Niklas', 'Karlsson', 0, 'cykeltur@gmail.com', 0703032191 , 'cykeltur' , AES_ENCRYPT('1234','tackforkaffet') , CURDATE());
+  ____________________ FEL END..
+
+_______________
+ drop FUNCTION insert_new_user;
+   DELIMITER //
+   CREATE FUNCTION insert_new_user(in_fname varchar(50),in_lname varchar(11),in_memberlevel varchar(11),in_email varchar(50),in_phone varchar(11),in_username varchar(11), in_passw varchar(50)) RETURNS smallint(6)
+   BEGIN
+   DECLARE pw VARBINARY(56);
+   DECLARE userNameAvalible VARCHAR(11);
+   if exists(SELECT username FROM bikeuser WHERE userName=in_username)
+   THEN
+   RETURN 0;
+   ELSE
+   INSERT INTO bikeuser (fname, lname, memberlevel, email, phone , username , passw , membersince)
+   VALUES (in_fname, in_lname, in_memberlevel, in_email, in_phone , in_username , AES_ENCRYPT(in_passw,'tackforkaffet') , CURDATE());
+   RETURN 1;
+   END IF;
+   END//
+   DELIMITER ;
+
+   SELECT insert_new_user(
+   'Niklas', 'Karlsson', 0, 'cykeltur@gmail.com', 0703032191 , 'cykeltur1' , 1234);
+  ____________________
+
+
+ drop FUNCTION update_user;
+   DELIMITER //
+   CREATE FUNCTION update_user(in_fname varchar(50),in_lname varchar(50),in_memberlevel varchar(50),in_email varchar(50),in_phone varchar(50),in_username varchar(50), in_passw varchar(50)) RETURNS smallint(6)
+   BEGIN
+   DECLARE pw VARBINARY(56);
+   DECLARE userNameAvalible VARCHAR(50);
+   if exists(SELECT username FROM bikeuser WHERE userName=in_username)
+   THEN
+   UPDATE bikeuser SET fname = in_fname, lname = in_lname, email = in_email, memberlevel = in_memberlevel, phone = in_phone, passw = AES_ENCRYPT(in_passw,'tackforkaffet')
+   WHERE username = in_username;
+   RETURN 1;
+   ELSE
+   RETURN 0;
+   END IF;
+   END//
+   DELIMITER ;
+
+   SELECT update_user(
+      'NiklasU', 'Karlsson', 0, 'cykeltur@gmail.com', 0703032191 , 'cykeltur1' , 1234);
+
+  ____________________
+
+
+CREATE PROCEDURE delete_bike(IN idIn INT(11))
+BEGIN
+   DELETE FROM bike WHERE bikeID=idIn;
+ END;
+
+DROP PROCEDURE IF EXISTS bikerentdb.execute_bike_loan;
+CREATE PROCEDURE execute_bike_loan(
+ IN userIDIn INTEGER(10),
+ IN bikeIDIn INTEGER(11),
+ IN dayOfLoanIn DATE,
+ OUT expReturn DATE)
+BEGIN
+   SET expReturn = (SELECT DATE_ADD(dayOfLoanIn, INTERVAL 1 MONTH));
+   INSERT INTO rentbridge
+   (userID, bikeID,dayOfRent, dayOfReturn)
+   VALUE (userIDIn, bikeIDIn, dayOfLoanIn, expReturn);
+
+ END;
+
+DROP PROCEDURE IF EXISTS bikerentdb.get_all_bikes;
+CREATE PROCEDURE get_all_bikes()
+BEGIN
+   SELECT bike.bikeID, bike.modelyear, bike.color, bike.size, bike.modelyear, brand.brandname, type.typeName
+   FROM bike
+     JOIN type ON bike.typeID = type.typeID
+     JOIN brand On bike.brandid = brand.brandid;
+ END;
+
+
+DROP PROCEDURE IF EXISTS bikerentdb.get_bike_returnedDate_from_ID;
+CREATE PROCEDURE `get_bike_returnedDate_from_ID`(IN bikeIDIn INT(11))
+BEGIN
+SELECT bike.bikeID, brand.brandname, type.typeName, bike.modelyear, bike.color, bike.image, bike.size,
+ rentbridge.dayOfRent, rentbridge.dayOfActualReturn
+from bike
+ JOIN brand
+   ON bike.brandid = brand.brandid
+ JOIN type
+   ON bike.typeID = type.typeID
+ LEFT JOIN rentbridge
+ ON bike.bikeID = rentbridge.bikeID
+WHERE bike.bikeID=bikeIDIn;
+
+END;
+
+DROP PROCEDURE IF EXISTS bikerentdb.getUserFromUserName;
+CREATE ` PROCEDURE `getUserFromUserName`(in_username varchar(50))
+BEGIN
+   SELECT * FROM bikeuser
+   WHERE username = in_username;
+ END;
+
+DROP PROCEDURE IF EXISTS bikerentdb.insert_bike;
+CREATE PROCEDURE `insert_bike`(IN brandNameIn VARCHAR(50),
+                                                         IN typeIn VARCHAR(30),
+                                                         IN modelYearIn SMALLINT(6),
+                                                         IN colorIn VARCHAR(50),
+                                                         IN sizeIn SMALLINT(6),
+                                                         IN imageIn LONGBLOB)
+ BEGIN
+   DECLARE brandIDDec INT(11);
+   DECLARE typeIDDec INT(10);
+
+   IF EXISTS(SELECT brandid FROM brand WHERE brandname=brandNameIn)
+   THEN
+     SET brandIDDec = (SELECT brandid FROM brand WHERE brandname=brandNameIn);
+   ELSE
+     INSERT INTO brand (brandname) VALUE (brandNameIn) ;
+     SELECT last_insert_id() INTO brandIDDec FROM brand;
+   END IF;
+   IF EXISTS(SELECT typeID FROM type WHERE typeName=typeIn)
+   THEN
+     SET typeIDDec = (SELECT typeID FROM type WHERE typeName=typeIn);
+   ELSE
+     INSERT INTO type (typeName)VALUE (typeIn);
+
+   END IF;
+
+   INSERT INTO bike (brandid, modelyear, color, size, typeID,image)
+   VALUES (brandIDDec, modelYearIn, colorIn, sizeIn,typeIDDec,imageIn );
+ END;
+
+DROP PROCEDURE IF EXISTS bikerentdb.search_available_bikes;
+
+CREATE PROCEDURE 'search_available_bikes'()
+BEGIN
+   SELECT bike.bikeID,bike.modelyear, bike.color, bike.image, bike.imageFileName,
+     bike.size, type.typeName, brand.brandname
+   FROM bike
+     LEFT JOIN rentbridge
+       ON bike.bikeID = rentbridge.bikeID
+     JOIN brand
+       ON bike.brandid = brand.brandid
+     JOIN type
+       ON bike.typeID = type.typeID
+
+   WHERE bike.bikeID NOT IN (SELECT rentbridge.bikeID FROM rentbridge WHERE dayOfActualReturn is null);
+ END;
+
+DROP PROCEDURE IF EXISTS bikerentdb.search_by_string;
+CREATE  PROCEDURE 'search_by_string'(
+IN text VARCHAR(100)
+)
+BEGIN
+   SELECT bike.bikeID, bike.color, brand.brandname, type.typeName
+   FROM bike
+     JOIN brand
+   ON bike.brandid = brand.brandid
+   JOIN type
+       ON bike.typeID = type.typeID
+   WHERE bike.color LIKE '%text%'
+         OR brand.brandname LIKE '%text%'
+         OR type.typeName LIKE CONCAT('%',text, '%');
+ END;
+
+ __________
+
+
+ CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_bike`(IN idIn INT(11))
+   BEGIN
+     DELETE FROM bike WHERE bikeID=idIn;
+   END;
+
+
+ DROP PROCEDURE IF EXISTS bikerentdb.execute_bike_loan;
+ CREATE DEFINER=`root`@`localhost` PROCEDURE `execute_bike_loan`(
+   IN userIDIn INTEGER(10),
+   IN bikeIDIn INTEGER(11),
+   IN dayOfLoanIn DATE,
+   OUT expReturn DATE)
+   BEGIN
+     SET expReturn = (SELECT DATE_ADD(dayOfLoanIn, INTERVAL 1 MONTH));
+     INSERT INTO rentbridge
+     (userID, bikeID,dayOfRent, dayOfReturn)
+       VALUE (userIDIn, bikeIDIn, dayOfLoanIn, expReturn);
+
+   END;
+
+
+ DROP PROCEDURE IF EXISTS bikerentdb.get_all_bikes;
+ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_bikes`()
+   BEGIN
+     SELECT bike.bikeID, bike.modelyear, bike.color, bike.size, bike.modelyear, brand.brandname, type.typeName
+     FROM bike
+       JOIN type ON bike.typeID = type.typeID
+       JOIN brand On bike.brandid = brand.brandid;
+   END;
+
+ DROP PROCEDURE IF EXISTS bikerentdb.get_bike_returnedDate_from_ID;
+ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_bike_returnedDate_from_ID`(IN bikeIDIn INT(11))
+   BEGIN
+     SELECT bike.bikeID, brand.brandname, type.typeName, bike.modelyear, bike.color, bike.image, bike.size,
+       rentbridge.dayOfRent, rentbridge.dayOfActualReturn
+     from bike
+       JOIN brand
+         ON bike.brandid = brand.brandid
+       JOIN type
+         ON bike.typeID = type.typeID
+       LEFT JOIN rentbridge
+         ON bike.bikeID = rentbridge.bikeID
+     WHERE bike.bikeID=bikeIDIn;
+
+   END;
+
+ DROP PROCEDURE IF EXISTS bikerentdb.getUserFromUserName;
+ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserFromUserName`(in_username varchar(50))
+   BEGIN
+     SELECT * FROM bikeuser
+     WHERE username = in_username;
+   END;
+
+
+ DROP PROCEDURE IF EXISTS bikerentdb.insert_bike;
+ CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_bike`(IN brandNameIn VARCHAR(50),
+                                                           IN typeIn VARCHAR(30),
+                                                           IN modelYearIn SMALLINT(6),
+                                                           IN colorIn VARCHAR(50),
+                                                           IN sizeIn SMALLINT(6),
+                                                           IN imageIn LONGBLOB)
+   BEGIN
+     DECLARE brandIDDec INT(11);
+     DECLARE typeIDDec INT(10);
+
+     IF EXISTS(SELECT brandid FROM brand WHERE brandname=brandNameIn)
+     THEN
+       SET brandIDDec = (SELECT brandid FROM brand WHERE brandname=brandNameIn);
+     ELSE
+       INSERT INTO brand (brandname) VALUE (brandNameIn) ;
+       SELECT last_insert_id() INTO brandIDDec FROM brand;
+     END IF;
+     IF EXISTS(SELECT typeID FROM type WHERE typeName=typeIn)
+     THEN
+       SET typeIDDec = (SELECT typeID FROM type WHERE typeName=typeIn);
+     ELSE
+       INSERT INTO type (typeName)VALUE (typeIn);
+
+     END IF;
+
+     INSERT INTO bike (brandid, modelyear, color, size, typeID,image)
+     VALUES (brandIDDec, modelYearIn, colorIn, sizeIn,typeIDDec,imageIn );
+   END;
+
+ DROP PROCEDURE IF EXISTS bikerentdb.search_available_bikes;
+ CREATE DEFINER=`root`@`localhost` PROCEDURE `search_available_bikes`()
+   BEGIN
+     SELECT bike.bikeID,bike.modelyear, bike.color, bike.image, bike.imageFileName,
+       bike.size, type.typeName, brand.brandname
+     FROM bike
+       LEFT JOIN rentbridge
+         ON bike.bikeID = rentbridge.bikeID
+       JOIN brand
+         ON bike.brandid = brand.brandid
+       JOIN type
+         ON bike.typeID = type.typeID
+
+     WHERE bike.bikeID NOT IN (SELECT rentbridge.bikeID FROM rentbridge WHERE dayOfActualReturn is null);
+   END;
+
+ DROP PROCEDURE IF EXISTS bikerentdb.search_by_string;
+ CREATE DEFINER=`root`@`localhost` PROCEDURE `search_by_string`(
+   IN text VARCHAR(100)
+ )
+   BEGIN
+     SELECT bike.bikeID, bike.color, brand.brandname, type.typeName
+     FROM bike
+       JOIN brand
+         ON bike.brandid = brand.brandid
+       JOIN type
+         ON bike.typeID = type.typeID
+     WHERE bike.color LIKE '%text%'
+           OR brand.brandname LIKE '%text%'
+           OR type.typeName LIKE CONCAT('%',text, '%');
+   END;
+
+   ____________
+
+DROP PROCEDURE IF EXISTS bikerentdb.search_available_bikes;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `search_available_bikes`()
+BEGIN
+   SELECT bike.bikeID,bike.modelyear, bike.color, bike.image, bike.imageFileName,
+     bike.size, type.typeName, brand.brandname
+   FROM bike
+     LEFT JOIN rentbridge
+       ON bike.bikeID = rentbridge.bikeID
+     JOIN brand
+       ON bike.brandid = brand.brandid
+     JOIN type
+       ON bike.typeID = type.typeID
+
+   WHERE bike.bikeID NOT IN (SELECT rentbridge.bikeID FROM rentbridge WHERE dayOfActualReturn is null);
+ END;
+ ____
+
+ DROP PROCEDURE IF EXISTS bikerentdb.insert_bike;
+ CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_bike`(IN brandNameIn VARCHAR(50),
+                                                          IN typeIn VARCHAR(30),
+                                                          IN modelYearIn SMALLINT(6),
+                                                          IN colorIn VARCHAR(50),
+                                                          IN sizeIn SMALLINT(6),
+                                                          IN imageIn LONGBLOB)
+ BEGIN
+    DECLARE brandIDDec INT(11);
+    DECLARE typeIDDec INT(10);
+
+    IF EXISTS(SELECT brandid FROM brand WHERE brandname=brandNameIn)
+    THEN
+      SET brandIDDec = (SELECT brandid FROM brand WHERE brandname=brandNameIn);
+    ELSE
+      INSERT INTO brand (brandname) VALUE (brandNameIn) ;
+      SELECT last_insert_id() INTO brandIDDec FROM brand;
+    END IF;
+    IF EXISTS(SELECT typeID FROM type WHERE typeName=typeIn)
+    THEN
+      SET typeIDDec = (SELECT typeID FROM type WHERE typeName=typeIn);
+    ELSE
+      INSERT INTO type (typeName)VALUE (typeIn);
+
+    END IF;
+
+    INSERT INTO bike (brandid, modelyear, color, size, typeID,image)
+    VALUES (brandIDDec, modelYearIn, colorIn, sizeIn,typeIDDec,imageIn );
+  END;
+
+  ___
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `search_by_string`(
+ IN text VARCHAR(100)
+)
+ BEGIN
+   SELECT bike.bikeID, bike.color, brand.brandname, type.typeName
+   FROM bike
+     JOIN brand
+       ON bike.brandid = brand.brandid
+     JOIN type
+       ON bike.typeID = type.typeID
+   WHERE bike.color LIKE CONCAT('%',text,'%')
+         OR brand.brandname LIKE CONCAT('%',text,'%')
+         OR type.typeName LIKE CONCAT('%',text, '%');
+ END;
+   ___
