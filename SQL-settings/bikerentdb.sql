@@ -87,18 +87,17 @@ DELIMITER ;
 
 USE bikerent ;
 
+USE bikerent ;
 CREATE TABLE bikerent.errorevent
 (
   id INT PRIMARY KEY AUTO_INCREMENT,
   date TIMESTAMP NOT NULL,
   username VARCHAR(30),
-  errortext VARCHAR(100)
+  errortext VARCHAR(10000)
 );
-CREATE UNIQUE INDEX errorevent_id_uindex ON bikerent.errorevent (id)
-
 drop FUNCTION insert_new_ErrorEvent;
 DELIMITER //
-CREATE FUNCTION insert_new_ErrorEvent(in_username varchar(30), in_error varchar(500)) RETURNS smallint(6)
+CREATE FUNCTION insert_new_ErrorEvent(in_username varchar(30), in_error varchar(10000)) RETURNS smallint(6)
   BEGIN
     INSERT INTO errorevent (date,username , errortext)
     VALUES (CURRENT_TIMESTAMP() , in_username , in_error);

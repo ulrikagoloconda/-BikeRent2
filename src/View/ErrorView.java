@@ -34,6 +34,9 @@ public class ErrorView {
     Label label = new Label("The exception stacktrace was:");
     System.out.println("**************  userName to errorlog: " + userName + " ***********");
     //SELECT insert_new_ErrorEvent('cykeltur', 'errortest...1234ÅÖÄ');
+    if (exceptionText.length()>9999){
+      exceptionText = exceptionText.substring(1,9000);
+    }
     System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError(userName,exceptionText) + "           *");
     TextArea textArea = new TextArea(exceptionText);
     textArea.setEditable(false);
