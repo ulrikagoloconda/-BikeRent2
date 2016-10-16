@@ -1,0 +1,21 @@
+BikeRent
+
+"Find a avalible bike.."
+
+This is a JavaFX and JDBC test-program
+to test how to add, change and update user.
+This program also can add bike's with pictures
+(prefered picture is with a transparent background)
+the program altso have a statistic-diagram.
+(please look at chart in View)
+
+when a user is adding a account
+the email is passed thrue a validator
+using Pattern,
+and if the user want: send a email to a Admin that a User have been added.
+
+The databaseMS is a MySQL-DB
+and all the SQL scripr is in the SQL-settings-folder
+the database have many functions, triggers, and so no so please look in this folder.
+
+ In the class DBUtil you put your SQL-path and User/password.
