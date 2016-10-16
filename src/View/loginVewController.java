@@ -39,6 +39,7 @@ public class loginVewController implements Initializable{
       System.out.println("inne i init login");
     Main.getSpider().setLoginView(this);
 
+      //System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError("userName","exceptionText") + "           *");
 
     }
 
@@ -60,7 +61,7 @@ public class loginVewController implements Initializable{
         Sound pling = new Sound();
         pling.playMp3SoundInThread(Sound.NO);
         processException(e);
-        ErrorView.showError("Inloggningsfel", "fel vid inloggning","Kontrollera era uppgifter" ,  e);
+        ErrorView.showError("Inloggningsfel", "fel vid inloggning","Kontrollera era uppgifter" , userName, e);
       }
     }
 

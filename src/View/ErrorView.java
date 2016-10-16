@@ -1,5 +1,6 @@
 package View;
 
+import Model.AccessErrorLog;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -16,7 +17,7 @@ import java.io.StringWriter;
  */
 public class ErrorView {
 
-  public static void showError(String titleText, String headerText,  String contentText, Exception e) {
+  public static void showError(String titleText, String headerText,  String contentText,String userName, Exception e) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setTitle(titleText);
     alert.setHeaderText(headerText);
@@ -31,7 +32,9 @@ public class ErrorView {
     String exceptionText = sw.toString();
 
     Label label = new Label("The exception stacktrace was:");
-
+    System.out.println("**************  userName to errorlog: " + userName + " ***********");
+    //SELECT insert_new_ErrorEvent('cykeltur', 'errortest...1234ÅÖÄ');
+    System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError(userName,exceptionText) + "           *");
     TextArea textArea = new TextArea(exceptionText);
     textArea.setEditable(false);
     textArea.setWrapText(true);

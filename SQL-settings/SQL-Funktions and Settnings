@@ -393,4 +393,70 @@ END //
 
 DELIMITER ;
 
+USE bikerent ;
+CREATE TABLE bikerent.errorevent
+(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  date TIMESTAMP NOT NULL,
+  username VARCHAR(30),
+  errortext VARCHAR(100)
+);
+drop FUNCTION insert_new_ErrorEvent;
+DELIMITER //
+CREATE FUNCTION insert_new_ErrorEvent(in_username varchar(30), in_error varchar(500)) RETURNS smallint(6)
+  BEGIN
+    INSERT INTO errorevent (date,username , errortext)
+    VALUES (CURRENT_TIMESTAMP() , in_username , in_error);
+    RETURN 1;
+END//
+DELIMITER ;
+
+SELECT insert_new_ErrorEvent(
+    'cykeltur', 'errortest...1234ÅÖÄ');
+
+
+USE bikerent ;
+
+DROP PROCEDURE IF EXISTS bikerent.insert_bike;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_bike`(IN brandNameIn VARCHAR(50),
+                                                          IN typeIn VARCHAR(30),
+                                                          IN modelYearIn SMALLINT(6),
+                                                          IN colorIn VARCHAR(50),
+                                                          IN sizeIn SMALLINT(6),
+                                                          IN imageIn LONGBLOB)
+  BEGIN
+    DECLARE brandIDDec INT(11);
+    DECLARE typeIDDec INT(10);
+
+    IF EXISTS(SELECT DISTINCT brandid FROM brand WHERE brandname=brandNameIn)
+    THEN
+      SET brandIDDec = (SELECT DISTINCT brandid FROM brand WHERE brandname=brandNameIn);
+    ELSE
+      INSERT INTO brand (brandname) VALUE (brandNameIn) ;
+      SELECT DISTINCT last_insert_id() INTO brandIDDec FROM brand;
+    END IF;
+    IF EXISTS(SELECT DISTINCT typeID FROM type WHERE typeName=typeIn)
+    THEN
+      SET typeIDDec = (SELECT DISTINCT typeID FROM type WHERE typeName=typeIn);
+    ELSE
+      INSERT INTO type (typeName)VALUE (typeIn);
+
+    END IF;
+
+    INSERT INTO bike (brandid, modelyear, color, size, insertDateTime, typeID,image)
+    VALUES (brandIDDec, modelYearIn, colorIn, sizeIn, CURRENT_TIMESTAMP(),typeIDDec,imageIn );
+  END;
+
+CREATE VIEW bike_object AS
+   SELECT bike.bikeID,bike.modelyear, bike.color, bike.image, bike.imageFileName,
+ bike.size, type.typeName, brand.brandname
+FROM bike
+LEFT JOIN rentbridge
+ON bike.bikeID = rentbridge.bikeID
+JOIN brand
+ON bike.brandid = brand.brandid
+JOIN type
+ON bike.typeID = type.typeID;
+
 --- for bike2 end
+
