@@ -12,7 +12,7 @@ import java.sql.*;
 public class AccessUser {
 
 
-    public static BikeUser loginUser(String userName, String passW) throws SQLException {
+  public static BikeUser loginUser1(String userName, String passW) throws SQLException {
 //  userID fname lname memberlevel email phone username passw memberSince
    /*
 DROP FUNCTION IF EXISTS check_password;
@@ -32,56 +32,118 @@ DELIMITER ;
     */
 //'Niklas', 'Karlsson', 0, 'cykeltur@gmail.com', 0703032191 , 'cykeltur' , AES_ENCRYPT('1234','tackforkaffet') , CURDATE());
 
-      //String SQLQueryLogInStage1 = "SELECT * FROM bikeuser WHERE userName = ? AND passw = ?";
+    //String SQLQueryLogInStage1 = "SELECT * FROM bikeuser WHERE userName = ? AND passw = ?";
 
-      DBType dataBase = null;
-      if(helpers.PCRelated.isThisNiklasPC()){
-        dataBase = DBType.Niklas;
-      }else{
-        dataBase = DBType.Ulrika;
-
-      }
-      // boolean isLoginOK = isLoginInfoOK(userName, passW, dataBase);
-
-      //if ( isLoginInfoOK(userName, passW, dataBase) ){
-      BikeUser logedInBikeUser = new BikeUser();
-      logedInBikeUser = getUserinfo(userName, dataBase);
-      System.out.println("accessBike in loginuser");
-      System.out.println("logedInBikeUser: " + logedInBikeUser.getEmail());
-      return logedInBikeUser;
-      //}else{
-      //  return null;
-      //}
+    DBType dataBase = null;
+    if (helpers.PCRelated.isThisNiklasPC()) {
+      dataBase = DBType.Niklas;
+    } else {
+      dataBase = DBType.Ulrika;
 
     }
-    public static boolean isUserAvalible (String userName)throws SQLException {
-      DBType dataBase = null;
-      if(helpers.PCRelated.isThisNiklasPC()){
-        dataBase = DBType.Niklas;
-      }else{
-        dataBase = DBType.Ulrika;
+    // boolean isLoginOK = isLoginInfoOK(userName, passW, dataBase);
+
+    //if ( isLoginInfoOK(userName, passW, dataBase) ){
+    BikeUser logedInBikeUser = new BikeUser();
+    logedInBikeUser = getUserinfo(userName, dataBase);
+    System.out.println("accessBike in loginuser");
+    System.out.println("logedInBikeUser: " + logedInBikeUser.getEmail());
+    return logedInBikeUser;
+    //}else{
+    //  return null;
+    //}
+
+  }
+
+  public static BikeUser loginUser(String userName, String tryPassW)  {
+    System.out.println("username " + userName + " tryPass " + tryPassW);
+    BikeUser returnUser = null;
+    DBType dataBase = null;
+    if (helpers.PCRelated.isThisNiklasPC()) {
+      dataBase = DBType.Niklas;
+    } else {
+      dataBase = DBType.Ulrika;
+    }
+    try {
+      Connection conn = DBUtil.getConnection(dataBase);
+      String sql = "CALL temp_return_password_binary(?,?,?,?)";
+      CallableStatement cs = conn.prepareCall(sql);
+      cs.setString(1, userName);
+      cs.setString(2, tryPassW);
+      cs.registerOutParameter(3, Types.VARBINARY);
+      cs.registerOutParameter(4, Types.VARBINARY);
+      cs.executeQuery();
+      byte[] passw1 = cs.getBytes(3);
+      byte[] passw2 = cs.getBytes(4);
+      System.out.println(passw1 + " " + passw2);
+
+          returnUser = getBikeUserByID(1);
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return returnUser;
+  }
+
+
+  public static BikeUser getBikeUserByID(int id) {
+    BikeUser returnUser = new BikeUser();
+    DBType dataBase = null;
+    if (helpers.PCRelated.isThisNiklasPC()) {
+      dataBase = DBType.Niklas;
+    } else {
+      dataBase = DBType.Ulrika;
+    }
+    try {
+      Connection conn = DBUtil.getConnection(dataBase);
+      String sql = "SELECT fname,lname,memberlevel,email,phone,username FROM bikeuser WHERE userID=?";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setInt(1, id);
+      ResultSet rs = ps.executeQuery();
+      if (rs.next()) {
+        returnUser.setUserName(rs.getString("username"));
+        returnUser.setEmail(rs.getString("email"));
+        returnUser.setlName(rs.getString("lname"));
+        returnUser.setfName(rs.getString("fname"));
+        returnUser.setMemberLevel(rs.getInt("memberlevel"));
+        returnUser.setPhone(rs.getInt("phone"));
       }
-      String SQLQuerygetUserinfo = "{call getUserFromUserName(?)}";
-      ResultSet rs = null;
-      try ( //only in java 7 and later!!
-            Connection conn = DBUtil.getConnection(dataBase); //database_user type like ENUM and get PW :-);
-            CallableStatement stmt = conn.prepareCall (SQLQuerygetUserinfo);
-      ){
-        //stmt.registerOutParameter (1, Types.VARCHAR);
-        stmt.setString(1,userName);
-        //stmt.execute();
-        rs = stmt.executeQuery();
-        if (!rs.next()){
-          System.out.println("ledig användare");
-          return true;
-        }
-        else{
-          System.out.println("UPPTAGEN användare");
-          return false;
-        }
-      }finally {
-        if(rs != null ) rs.close();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return returnUser;
+  }
+
+
+  public static boolean isUserAvalible(String userName) throws SQLException {
+    DBType dataBase = null;
+    if (helpers.PCRelated.isThisNiklasPC()) {
+      dataBase = DBType.Niklas;
+    } else {
+      dataBase = DBType.Ulrika;
+    }
+    String SQLQuerygetUserinfo = "{call getUserFromUserName(?)}";
+    ResultSet rs = null;
+    try ( //only in java 7 and later!!
+          Connection conn = DBUtil.getConnection(dataBase); //database_user type like ENUM and get PW :-);
+          CallableStatement stmt = conn.prepareCall(SQLQuerygetUserinfo);
+    ) {
+      //stmt.registerOutParameter (1, Types.VARCHAR);
+      stmt.setString(1, userName);
+      //stmt.execute();
+      rs = stmt.executeQuery();
+      if (!rs.next()) {
+        System.out.println("ledig användare");
+        return true;
+      } else {
+        System.out.println("UPPTAGEN användare");
+        return false;
       }
+    } finally {
+      if (rs != null) rs.close();
+    }
 
   }
 
@@ -105,10 +167,10 @@ CALL getUserFromUserName('1');
     ResultSet rs = null;
     try ( //only in java 7 and later!!
           Connection conn = DBUtil.getConnection(dataBase); //database_user type like ENUM and get PW :-);
-          CallableStatement stmt = conn.prepareCall (SQLQuerygetUserinfo);
-    ){
+          CallableStatement stmt = conn.prepareCall(SQLQuerygetUserinfo);
+    ) {
       //stmt.registerOutParameter (1, Types.VARCHAR);
-      stmt.setString(1,userName);
+      stmt.setString(1, userName);
       //stmt.execute();
       rs = stmt.executeQuery();
       rs.next();
@@ -124,102 +186,102 @@ CALL getUserFromUserName('1');
       logedInBikeUser.setUserName(rs.getString("username"));
       System.out.print("what do we get from getUserFromUserName: ");
       System.out.println(logedInBikeUser.getEmail());
-   // } catch (SQLException e) {
-   //   DBUtil.processException(e);
-    }finally {
-      if(rs != null ) rs.close();
+      // } catch (SQLException e) {
+      //   DBUtil.processException(e);
+    } finally {
+      if (rs != null) rs.close();
     }
     return logedInBikeUser;
   }
 
 
-  private static boolean isLoginInfoOK(String userName, String passW, DBType dataBase)throws SQLException  {
+  private static boolean isLoginInfoOK(String userName, String passW, DBType dataBase) throws SQLException {
     boolean isLoginOK;
     String SQLQueryLogInStage = "{? = call check_password(?, ?)}";
     ResultSet rs = null;
     try ( //only in java 7 and later!!
           Connection conn = DBUtil.getConnection(dataBase); //database_user type like ENUM and get PW :-);
-          CallableStatement stmt = conn.prepareCall (SQLQueryLogInStage);
-    ){
-      stmt.registerOutParameter (1, Types.BOOLEAN);
-      stmt.setString(2,userName);
-      stmt.setString(3,passW);
+          CallableStatement stmt = conn.prepareCall(SQLQueryLogInStage);
+    ) {
+      stmt.registerOutParameter(1, Types.BOOLEAN);
+      stmt.setString(2, userName);
+      stmt.setString(3, passW);
       stmt.execute();
       System.out.print("what do we get from check_password T/F: ");
-      isLoginOK =stmt.getBoolean (1); //1 or 0....
+      isLoginOK = stmt.getBoolean(1); //1 or 0....
       System.out.println(isLoginOK);
-    //} catch (SQLException e) {
-    //  DBUtil.processException(e);
-    //  return false;
-    }finally {
-      if(rs != null ) rs.close();
+      //} catch (SQLException e) {
+      //  DBUtil.processException(e);
+      //  return false;
+    } finally {
+      if (rs != null) rs.close();
     }
     return isLoginOK;
   }
 
-  public static boolean InsertNewUser(String fname, String lname, int memberlevel, String email, int phone, String username, String passw)   {
+  public static boolean InsertNewUser(String fname, String lname, int memberlevel, String email, int phone, String username, String passw) {
     // insert_new_user(in_fname varchar(50),in_lname varchar(50),in_memberlevel varchar(50),in_email varchar(50),in_phone varchar(50),in_username varchar(50), in_passw varchar(50)) RETURNS smallint(6)
-     String SQLInsertUser = "SELECT insert_new_user(?, ?, ?, ?, ?, ?, ?)";
-      ResultSet rs = null;
-    DBType dataBase = null;
-    if(helpers.PCRelated.isThisNiklasPC()){
-      dataBase = DBType.Niklas;
-    }else{
-      dataBase = DBType.Ulrika;
-    }
-      try ( //only in java 7 and later!!
-            Connection conn = DBUtil.getConnection(dataBase); //database_user type like ENUM and get PW :-);
-            PreparedStatement stmt = conn.prepareStatement(SQLInsertUser, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-      ){
-        /*
-        SELECT insert_new_user(fname, lname, 666, email@c.se, username, passw, ?)
-        in_fname varchar(50),in_lname varchar(11),in_memberlevel varchar(11),in_email varchar(50),in_phone varchar(11),in_username varchar(11), in_passw varchar(50))
-         */
-        //in_fname varchar(50),in_lname varchar(50),in_memberlevel varchar(50),in_email varchar(50),in_phone varchar(50),in_username varchar(50), in_passw varchar(50))
-        stmt.setString(1,fname);
-        stmt.setString(2,lname);
-        stmt.setInt(3,memberlevel);
-        stmt.setString(4,email);
-        stmt.setInt(5,phone);
-        stmt.setString(6,username);
-        stmt.setString(7,passw);
-        rs = stmt.executeQuery();
-        int nrFound = 0;
-        while (rs.next()) {
-          boolean isAddOK =   rs.getBoolean(1);
-          System.out.println("isAddOK : " + isAddOK);
-          return isAddOK;
-        }
-
-        } catch (SQLException e) {
-         DBUtil.processException(e);
-          return false;
-      }finally {
-        if(rs != null ) try {
-          rs.close();
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
-      }
-
-    return false;
-  }
-
-
-  public static boolean UpdateUser(String fname, String lname, int memberlevel, String email, int phone, String username, String passw)   {
-    // insert_new_user(in_fname varchar(50),in_lname varchar(50),in_memberlevel varchar(50),in_email varchar(50),in_phone varchar(50),in_username varchar(50), in_passw varchar(50)) RETURNS smallint(6)
-    String SQLInsertUser = "SELECT update_user(?, ?, ?, ?, ?, ?, ?)";
+    String SQLInsertUser = "SELECT insert_new_user(?, ?, ?, ?, ?, ?, ?)";
     ResultSet rs = null;
     DBType dataBase = null;
-    if(helpers.PCRelated.isThisNiklasPC()){
+    if (helpers.PCRelated.isThisNiklasPC()) {
       dataBase = DBType.Niklas;
-    }else{
+    } else {
       dataBase = DBType.Ulrika;
     }
     try ( //only in java 7 and later!!
           Connection conn = DBUtil.getConnection(dataBase); //database_user type like ENUM and get PW :-);
           PreparedStatement stmt = conn.prepareStatement(SQLInsertUser, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-    ){
+    ) {
+        /*
+        SELECT insert_new_user(fname, lname, 666, email@c.se, username, passw, ?)
+        in_fname varchar(50),in_lname varchar(11),in_memberlevel varchar(11),in_email varchar(50),in_phone varchar(11),in_username varchar(11), in_passw varchar(50))
+         */
+      //in_fname varchar(50),in_lname varchar(50),in_memberlevel varchar(50),in_email varchar(50),in_phone varchar(50),in_username varchar(50), in_passw varchar(50))
+      stmt.setString(1, fname);
+      stmt.setString(2, lname);
+      stmt.setInt(3, memberlevel);
+      stmt.setString(4, email);
+      stmt.setInt(5, phone);
+      stmt.setString(6, username);
+      stmt.setString(7, passw);
+      rs = stmt.executeQuery();
+      int nrFound = 0;
+      while (rs.next()) {
+        boolean isAddOK = rs.getBoolean(1);
+        System.out.println("isAddOK : " + isAddOK);
+        return isAddOK;
+      }
+
+    } catch (SQLException e) {
+      DBUtil.processException(e);
+      return false;
+    } finally {
+      if (rs != null) try {
+        rs.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+
+    return false;
+  }
+
+
+  public static boolean UpdateUser(String fname, String lname, int memberlevel, String email, int phone, String username, String passw) {
+    // insert_new_user(in_fname varchar(50),in_lname varchar(50),in_memberlevel varchar(50),in_email varchar(50),in_phone varchar(50),in_username varchar(50), in_passw varchar(50)) RETURNS smallint(6)
+    String SQLInsertUser = "SELECT update_user(?, ?, ?, ?, ?, ?, ?)";
+    ResultSet rs = null;
+    DBType dataBase = null;
+    if (helpers.PCRelated.isThisNiklasPC()) {
+      dataBase = DBType.Niklas;
+    } else {
+      dataBase = DBType.Ulrika;
+    }
+    try ( //only in java 7 and later!!
+          Connection conn = DBUtil.getConnection(dataBase); //database_user type like ENUM and get PW :-);
+          PreparedStatement stmt = conn.prepareStatement(SQLInsertUser, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+    ) {
         /*
         SELECT update_user(fname, lname, 666, email@c.se, username, passw, ?)
         in_fname varchar(50),in_lname varchar(11),in_memberlevel varchar(11),in_email varchar(50),in_phone varchar(11),in_username varchar(11), in_passw varchar(50))
@@ -244,17 +306,17 @@ CALL getUserFromUserName('1');
 
          */
       //in_fname varchar(50),in_lname varchar(50),in_memberlevel varchar(50),in_email varchar(50),in_phone varchar(50),in_username varchar(50), in_passw varchar(50))
-      stmt.setString(1,fname);
-      stmt.setString(2,lname);
-      stmt.setInt(3,memberlevel);
-      stmt.setString(4,email);
-      stmt.setInt(5,phone);
-      stmt.setString(6,username);
-      stmt.setString(7,passw);
+      stmt.setString(1, fname);
+      stmt.setString(2, lname);
+      stmt.setInt(3, memberlevel);
+      stmt.setString(4, email);
+      stmt.setInt(5, phone);
+      stmt.setString(6, username);
+      stmt.setString(7, passw);
       rs = stmt.executeQuery();
       int nrFound = 0;
       while (rs.next()) {
-        boolean isAddOK =   rs.getBoolean(1);
+        boolean isAddOK = rs.getBoolean(1);
         System.out.println("isAddOK : " + isAddOK);
         return isAddOK;
       }
@@ -262,8 +324,8 @@ CALL getUserFromUserName('1');
     } catch (SQLException e) {
       DBUtil.processException(e);
       return false;
-    }finally {
-      if(rs != null ) try {
+    } finally {
+      if (rs != null) try {
         rs.close();
       } catch (SQLException e) {
         e.printStackTrace();
@@ -272,7 +334,5 @@ CALL getUserFromUserName('1');
 
     return false;
   }
-
-
 }
 

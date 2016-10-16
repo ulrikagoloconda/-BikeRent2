@@ -11,7 +11,7 @@ public class SpiderView {
     //private ChangeUserTry changeUserTry;
     private changeUserVewController changeUserVewController;
     private DeleteBikeViewController deleteView;
-    private loginVewController loginView;
+    private LoginVewController loginView;
     private MainVewController mainView;
     private newUserVewController newUserView;
     private ChangeUserTry changeUserTry;
@@ -62,11 +62,11 @@ public class SpiderView {
         this.deleteView = deleteView;
     }
 
-    public loginVewController getLoginView() {
+    public LoginVewController getLoginView() {
         return loginView;
     }
 
-    public void setLoginView(loginVewController loginView) {
+    public void setLoginView(LoginVewController loginView) {
         this.loginView = loginView;
     }
 
