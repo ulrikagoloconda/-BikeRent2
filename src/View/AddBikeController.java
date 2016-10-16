@@ -33,6 +33,7 @@ public class AddBikeController implements Initializable {
     private DBAccess dbAccess = new DBAccessImpl();
    private BikeUser currentUser;
     private loginVewController loginVew;
+  private BikesFifoQue newBikesFifoQue;
     @FXML
     private Label urlLabel,messageLabel;
     @FXML
@@ -55,48 +56,15 @@ public class AddBikeController implements Initializable {
 
 
     public void addBike(ActionEvent actionEvent) {
-        if (newBike.equals(null)) {
-            newBike = new Bike();
-        } else {
-            if (brandText.getText().length() > 0) {
-                newBike.setBrandName(brandText.getText());
-            }
-            if (modelYearText.getText().length() == 4) {
-                String s = modelYearText.getText();
-                for (int i = 0; i < 4; i++) {
-                    if (!Character.isDigit(s.charAt(i))) {
-                        modelYearText.setText("");
-                        break;
-                    } else {
-                        int yearInt = Integer.valueOf(s);
-
-                        newBike.setModelYear(yearInt);
-                    }
-                }
-            }
-            if (colorText.getText().length() > 0) {
-                newBike.setColor(colorText.getText());
-            }
-            if (typeText.getText().length() > 0) {
-                newBike.setType(typeText.getText());
-            }
-
-            if (sizeText.getText().length() <= 2) {
-                String s = sizeText.getText();
-                if (Character.isDigit(s.charAt(0)) && Character.isDigit(s.charAt(1))) {
-                    int i = Integer.valueOf(s);
-                    newBike.setSize(i);
-                }
-            }
-        }
-        AccessBike.insertNewBike(newBike);
-        brandText.setText("");
-        modelYearText.setText("");
-        colorText.setText("");
-        typeText.setText("");
-        sizeText.setText("");
-        messageLabel.setText("Cykeln har lagts till");
-        urlLabel.setText("");
+      prepairBikeForAdd();
+      AccessBike.insertNewBike(newBike);
+      brandText.setText("");
+      modelYearText.setText("");
+      colorText.setText("");
+      typeText.setText("");
+      sizeText.setText("");
+      messageLabel.setText("Cykeln har lagts till");
+      urlLabel.setText("");
     }
 
     public void addPicture(ActionEvent actionEvent) {
@@ -121,4 +89,65 @@ public class AddBikeController implements Initializable {
         Main.getSpider().getLoginView().showMainGui();
 
     }
+
+  public void addBikeInQue(ActionEvent actionEvent) throws InterruptedException {
+    prepairBikeForAdd();
+    messageLabel.setText("Cykeln lägs till i kön");
+    Thread.sleep(2000);
+    BikesFifoQue.enqueue(newBike);
+    messageLabel.setText("Önskar du tömma kön, eller lägga till en till?");
+  }
+
+  private void prepairBikeForAdd() {
+    if (newBike.equals(null)) {
+      newBike = new Bike();
+    } else {
+
+      if (brandText.getText().length() > 0) {
+        newBike.setBrandName(brandText.getText());
+      }
+      if (modelYearText.getText().length() == 4) {
+        String s = modelYearText.getText();
+        for (int i = 0; i < 4; i++) {
+          if (!Character.isDigit(s.charAt(i))) {
+            modelYearText.setText("");
+            break;
+          } else {
+            int yearInt = Integer.valueOf(s);
+
+            newBike.setModelYear(yearInt);
+          }
+        }
+      }
+      if (colorText.getText().length() > 0) {
+        newBike.setColor(colorText.getText());
+      }
+      if (typeText.getText().length() > 0) {
+        newBike.setType(typeText.getText());
+      }
+
+      if (sizeText.getText().length() <= 2) {
+        String s = sizeText.getText();
+        if (Character.isDigit(s.charAt(0)) && Character.isDigit(s.charAt(1))) {
+          int i = Integer.valueOf(s);
+          newBike.setSize(i);
+        }
+      }
+    }
+  }
+
+
+  public void addBikeFromQue(ActionEvent actionEvent) throws InterruptedException {
+    int counters = 0;
+    while (!BikesFifoQue.isEmty()){
+      AccessBike.insertNewBike(BikesFifoQue.dequeue());
+      counters++;
+    }
+    messageLabel.setText("Totalt har " + counters +"Cyklar lagts till i kön");
+    Thread.sleep(2000);
+    BikesFifoQue.enqueue(newBike);
+    messageLabel.setText("Önskar lägga till fler?");
+
+
+  }
 }
