@@ -151,3 +151,16 @@ CREATE VIEW bike_object AS
       ON bike.brandid = brand.brandid
     JOIN type
       ON bike.typeID = type.typeID;
+
+DROP FUNCTION IF EXISTS bikerentdb.check_password;
+CREATE DEFINER=`root`@`localhost` FUNCTION `check_password`(tryusername varchar(50), trypassword varchar(50)) RETURNS smallint(6)
+  BEGIN
+    DECLARE pw VARBINARY(56);
+    SET pw = (SELECT passw FROM bikeuser WHERE userName=tryusername);
+    if exists(SELECT * from bikeuser WHERE userName= tryusername AND pw=AES_ENCRYPT(trypassword,'tackforkaffet'))
+    THEN
+      RETURN 1;
+    ELSE
+      RETURN 0;
+    END IF;
+  END;
