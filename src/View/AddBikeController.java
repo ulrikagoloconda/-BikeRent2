@@ -94,7 +94,8 @@ public class AddBikeController implements Initializable {
     prepairBikeForAdd();
     messageLabel.setText("Cykeln lägs till i kön");
     Thread.sleep(2000);
-    BikesFifoQue.enqueue(newBike);
+    BikesFifoQue.enqueue(newBike); //add bike in FIFO
+    newBike = new Bike();
     messageLabel.setText("Önskar du tömma kön, eller lägga till en till?");
   }
 
