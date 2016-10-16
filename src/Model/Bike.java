@@ -148,4 +148,16 @@ public class Bike {
     public void setFileInputImage(FileInputStream fileInputImage) {
         this.fileInputImage = fileInputImage;
     }
+
+    @Override
+    public String toString() {
+    return "Bike Object: \n**********" + "\n" +
+        getBrandName() +"\n" +
+        getImagePath() +"\n" +
+        getType() +"\n" +
+        getColor() +"\n" +
+        getModelYear() +"\n" +
+        getSize() +"\n ************" ;
+  }
+
 }

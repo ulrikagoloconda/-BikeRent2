@@ -141,7 +141,9 @@ public class AddBikeController implements Initializable {
   public void addBikeFromQue(ActionEvent actionEvent) throws InterruptedException {
     int counters = 0;
     while (!BikesFifoQue.isEmty()){
-      AccessBike.insertNewBike(BikesFifoQue.dequeue());
+      Bike b = BikesFifoQue.dequeue();
+      System.out.println(b.toString());
+      AccessBike.insertNewBike(b);
       counters++;
     }
     messageLabel.setText("Totalt har " + counters +"Cyklar lagts till i kön");
