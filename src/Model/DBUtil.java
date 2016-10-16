@@ -1,9 +1,16 @@
 package Model;
 /**
  * @author Niklas Karlsson
+ * <h1>DBUtil</h1>
+ * {@docRoot}
+ * just a  for the SQL-Uter/Pass and path..
+ * Created by NIK1114 on 2016-10-16.
  * @version 1.0
- * @since 2016-09-15
+ * @since   2016-10-16
+ * @param
+ * @throws : no
  */
+
 import sample.DBType;
 
 import java.sql.Connection;
