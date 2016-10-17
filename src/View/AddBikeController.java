@@ -8,6 +8,7 @@ import Model.DBAccessImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -29,10 +30,9 @@ import java.util.ResourceBundle;
  */
 public class AddBikeController implements Initializable {
     private Bike newBike;
-    private loginVewController loginView;
+    private LoginVewController loginView;
     private DBAccess dbAccess = new DBAccessImpl();
    private BikeUser currentUser;
-    private loginVewController loginVew;
   private BikesFifoQue newBikesFifoQue;
     @FXML
     private Label urlLabel,messageLabel;
@@ -44,6 +44,9 @@ public class AddBikeController implements Initializable {
     private AnchorPane deletePane,addBikePane;
     @FXML
     private Pane editPane;
+    @FXML
+    private Button btnQueRunner;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Main.getSpider().setAddBikeView(this);
@@ -92,10 +95,15 @@ public class AddBikeController implements Initializable {
 
   public void addBikeInQue(ActionEvent actionEvent) throws InterruptedException {
     prepairBikeForAdd();
-    messageLabel.setText("Cykeln lägs till i kön");
-    Thread.sleep(2000);
+    System.out.println("??????????????????   kommer detta in   ?????????????????");
+    messageLabel.setText("Cykeln lägs till i kön...");
+    Thread.sleep(500);
     BikesFifoQue.enqueue(newBike); //add bike in FIFO
+    urlLabel.setText("");
     newBike = new Bike();
+    btnQueRunner.setDisable(false);
+
+
     messageLabel.setText("Önskar du tömma kön, eller lägga till en till?");
   }
 
@@ -150,6 +158,7 @@ public class AddBikeController implements Initializable {
     Thread.sleep(2000);
     BikesFifoQue.enqueue(newBike);
     messageLabel.setText("Önskar lägga till fler?");
+    btnQueRunner.setDisable(true);
 
 
   }

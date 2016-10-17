@@ -19,13 +19,13 @@
             </font>
         </Label>
         <Button layoutX="20.0" layoutY="81.0" mnemonicParsing="false" text="Lägg till" AnchorPane.topAnchor="80.0" />
-        <Button layoutX="224.0" layoutY="94.0" mnemonicParsing="false" onAction="#showDeleteView" text="Radera" AnchorPane.topAnchor="80.0" />
+        <Button fx:id="btnDelBike" disable="true" layoutX="224.0" layoutY="94.0" mnemonicParsing="false" onAction="#showDeleteView" text="Radera" AnchorPane.topAnchor="80.0" />
         <Label layoutX="423.0" layoutY="41.0" text="Hantera användare?" AnchorPane.rightAnchor="10.0">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-        <Button layoutX="448.0" layoutY="80.0" mnemonicParsing="false" text="Hantera" />
+        <Button disable="true" layoutX="448.0" layoutY="80.0" mnemonicParsing="false" text="Hantera" />
 
         <AnchorPane layoutX="49.0" layoutY="44.0" prefHeight="349.0" prefWidth="328.0" AnchorPane.bottomAnchor="40.0">
             <children>
@@ -41,7 +41,7 @@
                 <Label layoutX="31.0" layoutY="171.0" text="Cykeltyp: " AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="185.0" />
                 <Button layoutX="107.0" layoutY="323.0" mnemonicParsing="false" onAction="#addBike" prefHeight="25.0" prefWidth="206.0" text="Lägg till direkt " />
                 <Button layoutX="108.0" layoutY="291.0" mnemonicParsing="false" onAction="#addBikeInQue" text="Lägg till i flera i kö" />
-                <Button layoutX="230.0" layoutY="291.0" mnemonicParsing="false" onAction="#addBikeFromQue" text="Kör kö paket" />
+                <Button fx:id="btnQueRunner" disable="true" layoutX="230.0" layoutY="291.0" mnemonicParsing="false" onAction="#addBikeFromQue" text="Kör kö paket" />
                 <Label fx:id="urlLabel" layoutX="170.0" layoutY="220.0" text="url..." AnchorPane.leftAnchor="143.0" AnchorPane.topAnchor="265.0" />
                 <TextField fx:id="typeText" layoutX="143.0" layoutY="167.0" AnchorPane.leftAnchor="143.0" AnchorPane.topAnchor="185.0" />
                 <TextField fx:id="colorText" layoutX="143.0" layoutY="132.0" AnchorPane.topAnchor="145.0" />

@@ -88,387 +88,390 @@
     <column id="41" parent="14" name="size">
       <data-type>smallint(6)|0</data-type>
     </column>
-    <column id="42" parent="14" name="typeID">
+    <column id="42" parent="14" name="insertDateTime">
+      <data-type>datetime|0</data-type>
+    </column>
+    <column id="43" parent="14" name="typeID">
       <data-type>int(10)|0</data-type>
     </column>
-    <column id="43" parent="14" name="imageFileName">
+    <column id="44" parent="14" name="imageFileName">
       <data-type>varchar(50)|0</data-type>
     </column>
-    <index id="44" parent="14" name="bikebrand_fk">
+    <index id="45" parent="14" name="bikebrand_fk">
       <columns>brandid</columns>
       <desc-columns></desc-columns>
     </index>
-    <index id="45" parent="14" name="biketype_fk">
+    <index id="46" parent="14" name="biketype_fk">
       <columns>typeID</columns>
       <desc-columns></desc-columns>
     </index>
-    <key id="46" parent="14" name="PRIMARY">
+    <key id="47" parent="14" name="PRIMARY">
       <columns>bikeID</columns>
       <primary>1</primary>
     </key>
-    <foreign-key id="47" parent="14" name="bikebrand_fk">
+    <foreign-key id="48" parent="14" name="bikebrand_fk">
       <columns>brandid</columns>
       <ref-key>~.brand.PRIMARY</ref-key>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>delete</cascade-delete-rule>
     </foreign-key>
-    <foreign-key id="48" parent="14" name="biketype_fk">
+    <foreign-key id="49" parent="14" name="biketype_fk">
       <columns>typeID</columns>
       <ref-key>~.type.PRIMARY</ref-key>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>delete</cascade-delete-rule>
     </foreign-key>
-    <column id="49" parent="15" name="userID">
+    <column id="50" parent="15" name="userID">
       <mandatory>1</mandatory>
       <data-type>int(10)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="50" parent="15" name="fname">
+    <column id="51" parent="15" name="fname">
       <data-type>varchar(50)|0</data-type>
     </column>
-    <column id="51" parent="15" name="lname">
+    <column id="52" parent="15" name="lname">
       <data-type>varchar(50)|0</data-type>
     </column>
-    <column id="52" parent="15" name="memberlevel">
+    <column id="53" parent="15" name="memberlevel">
       <data-type>int(50)|0</data-type>
     </column>
-    <column id="53" parent="15" name="email">
+    <column id="54" parent="15" name="email">
       <data-type>varchar(50)|0</data-type>
     </column>
-    <column id="54" parent="15" name="phone">
+    <column id="55" parent="15" name="phone">
       <data-type>int(50)|0</data-type>
     </column>
-    <column id="55" parent="15" name="username">
+    <column id="56" parent="15" name="username">
       <mandatory>1</mandatory>
       <data-type>varchar(50)|0</data-type>
     </column>
-    <column id="56" parent="15" name="passw">
+    <column id="57" parent="15" name="passw">
       <data-type>varbinary(56)|0</data-type>
     </column>
-    <column id="57" parent="15" name="memberSince">
+    <column id="58" parent="15" name="memberSince">
       <data-type>date|0</data-type>
     </column>
-    <key id="58" parent="15" name="PRIMARY">
+    <key id="59" parent="15" name="PRIMARY">
       <columns>userID</columns>
       <primary>1</primary>
     </key>
-    <trigger id="59" parent="15" name="alterTrigger">
+    <trigger id="60" parent="15" name="alterTrigger">
       <trig-events>U</trig-events>
       <trig-turn>BEFORE_ROW</trig-turn>
     </trigger>
-    <column id="60" parent="16" name="brandid">
+    <column id="61" parent="16" name="brandid">
       <mandatory>1</mandatory>
       <data-type>int(11)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="61" parent="16" name="brandname">
+    <column id="62" parent="16" name="brandname">
       <data-type>varchar(50)|0</data-type>
     </column>
-    <column id="62" parent="16" name="comments">
+    <column id="63" parent="16" name="comments">
       <data-type>varchar(100)|0</data-type>
     </column>
-    <key id="63" parent="16" name="PRIMARY">
+    <key id="64" parent="16" name="PRIMARY">
       <columns>brandid</columns>
       <primary>1</primary>
     </key>
-    <column id="64" parent="17" name="userID">
+    <column id="65" parent="17" name="userID">
       <mandatory>1</mandatory>
       <data-type>int(10)|0</data-type>
     </column>
-    <column id="65" parent="17" name="bikeID">
+    <column id="66" parent="17" name="bikeID">
       <mandatory>1</mandatory>
       <data-type>int(11)|0</data-type>
     </column>
-    <column id="66" parent="17" name="dayOfRent">
+    <column id="67" parent="17" name="dayOfRent">
       <data-type>date|0</data-type>
     </column>
-    <column id="67" parent="17" name="dayOfReturn">
+    <column id="68" parent="17" name="dayOfReturn">
       <data-type>date|0</data-type>
     </column>
-    <column id="68" parent="17" name="dayOfActualReturn">
+    <column id="69" parent="17" name="dayOfActualReturn">
       <data-type>date|0</data-type>
     </column>
-    <index id="69" parent="17" name="bikerent_fk">
+    <index id="70" parent="17" name="bikerent_fk">
       <columns>bikeID</columns>
       <desc-columns></desc-columns>
     </index>
-    <index id="70" parent="17" name="userrent_fk">
+    <index id="71" parent="17" name="userrent_fk">
       <columns>userID</columns>
       <desc-columns></desc-columns>
     </index>
-    <key id="71" parent="17" name="PRIMARY">
+    <key id="72" parent="17" name="PRIMARY">
       <columns>userID
 bikeID</columns>
       <primary>1</primary>
     </key>
-    <foreign-key id="72" parent="17" name="userrent_fk">
+    <foreign-key id="73" parent="17" name="userrent_fk">
       <columns>userID</columns>
       <ref-key>~.bikeuser.PRIMARY</ref-key>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <foreign-key id="73" parent="17" name="bikerent_fk">
+    <foreign-key id="74" parent="17" name="bikerent_fk">
       <columns>bikeID</columns>
       <ref-key>~.bike.PRIMARY</ref-key>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>delete</cascade-delete-rule>
     </foreign-key>
-    <column id="74" parent="18" name="typeID">
+    <column id="75" parent="18" name="typeID">
       <mandatory>1</mandatory>
       <data-type>int(10)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="75" parent="18" name="typeName">
+    <column id="76" parent="18" name="typeName">
       <data-type>varchar(30)|0</data-type>
     </column>
-    <key id="76" parent="18" name="PRIMARY">
+    <key id="77" parent="18" name="PRIMARY">
       <columns>typeID</columns>
       <primary>1</primary>
     </key>
-    <column id="77" parent="19" name="alterID">
+    <column id="78" parent="19" name="alterID">
       <mandatory>1</mandatory>
       <data-type>int(10)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="78" parent="19" name="userID">
+    <column id="79" parent="19" name="userID">
       <mandatory>1</mandatory>
       <data-type>int(10)|0</data-type>
     </column>
-    <column id="79" parent="19" name="alterDate">
+    <column id="80" parent="19" name="alterDate">
       <mandatory>1</mandatory>
       <data-type>date|0</data-type>
     </column>
-    <column id="80" parent="19" name="fname">
+    <column id="81" parent="19" name="fname">
       <data-type>varchar(40)|0</data-type>
     </column>
-    <column id="81" parent="19" name="lname">
+    <column id="82" parent="19" name="lname">
       <data-type>varchar(40)|0</data-type>
     </column>
-    <column id="82" parent="19" name="memberlevel">
+    <column id="83" parent="19" name="memberlevel">
       <data-type>int(10)|0</data-type>
     </column>
-    <column id="83" parent="19" name="email">
+    <column id="84" parent="19" name="email">
       <data-type>varchar(50)|0</data-type>
     </column>
-    <column id="84" parent="19" name="phone">
+    <column id="85" parent="19" name="phone">
       <data-type>int(11)|0</data-type>
     </column>
-    <column id="85" parent="19" name="username">
+    <column id="86" parent="19" name="username">
       <mandatory>1</mandatory>
       <data-type>varchar(40)|0</data-type>
     </column>
-    <column id="86" parent="19" name="passw">
+    <column id="87" parent="19" name="passw">
       <data-type>varbinary(56)|0</data-type>
     </column>
-    <index id="87" parent="19" name="useridalter_fk">
+    <index id="88" parent="19" name="useridalter_fk">
       <columns>userID</columns>
       <desc-columns></desc-columns>
     </index>
-    <key id="88" parent="19" name="PRIMARY">
+    <key id="89" parent="19" name="PRIMARY">
       <columns>alterID</columns>
       <primary>1</primary>
     </key>
-    <foreign-key id="89" parent="19" name="useridalter_fk">
+    <foreign-key id="90" parent="19" name="useridalter_fk">
       <columns>userID</columns>
       <ref-key>~.bikeuser.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <column id="90" parent="20" name="id">
+    <column id="91" parent="20" name="id">
       <mandatory>1</mandatory>
       <data-type>int(11)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="91" parent="20" name="date">
+    <column id="92" parent="20" name="date">
       <mandatory>1</mandatory>
       <data-type>timestamp|0</data-type>
       <default-expression>CURRENT_TIMESTAMP</default-expression>
     </column>
-    <column id="92" parent="20" name="username">
-      <data-type>varchar(30)|0</data-type>
-    </column>
     <column id="93" parent="20" name="errortext">
       <data-type>varchar(10000)|0</data-type>
     </column>
-    <key id="94" parent="20" name="PRIMARY">
+    <column id="94" parent="20" name="userID">
+      <data-type>int(10)|0</data-type>
+    </column>
+    <key id="95" parent="20" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>
-    <column id="95" parent="21" name="bikeID">
+    <column id="96" parent="21" name="bikeID">
       <mandatory>1</mandatory>
       <data-type>int(11)|0</data-type>
       <default-expression>&apos;0&apos;</default-expression>
     </column>
-    <column id="96" parent="21" name="modelyear">
+    <column id="97" parent="21" name="modelyear">
       <data-type>smallint(6)|0</data-type>
     </column>
-    <column id="97" parent="21" name="color">
+    <column id="98" parent="21" name="color">
       <data-type>varchar(50)|0</data-type>
     </column>
-    <column id="98" parent="21" name="image">
+    <column id="99" parent="21" name="image">
       <data-type>longblob|0</data-type>
     </column>
-    <column id="99" parent="21" name="imageFileName">
+    <column id="100" parent="21" name="imageFileName">
       <data-type>varchar(50)|0</data-type>
     </column>
-    <column id="100" parent="21" name="size">
+    <column id="101" parent="21" name="size">
       <data-type>smallint(6)|0</data-type>
     </column>
-    <column id="101" parent="21" name="typeName">
+    <column id="102" parent="21" name="typeName">
       <data-type>varchar(30)|0</data-type>
     </column>
-    <column id="102" parent="21" name="brandname">
+    <column id="103" parent="21" name="brandname">
       <data-type>varchar(50)|0</data-type>
     </column>
-    <argument id="103" parent="22">
+    <argument id="104" parent="22">
       <direction>RETURN</direction>
       <data-type>smallint(6)|0</data-type>
     </argument>
-    <argument id="104" parent="22" name="tryusername">
+    <argument id="105" parent="22" name="tryusername">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="105" parent="22" name="trypassword">
+    <argument id="106" parent="22" name="trypassword">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="106" parent="23" name="idIn">
+    <argument id="107" parent="23" name="idIn">
       <direction>IN</direction>
       <data-type>int(11)|0</data-type>
     </argument>
-    <argument id="107" parent="24" name="userIDIn">
+    <argument id="108" parent="24" name="userIDIn">
       <direction>IN</direction>
       <data-type>int(10)|0</data-type>
     </argument>
-    <argument id="108" parent="24" name="bikeIDIn">
+    <argument id="109" parent="24" name="bikeIDIn">
       <direction>IN</direction>
       <data-type>int(11)|0</data-type>
     </argument>
-    <argument id="109" parent="24" name="dayOfLoanIn">
+    <argument id="110" parent="24" name="dayOfLoanIn">
       <direction>IN</direction>
       <data-type>date|0</data-type>
     </argument>
-    <argument id="110" parent="24" name="expReturn">
+    <argument id="111" parent="24" name="expReturn">
       <direction>OUT</direction>
       <data-type>date|0</data-type>
     </argument>
-    <argument id="111" parent="25" name="in_username">
+    <argument id="112" parent="25" name="in_username">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="112" parent="27" name="bikeIDIn">
+    <argument id="113" parent="27" name="bikeIDIn">
       <direction>IN</direction>
       <data-type>int(11)|0</data-type>
     </argument>
-    <argument id="113" parent="28" name="brandNameIn">
+    <argument id="114" parent="28" name="brandNameIn">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="114" parent="28" name="typeIn">
+    <argument id="115" parent="28" name="typeIn">
       <direction>IN</direction>
       <data-type>varchar(30)|0</data-type>
     </argument>
-    <argument id="115" parent="28" name="modelYearIn">
+    <argument id="116" parent="28" name="modelYearIn">
       <direction>IN</direction>
       <data-type>smallint(6)|0</data-type>
     </argument>
-    <argument id="116" parent="28" name="colorIn">
+    <argument id="117" parent="28" name="colorIn">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="117" parent="28" name="sizeIn">
+    <argument id="118" parent="28" name="sizeIn">
       <direction>IN</direction>
       <data-type>smallint(6)|0</data-type>
     </argument>
-    <argument id="118" parent="28" name="imageIn">
+    <argument id="119" parent="28" name="imageIn">
       <direction>IN</direction>
       <data-type>longblob|0</data-type>
     </argument>
-    <argument id="119" parent="29">
+    <argument id="120" parent="29">
       <direction>RETURN</direction>
       <data-type>smallint(6)|0</data-type>
     </argument>
-    <argument id="120" parent="29" name="in_fname">
+    <argument id="121" parent="29" name="in_fname">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="121" parent="29" name="in_lname">
+    <argument id="122" parent="29" name="in_lname">
       <direction>IN</direction>
       <data-type>varchar(11)|0</data-type>
     </argument>
-    <argument id="122" parent="29" name="in_memberlevel">
+    <argument id="123" parent="29" name="in_memberlevel">
       <direction>IN</direction>
       <data-type>varchar(11)|0</data-type>
     </argument>
-    <argument id="123" parent="29" name="in_email">
+    <argument id="124" parent="29" name="in_email">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="124" parent="29" name="in_phone">
+    <argument id="125" parent="29" name="in_phone">
       <direction>IN</direction>
       <data-type>varchar(11)|0</data-type>
     </argument>
-    <argument id="125" parent="29" name="in_username">
+    <argument id="126" parent="29" name="in_username">
       <direction>IN</direction>
       <data-type>varchar(11)|0</data-type>
     </argument>
-    <argument id="126" parent="29" name="in_passw">
+    <argument id="127" parent="29" name="in_passw">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="127" parent="31" name="text">
+    <argument id="128" parent="31" name="text">
       <direction>IN</direction>
       <data-type>varchar(100)|0</data-type>
     </argument>
-    <argument id="128" parent="32">
+    <argument id="129" parent="32">
       <direction>RETURN</direction>
       <data-type>smallint(6)|0</data-type>
     </argument>
-    <argument id="129" parent="32" name="in_fname">
+    <argument id="130" parent="32" name="in_fname">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="130" parent="32" name="in_lname">
+    <argument id="131" parent="32" name="in_lname">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="131" parent="32" name="in_memberlevel">
+    <argument id="132" parent="32" name="in_memberlevel">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="132" parent="32" name="in_email">
+    <argument id="133" parent="32" name="in_email">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="133" parent="32" name="in_phone">
+    <argument id="134" parent="32" name="in_phone">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="134" parent="32" name="in_username">
+    <argument id="135" parent="32" name="in_username">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="135" parent="32" name="in_passw">
+    <argument id="136" parent="32" name="in_passw">
       <direction>IN</direction>
       <data-type>varchar(50)|0</data-type>
     </argument>
-    <argument id="136" parent="33" name="userIDIn">
+    <argument id="137" parent="33" name="userIDIn">
       <direction>IN</direction>
       <data-type>int(11)|0</data-type>
     </argument>
-    <argument id="137" parent="34" name="userIDIn">
+    <argument id="138" parent="34" name="userIDIn">
       <direction>IN</direction>
       <data-type>int(11)|0</data-type>
     </argument>
-    <argument id="138" parent="35">
+    <argument id="139" parent="35">
       <direction>RETURN</direction>
       <data-type>smallint(6)|0</data-type>
     </argument>
-    <argument id="139" parent="35" name="in_username">
+    <argument id="140" parent="35" name="in_userID">
       <direction>IN</direction>
-      <data-type>varchar(30)|0</data-type>
+      <data-type>int(10)|0</data-type>
     </argument>
-    <argument id="140" parent="35" name="in_error">
+    <argument id="141" parent="35" name="in_error">
       <direction>IN</direction>
       <data-type>varchar(10000)|0</data-type>
     </argument>

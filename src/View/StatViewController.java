@@ -52,7 +52,7 @@ public class StatViewController implements Initializable{
             stat = ((part / total) * 100);
         } catch (Exception e) {
             e.printStackTrace();
-            ErrorView.showError(errorTitle, "fel vid inläsning av data..","Kontrollera er data.." , "In StatTable",  e);
+            ErrorView.showError(errorTitle, "fel vid inläsning av data..","Kontrollera er data.." , null,  e);
             stat = 0;
         }
         return stat;

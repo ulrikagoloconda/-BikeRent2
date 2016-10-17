@@ -18,7 +18,7 @@ import java.util.Calendar;
 public class AccessErrorLog {
 
 
-  public static boolean InsertNewError(String username, String errorMess)   {
+  public static boolean InsertNewError(int userId, String errorMess)   {
     String SQLInsertUser = "SELECT insert_new_ErrorEvent(?, ?)";
       ResultSet rs = null;
     DBType dataBase = null;
@@ -31,7 +31,7 @@ public class AccessErrorLog {
             Connection conn = DBUtil.getConnection(dataBase); //database_user type like ENUM and get PW :-);
             PreparedStatement stmt = conn.prepareStatement(SQLInsertUser, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
       ){
-        stmt.setString(1,username);
+        stmt.setInt(1,userId);
         stmt.setString(2,errorMess);
         //date is in he database..
         rs = stmt.executeQuery();

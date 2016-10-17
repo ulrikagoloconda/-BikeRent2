@@ -49,4 +49,9 @@ public class AdminViewController implements Initializable {
     public void showAddView(ActionEvent actionEvent) {
         Main.getSpider().getMain().showAddBikeView();
     }
+
+  public void showMainGui(ActionEvent actionEvent) {
+    Main.getSpider().getLoginView().showMainGui();
+
+  }
 }

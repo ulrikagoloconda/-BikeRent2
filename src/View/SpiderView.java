@@ -9,11 +9,11 @@ public class SpiderView {
     private  AddBikeController addBikeView;
     private AdminViewController adminView;
     //private ChangeUserTry changeUserTry;
-    private changeUserVewController changeUserVewController;
+    private ChangeUserVewController changeUserVewController;
     private DeleteBikeViewController deleteView;
-    private loginVewController loginView;
+    private LoginVewController loginView;
     private MainVewController mainView;
-    private newUserVewController newUserView;
+    private NewUserVewController newUserView;
     private ChangeUserTry changeUserTry;
     private StatViewController statViewController;
     private Main main;
@@ -46,11 +46,11 @@ public class SpiderView {
     //    this.changeUserTry = changeUserTry;
     //}
 
-    public View.changeUserVewController getChangeUserVewController() {
+    public View.ChangeUserVewController getChangeUserVewController() {
         return changeUserVewController;
     }
 
-    public void setChangeUserVewController(View.changeUserVewController changeUserVewController) {
+    public void setChangeUserVewController(ChangeUserVewController changeUserVewController) {
         this.changeUserVewController = changeUserVewController;
     }
 
@@ -62,11 +62,11 @@ public class SpiderView {
         this.deleteView = deleteView;
     }
 
-    public loginVewController getLoginView() {
+    public LoginVewController getLoginView() {
         return loginView;
     }
 
-    public void setLoginView(loginVewController loginView) {
+    public void setLoginView(LoginVewController loginView) {
         this.loginView = loginView;
     }
 
@@ -86,11 +86,11 @@ public class SpiderView {
         this.main = main;
     }
 
-    public newUserVewController getNewUserView() {
+    public NewUserVewController getNewUserView() {
         return newUserView;
     }
 
-    public void setNewUserView(newUserVewController newUserView) {
+    public void setNewUserView(NewUserVewController newUserView) {
         this.newUserView = newUserView;
     }
 

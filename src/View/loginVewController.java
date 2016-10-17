@@ -1,6 +1,7 @@
 package View;
 
 import Interfaces.DBAccess;
+import Model.AccessErrorLog;
 import Model.BikeUser;
 import Model.DBAccessImpl;
 import Model.JDBCConnection;
@@ -23,7 +24,7 @@ import static Model.DBUtil.processException;
  * @version 1.0
  * @since 2016-09-15
  */
-public class loginVewController implements Initializable{
+public class LoginVewController implements Initializable{
     @FXML
     private TextField userNameText;
     @FXML
@@ -39,7 +40,7 @@ public class loginVewController implements Initializable{
       System.out.println("inne i init login");
     Main.getSpider().setLoginView(this);
 
-      //System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError("userName","exceptionText") + "           *");
+      System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError(0,"exceptionText_intro") + "           *");
 
     }
 
@@ -61,7 +62,7 @@ public class loginVewController implements Initializable{
         Sound pling = new Sound();
         pling.playMp3SoundInThread(Sound.NO);
         processException(e);
-        ErrorView.showError("Inloggningsfel", "fel vid inloggning","Kontrollera era uppgifter" , userName, e);
+        ErrorView.showError("Inloggningsfel", "fel vid inloggning","Kontrollera era uppgifter" , currentUser.getUserID(), e);
       }
     }
 

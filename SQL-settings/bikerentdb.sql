@@ -163,3 +163,13 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `check_password`(tryusername varchar(
       RETURN 0;
     END IF;
   END;
+
+ALTER TABLE bike add COLUMN insertDateTime DATETIME AFTER size ;
+
+DROP FUNCTION IF EXISTS bikerent.insert_new_ErrorEvent;
+CREATE DEFINER=`dbuser`@`localhost` FUNCTION `insert_new_ErrorEvent`(in_userID INT(10), in_error varchar(10000)) RETURNS smallint(6)
+  BEGIN
+    INSERT INTO errorevent (date,errortext, userID)
+    VALUES (CURRENT_TIMESTAMP() , in_error, in_userID );
+    RETURN 1;
+  END;

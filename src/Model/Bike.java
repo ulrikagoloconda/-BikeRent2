@@ -153,7 +153,7 @@ public class Bike {
     public String toString() {
     return "Bike Object: \n**********" + "\n" +
         getBrandName() +"\n" +
-        getImagePath() +"\n" +
+        //getImagePath() +"\n" +
         getType() +"\n" +
         getColor() +"\n" +
         getModelYear() +"\n" +
