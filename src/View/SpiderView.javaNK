@@ -9,7 +9,7 @@ public class SpiderView {
     private  AddBikeController addBikeView;
     private AdminViewController adminView;
     //private ChangeUserTry changeUserTry;
-    private ChangeUserVewController changeUserVewController;
+    private ChangeUserViewController2 changeUserVewController;
     private DeleteBikeViewController deleteView;
     private LoginVewController loginView;
     private MainVewController mainView;
@@ -46,11 +46,11 @@ public class SpiderView {
     //    this.changeUserTry = changeUserTry;
     //}
 
-    public View.ChangeUserVewController getChangeUserVewController() {
+    public View.ChangeUserViewController2 getChangeUserVewController() {
         return changeUserVewController;
     }
 
-    public void setChangeUserVewController(View.ChangeUserVewController changeUserVewController) {
+    public void setChangeUserVewController(ChangeUserViewController2 changeUserVewController) {
         this.changeUserVewController = changeUserVewController;
     }
 

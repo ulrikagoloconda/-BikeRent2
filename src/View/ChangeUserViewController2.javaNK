@@ -23,7 +23,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ChangeUserVewController implements Initializable {
+public class ChangeUserViewController2 implements Initializable {
 
   @FXML
   private TextField userNameText;
@@ -49,6 +49,7 @@ public class ChangeUserVewController implements Initializable {
   private String errorTitle = "fel i uppdatera användare";
   private Integer userID = currentUser.getUserID();
 
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     Main.getSpider().setChangeUserVewController(this);
@@ -57,8 +58,9 @@ public class ChangeUserVewController implements Initializable {
     System.out.println("test i change user: " + currentUser.getEmail());
     populateText();
 
+
   }
-  public ChangeUserVewController() {
+  public ChangeUserViewController2() {
     ;
   }
 
@@ -195,12 +197,12 @@ public class ChangeUserVewController implements Initializable {
 
 
     try {
-      if (userName.length() < 5) {
+      if (userName.length() < 1) {
         System.out.println("username to short");
         ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("username is to short!"));
-      } else if (!dbAccess.isUserAvalible(userName)) {
-        System.out.println("username not free");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("username is allready taken!"));
+        //}else if (!dbAccess.isUserAvalible(userName)) {
+        // System.out.println("username not free");
+        // ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", new IOException("username is allready taken!") );
       } else if (password.length() < 1) {
         System.out.println("password is to short!");
         ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("password is to short!"));
@@ -226,26 +228,24 @@ public class ChangeUserVewController implements Initializable {
         int phone = Integer.parseInt(phoneString);
         System.out.println("we can now add some info");
         //insert_new_user(in_fname varchar(50),in_lname varchar(50),in_memberlevel varchar(50),in_email varchar(50),in_phone varchar(50),in_username varchar(50), in_passw varchar(50)) RETURNS smallint(6)
-        int in_memberlevel = 1;
-        boolean isAddUserOK = dbAccess.InsertNewUser(fName, lName, in_memberlevel, email, phone, userName, password);
-        if (!isAddUserOK) {
-          ErrorView.showError(errorTitle, "fel vid inläsning", "Kontrollera era uppgifter", userID,new IOException(" :-( kunde inte lägga till användare"));
+        int in_memberlevel = currentUser.getMemberLevel();
+        boolean isUpdateUserOK = dbAccess.UpdateUser(fName, lName, in_memberlevel, email, phone, userName, password);
+        if (!isUpdateUserOK) {
+          ErrorView.showError(errorTitle, "fel vid inläsning", "Kontrollera era uppgifter",userID, new IOException(" :-( kunde inte uppdatera uppgifter"));
         }
-        if (isAddUserOK) {
-          boolean d = DialogView.showSimpleInfo("Ny användare upplaggd", "Lyckades", "Ny användare är nu upplagd");
-          Main.getSpider().getMain().showLoginView();
-         /* try {
-            FXMLLoader loginLoader = Main.getSpider().getMain().getLoginViewLoader();
-            Parent loginRoot = (Parent) loginLoader.load();
-            Scene loginScean = new Scene(loginRoot);
+        if (isUpdateUserOK) {
+          boolean d = DialogView.showSimpleInfo("Uppdaterat", "Lyckades", "Ny är detta uppdaterat");
+          System.out.println("innan : " + currentUser.getfName());
+          currentUser.setfName(fName);
+          currentUser.setlName(lName);
+          currentUser.setMemberLevel(in_memberlevel);
+          currentUser.setEmail(email);
+          currentUser.setPhone(phone);
 
-            Main.getSpider().getMain().getPrimaryStage().setScene(loginScean);
+          populateText();
 
-          } catch (IOException e) {
-            e.printStackTrace();
-            ErrorView.showError(errorTitle, "fel vid inläsning av data..", "Kontrollera er data..", e);
-          }*/
-
+          //Main.getSpider().getMain()
+          //goback();
         }
       }
     } catch (SQLException e) {

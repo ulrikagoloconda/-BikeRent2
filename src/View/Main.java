@@ -1,6 +1,7 @@
 package View;
 
 import Model.AccessErrorLog;
+import Model.BikeUser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,8 +30,10 @@ public class Main extends Application {
     private Scene newUserScene;
    private Scene statViewScean;
 
+  public BikeUser currentUser;
 
     private static SpiderView spider;
+//  private Integer userID = currentUser.getUserID();
 
 
     @Override
@@ -94,7 +97,7 @@ public class Main extends Application {
     public void showChangeUserView() {
         if (changeUserScene == null) {
             try {
-                FXMLLoader changeTryLoader = new FXMLLoader(getClass().getResource("../View/changeUserView2.fxml"));
+                FXMLLoader changeTryLoader = new FXMLLoader(getClass().getResource("../View/changeUserView1.fxml"));
                 Parent changeRoot = changeTryLoader.load();
                 changeUserScene = new Scene(changeRoot);
                 primaryStage.setScene(changeUserScene);
