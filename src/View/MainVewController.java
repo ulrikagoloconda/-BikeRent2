@@ -310,14 +310,11 @@ public class MainVewController implements Initializable {
         String selected = combobox.getSelectionModel().getSelectedItem().toString();
         int bikeID = searchMap.get(selected);
         selectedBikeSearch = dbaccess.getBikeByID(bikeID);
-        System.out.println(selectedBikeSearch.getBrandName());
-        System.out.println(selectedBikeSearch.getBikeID());
         populateGridPane(selectedBikeSearch);
 
     }
 
     public void showStatClick(ActionEvent actionEvent) {
-        System.out.println("Körs detta i show ");
         Main.getSpider().getMain().showStatView();
     }
 }

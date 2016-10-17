@@ -56,7 +56,6 @@ DELIMITER ;
   }
 
   public static BikeUser loginUser(String userName, String tryPassW)  {
-    System.out.println("username " + userName + " tryPass " + tryPassW);
     BikeUser returnUser = null;
     DBType dataBase = null;
     if (helpers.PCRelated.isThisNiklasPC()) {
@@ -75,10 +74,10 @@ DELIMITER ;
       cs.executeQuery();
       byte[] passw1 = cs.getBytes(3);
       byte[] passw2 = cs.getBytes(4);
-      System.out.println(passw1 + " " + passw2);
+      System.out.println(passw1 + " " + passw2 + " ////////////////////////////////////////////");
 
           returnUser = getBikeUserByID(1);
-
+      returnUser.setUserID(1);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -149,20 +148,6 @@ DELIMITER ;
 
   private static BikeUser getUserinfo(String userName, DBType dataBase) throws SQLException {
     BikeUser logedInBikeUser = new BikeUser();
- /* CREATE OR REPLACE PROCEDURE .....
-
-DROP PROCEDURE getUserFromUserName();
-
-DELIMITER //
-    CREATE PROCEDURE getUserFromUserName(in_username varchar(50))
-    BEGIN
-    SELECT * FROM bikeuser
-    WHERE username = in_username;
-END //
-DELIMITER ;
-
-CALL getUserFromUserName('1');
-    */
     String SQLQuerygetUserinfo = "{call getUserFromUserName(?)}";
     ResultSet rs = null;
     try ( //only in java 7 and later!!
@@ -233,11 +218,6 @@ CALL getUserFromUserName('1');
           Connection conn = DBUtil.getConnection(dataBase); //database_user type like ENUM and get PW :-);
           PreparedStatement stmt = conn.prepareStatement(SQLInsertUser, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
     ) {
-        /*
-        SELECT insert_new_user(fname, lname, 666, email@c.se, username, passw, ?)
-        in_fname varchar(50),in_lname varchar(11),in_memberlevel varchar(11),in_email varchar(50),in_phone varchar(11),in_username varchar(11), in_passw varchar(50))
-         */
-      //in_fname varchar(50),in_lname varchar(50),in_memberlevel varchar(50),in_email varchar(50),in_phone varchar(50),in_username varchar(50), in_passw varchar(50))
       stmt.setString(1, fname);
       stmt.setString(2, lname);
       stmt.setInt(3, memberlevel);
@@ -249,7 +229,6 @@ CALL getUserFromUserName('1');
       int nrFound = 0;
       while (rs.next()) {
         boolean isAddOK = rs.getBoolean(1);
-        System.out.println("isAddOK : " + isAddOK);
         return isAddOK;
       }
 

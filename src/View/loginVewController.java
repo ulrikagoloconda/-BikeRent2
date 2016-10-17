@@ -36,21 +36,18 @@ public class LoginVewController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-      System.out.println("inne i init login");
     Main.getSpider().setLoginView(this);
 
 
     }
 
     public void logInClick(Event event) {
-        System.out.println("Är det detta som körs !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         String userName = userNameText.getText();
         String password = passwordText.getText();
-        System.out.println("logInClick");
 
       try {
         currentUser = dbAccess.logIn(userName,password);
-        System.out.println("after dbAccess.logIn(userName,password)");
+          System.out.println("I login click " + currentUser.getUserID() + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println(currentUser.getEmail());
         if (currentUser !=null){
           Sound pling = new Sound();

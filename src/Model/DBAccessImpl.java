@@ -57,7 +57,6 @@ public class DBAccessImpl implements DeleteUser, InsertNewUser, DBAccess {
     @Override
     public BikeUser logIn(String userName, String passW) throws SQLException  {
       BikeUser LoginUser = null;
-        System.out.println("in the 'try' bikeuser login");
         LoginUser = AccessUser.loginUser(userName, passW);
       return LoginUser;
     }
