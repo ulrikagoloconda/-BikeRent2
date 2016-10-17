@@ -3,7 +3,7 @@ package Interfaces;
 import Model.Bike;
 import Model.BikeType;
 import Model.BikeUser;
-import Model.Mounth;
+
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,7 +23,6 @@ public interface DBAccess {
     ArrayList<String> getAllUserNames();
     boolean deleteBike(int bikeID);
     int averageLoanPerUser();
-    Map<Mounth,Integer> numerOfLoanPerMounnth();
     BikeUser logIn(String userName, String passW) throws SQLException;
     boolean isUserAvalible(String userName) throws SQLException;
     boolean InsertNewUser(String fname, String lname, int memberlevel, String email, int phone, String username, String passw) throws SQLException;

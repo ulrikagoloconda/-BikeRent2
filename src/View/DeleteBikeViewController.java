@@ -38,7 +38,7 @@ public class DeleteBikeViewController implements Initializable{
     private Bike selected = null;
     private int bikeIdDel;
     private int lastIndex;
-    private loginVewController loginVew;
+    private LoginVewController loginVew;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

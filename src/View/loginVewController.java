@@ -23,7 +23,7 @@ import static Model.DBUtil.processException;
  * @version 1.0
  * @since 2016-09-15
  */
-public class loginVewController implements Initializable{
+public class LoginVewController implements Initializable{
     @FXML
     private TextField userNameText;
     @FXML
@@ -43,6 +43,7 @@ public class loginVewController implements Initializable{
     }
 
     public void logInClick(Event event) {
+        System.out.println("Är det detta som körs !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         String userName = userNameText.getText();
         String password = passwordText.getText();
         System.out.println("logInClick");
@@ -57,10 +58,12 @@ public class loginVewController implements Initializable{
                   showMainGui();
         }
       } catch (SQLException e) {
+          e.printStackTrace();
         Sound pling = new Sound();
         pling.playMp3SoundInThread(Sound.NO);
         processException(e);
         ErrorView.showError("Inloggningsfel", "fel vid inloggning","Kontrollera era uppgifter" ,  e);
+
       }
     }
 

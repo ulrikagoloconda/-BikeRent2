@@ -29,10 +29,10 @@ import java.util.ResourceBundle;
  */
 public class AddBikeController implements Initializable {
     private Bike newBike;
-    private loginVewController loginView;
+    private LoginVewController loginView;
     private DBAccess dbAccess = new DBAccessImpl();
    private BikeUser currentUser;
-    private loginVewController loginVew;
+   // private loginVewController loginVew;
     @FXML
     private Label urlLabel,messageLabel;
     @FXML
