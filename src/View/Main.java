@@ -94,13 +94,14 @@ public class Main extends Application {
     public void showChangeUserView() {
         if (changeUserScene == null) {
             try {
-                FXMLLoader changeTryLoader = new FXMLLoader(getClass().getResource("../View/changeUserView1.fxml"));
+                FXMLLoader changeTryLoader = new FXMLLoader(getClass().getResource("../View/changeUserView2.fxml"));
                 Parent changeRoot = changeTryLoader.load();
                 changeUserScene = new Scene(changeRoot);
                 primaryStage.setScene(changeUserScene);
             } catch (Exception e) {
-              AccessErrorLog.InsertNewError(0,e.toString());
                 e.printStackTrace();
+              AccessErrorLog.InsertNewError(0,e.toString());
+
             }
         } else {
             primaryStage.setScene(changeUserScene);
