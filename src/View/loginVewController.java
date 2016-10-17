@@ -1,7 +1,6 @@
 package View;
 
 import Interfaces.DBAccess;
-import Model.AccessErrorLog;
 import Model.BikeUser;
 import Model.DBAccessImpl;
 import Model.JDBCConnection;
@@ -40,7 +39,7 @@ public class LoginVewController implements Initializable{
       System.out.println("inne i init login");
     Main.getSpider().setLoginView(this);
 
-      System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError(0,"exceptionText_intro") + "           *");
+      //System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError(0,"exceptionText_intro") + "           *");
 
     }
 
@@ -62,7 +61,7 @@ public class LoginVewController implements Initializable{
         Sound pling = new Sound();
         pling.playMp3SoundInThread(Sound.NO);
         processException(e);
-        ErrorView.showError("Inloggningsfel", "fel vid inloggning","Kontrollera era uppgifter" , currentUser.getUserID(), e);
+        ErrorView.showError("Inloggningsfel", "fel vid inloggning","Kontrollera era uppgifter" , 0, e);
       }
     }
 
