@@ -6,9 +6,9 @@ package Model;
  * just a  for the SQL-Uter/Pass and path..
  * Created by NIK1114 on 2016-10-16.
  * @version 1.0
- * @since   2016-10-16
  * @param
  * @throws : no
+ * @since 2016-10-16
  */
 
 import sample.DBType;
@@ -26,14 +26,14 @@ public class DBUtil {
 
   private static final String USERNAME_Niklas = "dbuser";
   private static final String PASSWORD_Niklas = "1234";
-  private static final String CONN_STRING_Niklas ="jdbc:mysql://localhost/bikerent";
+  private static final String CONN_STRING_Niklas = "jdbc:mysql://localhost/bikerent";
 
 
   public static Connection getConnection(DBType dbType) throws SQLException {
     System.out.println("in model/dbutil");
-    if(helpers.PCRelated.isThisNiklasPC()){
+    if (helpers.PCRelated.isThisNiklasPC()) {
       dbType = DBType.Niklas;
-    }else{
+    } else {
       dbType = DBType.Ulrika;
     }
     switch (dbType) {
@@ -45,7 +45,7 @@ public class DBUtil {
           e.printStackTrace();
         }*/
         return DriverManager.getConnection(CONN_STRING_Ulrika, USERNAME_Ulrika, PASSWORD_Ulrika);
-			//return DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
+      //return DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
 
       case Niklas:
         System.out.println("Niklas inloggning");
@@ -66,9 +66,9 @@ public class DBUtil {
    */
   public static void processException(SQLException e) { //catch SQL fault :-)
     System.err.println("\n-------------------------------------------------------------------------------");
-    System.err.println("error message: " +e.getMessage());
-    System.err.println("error codee: " +e.getErrorCode());
-    System.err.println("SQL state: " +e.getSQLState());
+    System.err.println("error message: " + e.getMessage());
+    System.err.println("error codee: " + e.getErrorCode());
+    System.err.println("SQL state: " + e.getSQLState());
     System.err.println("-------------------------------------------------------------------------------\n");
 
   }

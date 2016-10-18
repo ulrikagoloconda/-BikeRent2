@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public interface InsertNewUser {
 
-  boolean InsertNewUser(String fname, String lname, int memberlevel, String email, int phone, String username, String passw)throws SQLException ;
+  boolean InsertNewUser(String fname, String lname, int memberlevel, String email, int phone, String username, String passw) throws SQLException;
   /**
    * TO use the: boolean InsertNewUser(String fname, String lname, int memberlevel, String email, int phone , String username , String passw , Date membersince  )
    *

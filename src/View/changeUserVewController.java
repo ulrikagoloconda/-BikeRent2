@@ -4,6 +4,7 @@ package View;
  * @version 1.0
  * @since 2016-09-15
  */
+
 import Interfaces.DBAccess;
 import Model.BikeUser;
 import Model.DBAccessImpl;
@@ -25,6 +26,7 @@ import java.util.ResourceBundle;
 
 public class ChangeUserVewController implements Initializable {
 
+  public BikeUser currentUser;
   @FXML
   private TextField userNameText;
   @FXML
@@ -39,15 +41,16 @@ public class ChangeUserVewController implements Initializable {
   private TextField passwordText;
   @FXML
   private TextField passwordCheckerText;
-
   @FXML
   private Label uniqeTextIdLabel;
   @FXML
   private JDBCConnection jdbcConnection;
   private DBAccess dbAccess = new DBAccessImpl();
-  public BikeUser currentUser;
   private String errorTitle = "fel i uppdatera användare";
   private Integer userID = currentUser.getUserID();
+
+  public ChangeUserVewController() {
+  }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -58,10 +61,6 @@ public class ChangeUserVewController implements Initializable {
     populateText();
 
   }
-  public ChangeUserVewController() {
-    ;
-  }
-
 
   private void populateText() {
     userNameText.setText(currentUser.getUserName());
@@ -92,31 +91,31 @@ public class ChangeUserVewController implements Initializable {
     try {
       if (userName.length() < 5) {
         System.out.println("username to short");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("username is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("username is to short!"));
       } else if (!dbAccess.isUserAvalible(userName)) {
         System.out.println("username not free");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("username is allready taken!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("username is allready taken!"));
       } else if (password.length() < 1) {
         System.out.println("password is to short!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("password is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("password is to short!"));
       } else if (!password.equals(passwordChecker)) {
         System.out.println("passw not same");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("password is to not the same!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("password is to not the same!"));
       } else if (!EmailValidator.validate(email)) {
         System.out.println("email not ok format!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("email not ok format!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("email not ok format!"));
       } else if (phoneString.length() < 2) {
         System.out.println("phone is to short!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("phone is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("phone is to short!"));
       } else if (fName.length() < 1) {
         System.out.println("fName is to short!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("First Name is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("First Name is to short!"));
       } else if (lName.length() < 1) {
         System.out.println("phone is to short!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("Last Name is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("Last Name is to short!"));
       } else if (phoneString.length() < 2) {
         System.out.println("phone is to short!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("phone is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("phone is to short!"));
       } else {
         int phone = Integer.parseInt(phoneString);
         System.out.println("we can now add some info");
@@ -124,7 +123,7 @@ public class ChangeUserVewController implements Initializable {
         int in_memberlevel = 1;
         boolean isAddUserOK = dbAccess.InsertNewUser(fName, lName, in_memberlevel, email, phone, userName, password);
         if (!isAddUserOK) {
-          ErrorView.showError(errorTitle, "fel vid inläsning", "Kontrollera era uppgifter", userID,new IOException(" :-( kunde inte lägga till användare"));
+          ErrorView.showError(errorTitle, "fel vid inläsning", "Kontrollera era uppgifter", userID, new IOException(" :-( kunde inte lägga till användare"));
         }
         if (isAddUserOK) {
           boolean d = DialogView.showSimpleInfo("Ny användare upplaggd", "Lyckades", "Ny användare är nu upplagd");
@@ -145,7 +144,7 @@ public class ChangeUserVewController implements Initializable {
       }
     } catch (SQLException e) {
       e.printStackTrace();
-      ErrorView.showError(errorTitle, "fel vid lägg till användare", "Kontrollera era uppgifter",userID, e);
+      ErrorView.showError(errorTitle, "fel vid lägg till användare", "Kontrollera era uppgifter", userID, e);
     }
 
 //      ErrorView.showError("Inloggningsfel", "fel vid inloggning","Kontrollera era uppgifter" ,  e);
@@ -197,31 +196,31 @@ public class ChangeUserVewController implements Initializable {
     try {
       if (userName.length() < 5) {
         System.out.println("username to short");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("username is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("username is to short!"));
       } else if (!dbAccess.isUserAvalible(userName)) {
         System.out.println("username not free");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("username is allready taken!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("username is allready taken!"));
       } else if (password.length() < 1) {
         System.out.println("password is to short!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("password is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("password is to short!"));
       } else if (!password.equals(passwordChecker)) {
         System.out.println("passw not same");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("password is to not the same!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("password is to not the same!"));
       } else if (!EmailValidator.validate(email)) {
         System.out.println("email not ok format!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("email not ok format!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("email not ok format!"));
       } else if (phoneString.length() < 2) {
         System.out.println("phone is to short!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("phone is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("phone is to short!"));
       } else if (fName.length() < 1) {
         System.out.println("fName is to short!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("First Name is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("First Name is to short!"));
       } else if (lName.length() < 1) {
         System.out.println("phone is to short!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("Last Name is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("Last Name is to short!"));
       } else if (phoneString.length() < 2) {
         System.out.println("phone is to short!");
-        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter",userID, new IOException("phone is to short!"));
+        ErrorView.showError(errorTitle, "fel vid uppdatering", "Kontrollera era uppgifter", userID, new IOException("phone is to short!"));
       } else {
         int phone = Integer.parseInt(phoneString);
         System.out.println("we can now add some info");
@@ -229,7 +228,7 @@ public class ChangeUserVewController implements Initializable {
         int in_memberlevel = 1;
         boolean isAddUserOK = dbAccess.InsertNewUser(fName, lName, in_memberlevel, email, phone, userName, password);
         if (!isAddUserOK) {
-          ErrorView.showError(errorTitle, "fel vid inläsning", "Kontrollera era uppgifter", userID,new IOException(" :-( kunde inte lägga till användare"));
+          ErrorView.showError(errorTitle, "fel vid inläsning", "Kontrollera era uppgifter", userID, new IOException(" :-( kunde inte lägga till användare"));
         }
         if (isAddUserOK) {
           boolean d = DialogView.showSimpleInfo("Ny användare upplaggd", "Lyckades", "Ny användare är nu upplagd");
@@ -250,7 +249,7 @@ public class ChangeUserVewController implements Initializable {
       }
     } catch (SQLException e) {
       e.printStackTrace();
-      ErrorView.showError(errorTitle, "fel vid lägg till användare", "Kontrollera era uppgifter",userID, e);
+      ErrorView.showError(errorTitle, "fel vid lägg till användare", "Kontrollera era uppgifter", userID, e);
     }
 
 //      ErrorView.showError("Inloggningsfel", "fel vid inloggning","Kontrollera era uppgifter" ,  e);
@@ -289,18 +288,18 @@ public class ChangeUserVewController implements Initializable {
       isUpdateUserOK = dbAccess.UpdateUser(currentUser.getfName(), currentUser.getlName(), in_memberlevel, currentUser.getEmail(), currentUser.getPhone(), currentUser.getUserName(), "1234");
     } catch (SQLException e) {
       e.printStackTrace();
-      ErrorView.showError(errorTitle, "fel vid dissable account..", "starta om denna session.. pw 1234",currentUser.getUserID(), e);
+      ErrorView.showError(errorTitle, "fel vid dissable account..", "starta om denna session.. pw 1234", currentUser.getUserID(), e);
     }
     if (!isUpdateUserOK) {
-      ErrorView.showError(errorTitle, "fel vid inläsning", "Kontrollera era uppgifter",currentUser.getUserID(), new IOException(" :-( kunde inte uppdatera uppgifter"));
+      ErrorView.showError(errorTitle, "fel vid inläsning", "Kontrollera era uppgifter", currentUser.getUserID(), new IOException(" :-( kunde inte uppdatera uppgifter"));
     }
     if (isUpdateUserOK) {
       boolean d = DialogView.showSimpleInfo("kontot har blivid av-aktiverat", "Lyckades", "Nu ärkonott avaktiverat med lösenord: 1234");
       //boolean d = DialogView.showSimpleInfo("Ny användare upplaggd", "Lyckades", "Ny användare är nu upplagd, öppnar nu inloggningsrutan");
       boolean whantToSentMail = DialogView.showOK_CANCEL_Dialog("kontot har blivid av-aktiverat", "Lyckades, vill ni skicka iväg mail? ", "avaktiveringsmail admin");
-      if (whantToSentMail){
-        boolean isSentMailOK = SentMail.sendDelRQ(currentUser.getUserName(),currentUser.getEmail());
-        if ( isSentMailOK ){
+      if (whantToSentMail) {
+        boolean isSentMailOK = SentMail.sendDelRQ(currentUser.getUserName(), currentUser.getEmail());
+        if (isSentMailOK) {
           System.out.println("Mail ok");
         }
       }

@@ -17,7 +17,7 @@ import java.io.StringWriter;
  */
 public class ErrorView {
 
-  public static void showError(String titleText, String headerText,  String contentText,Integer userId, Exception e) {
+  public static void showError(String titleText, String headerText, String contentText, Integer userId, Exception e) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setTitle(titleText);
     alert.setHeaderText(headerText);
@@ -34,13 +34,13 @@ public class ErrorView {
     Label label = new Label("The exception stacktrace was:");
     System.out.println("**************  userID to errorlog: " + userId + " ***********");
     //SELECT insert_new_ErrorEvent('cykeltur', 'errortest...1234ÅÖÄ');
-    if (userId == null){
+    if (userId == null) {
       userId = 0;
     }
-    if (exceptionText.length()>9999){
-      exceptionText = exceptionText.substring(1,9000);
+    if (exceptionText.length() > 9999) {
+      exceptionText = exceptionText.substring(1, 9000);
     }
-    System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError(userId,exceptionText) + "           *");
+    System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError(userId, exceptionText) + "           *");
     TextArea textArea = new TextArea(exceptionText);
     textArea.setEditable(false);
     textArea.setWrapText(true);
@@ -59,5 +59,5 @@ public class ErrorView {
     alert.getDialogPane().setExpandableContent(expContent);
 
     alert.showAndWait();
-      }
+  }
 }

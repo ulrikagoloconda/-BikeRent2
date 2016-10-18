@@ -13,7 +13,7 @@ public interface DeleteUser {
    *
    * DELETE FROM bikeuser
    * WHERE fname = ? AND lname = ? AND memberlevel = ? AND email = ? AND phone =  ? AND username =  ? AND passw = ? AND membersince =  ? ;
-   * 
+   *
    **/
 
 

@@ -21,6 +21,7 @@ public class DialogView {
     alert.showAndWait();
     return true;
   }
+
   public static boolean showOK_CANCEL_Dialog(String title, String header, String content) {
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     alert.setTitle(title);
@@ -28,10 +29,6 @@ public class DialogView {
     alert.setContentText(content);
 
     Optional<ButtonType> result = alert.showAndWait();
-    if (result.get() == ButtonType.OK) {
-      return true;
-    } else {
-      return false;
-    }
+    return result.get() == ButtonType.OK;
   }
 }

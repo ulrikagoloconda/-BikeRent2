@@ -29,73 +29,72 @@ import java.util.ResourceBundle;
  * @since 2016-09-19
  */
 public class AddBikeController implements Initializable {
-    private Bike newBike;
-    private LoginVewController loginView;
-    private DBAccess dbAccess = new DBAccessImpl();
-   private BikeUser currentUser;
+  private Bike newBike;
+  private LoginVewController loginView;
+  private DBAccess dbAccess = new DBAccessImpl();
+  private BikeUser currentUser;
   private BikesFifoQue newBikesFifoQue;
-    @FXML
-    private Label urlLabel,messageLabel;
-    @FXML
-    private TextField brandText, modelYearText, colorText, typeText, sizeText;
-    @FXML
-    private GridPane gridDelBike;
-    @FXML
-    private AnchorPane deletePane,addBikePane;
-    @FXML
-    private Pane editPane;
-    @FXML
-    private Button btnQueRunner;
+  @FXML
+  private Label urlLabel, messageLabel;
+  @FXML
+  private TextField brandText, modelYearText, colorText, typeText, sizeText;
+  @FXML
+  private GridPane gridDelBike;
+  @FXML
+  private AnchorPane deletePane, addBikePane;
+  @FXML
+  private Pane editPane;
+  @FXML
+  private Button btnQueRunner;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        Main.getSpider().setAddBikeView(this);
-        currentUser = Main.getSpider().getLoginView().getCurrentUser();
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    Main.getSpider().setAddBikeView(this);
+    currentUser = Main.getSpider().getLoginView().getCurrentUser();
+  }
+
+  public void showDeleteView(ActionEvent actionEvent) {
+    Main.getSpider().getLoginView().showMainGui();
+  }
+
+
+  public void addBike(ActionEvent actionEvent) {
+    prepairBikeForAdd();
+    AccessBike.insertNewBike(newBike);
+    brandText.setText("");
+    modelYearText.setText("");
+    colorText.setText("");
+    typeText.setText("");
+    sizeText.setText("");
+    messageLabel.setText("Cykeln har lagts till");
+    urlLabel.setText("");
+  }
+
+  public void addPicture(ActionEvent actionEvent) {
+    if (newBike == null) {
+      newBike = new Bike();
     }
-
-    public void showDeleteView(ActionEvent actionEvent) {
-        Main.getSpider().getLoginView().showMainGui();
+    FileChooser fc = new FileChooser();
+    File selected = fc.showOpenDialog(null);
+    urlLabel.setText(selected.getName());
+    if (selected != null) {
+      try {
+        ByteArrayInputStream in = new ByteArrayInputStream(FileUtils.readFileToByteArray(selected));
+        newBike.setImageStream(in);
+        newBike.setCreatedBy(currentUser);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
+  }
 
+  public void showMainGui(ActionEvent actionEvent) {
+    Main.getSpider().getLoginView().showMainGui();
 
-    public void addBike(ActionEvent actionEvent) {
-      prepairBikeForAdd();
-      AccessBike.insertNewBike(newBike);
-      brandText.setText("");
-      modelYearText.setText("");
-      colorText.setText("");
-      typeText.setText("");
-      sizeText.setText("");
-      messageLabel.setText("Cykeln har lagts till");
-      urlLabel.setText("");
-    }
-
-    public void addPicture(ActionEvent actionEvent) {
-        if (newBike == null) {
-            newBike = new Bike();
-        }
-        FileChooser fc = new FileChooser();
-        File selected = fc.showOpenDialog(null);
-        urlLabel.setText(selected.getName());
-        if (selected != null) {
-            try {
-                ByteArrayInputStream in = new ByteArrayInputStream(FileUtils.readFileToByteArray(selected));
-                newBike.setImageStream(in);
-                newBike.setCreatedBy(currentUser);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void showMainGui(ActionEvent actionEvent) {
-        Main.getSpider().getLoginView().showMainGui();
-
-    }
+  }
 
   public void addBikeInQue(ActionEvent actionEvent) throws InterruptedException {
     prepairBikeForAdd();
-    System.out.println("??????????????????   kommer detta in   ?????????????????");
     messageLabel.setText("Cykeln lägs till i kön...");
     Thread.sleep(500);
     BikesFifoQue.enqueue(newBike); //add bike in FIFO
@@ -148,13 +147,13 @@ public class AddBikeController implements Initializable {
 
   public void addBikeFromQue(ActionEvent actionEvent) throws InterruptedException {
     int counters = 0;
-    while (!BikesFifoQue.isEmty()){
+    while (!BikesFifoQue.isEmty()) {
       Bike b = BikesFifoQue.dequeue();
       System.out.println(b.toString());
       AccessBike.insertNewBike(b);
       counters++;
     }
-    messageLabel.setText("Totalt har " + counters +"Cyklar lagts till i kön");
+    messageLabel.setText("Totalt har " + counters + "Cyklar lagts till i kön");
     Thread.sleep(2000);
     BikesFifoQue.enqueue(newBike);
     messageLabel.setText("Önskar lägga till fler?");

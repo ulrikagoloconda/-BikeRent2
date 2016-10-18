@@ -5,6 +5,7 @@ package helpers;
  * @version 1.0
  * @since 2016-09-15
  */
+
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
@@ -50,7 +51,7 @@ public class DoughnutChart extends PieChart {
   private void updateInnerCircleLayout() {
     double minX = Double.MAX_VALUE, minY = Double.MAX_VALUE;
     double maxX = Double.MIN_VALUE, maxY = Double.MIN_VALUE;
-    for (PieChart.Data data: getData()) {
+    for (PieChart.Data data : getData()) {
       Node node = data.getNode();
 
       Bounds bounds = node.getBoundsInParent();

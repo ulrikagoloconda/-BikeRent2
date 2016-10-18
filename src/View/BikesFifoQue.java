@@ -10,12 +10,13 @@ import java.util.Queue;
  * {@docRoot}
  * just a FIFO for the Addbikes in a que..
  * Created by NIK1114 on 2016-10-16.
- * @version 1.0
- * @since   2016-10-16
+ *
  * @param
+ * @version 1.0
  * @throws : no
+ * @since 2016-10-16
  */
-public class BikesFifoQue  {
+public class BikesFifoQue {
   private static Queue<Bike> bikesQueFIFO = new LinkedList<Bike>();
 
   /**

@@ -18,55 +18,56 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static Model.DBUtil.processException;
+
 /**
  * @author Niklas Karlsson
  * @version 1.0
  * @since 2016-09-15
  */
-public class LoginVewController implements Initializable{
-    @FXML
-    private TextField userNameText;
-    @FXML
-    private PasswordField passwordText;
-    @FXML
-    private AnchorPane loginPane;
-    private JDBCConnection jdbcConnection;
-    private DBAccess dbAccess = new DBAccessImpl();
-    private BikeUser currentUser ;
+public class LoginVewController implements Initializable {
+  @FXML
+  private TextField userNameText;
+  @FXML
+  private PasswordField passwordText;
+  @FXML
+  private AnchorPane loginPane;
+  private JDBCConnection jdbcConnection;
+  private DBAccess dbAccess = new DBAccessImpl();
+  private BikeUser currentUser;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-      System.out.println("inne i init login");
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    System.out.println("inne i init login");
     Main.getSpider().setLoginView(this);
 
-      //System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError(0,"exceptionText_intro") + "           *");
+    //System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError(0,"exceptionText_intro") + "           *");
 
-    }
+  }
 
-    public void logInClick(Event event) {
-        String userName = userNameText.getText();
-        String password = passwordText.getText();
-        System.out.println("logInClick");
+  public void logInClick(Event event) {
+    String userName = userNameText.getText();
+    String password = passwordText.getText();
+    System.out.println("logInClick");
 
-      try {
-        currentUser = dbAccess.logIn(userName,password);
-        System.out.println("after dbAccess.logIn(userName,password)");
-        System.out.println(currentUser.getEmail());
-        if (currentUser !=null){
-          Sound pling = new Sound();
-          pling.playSoundInThread(Sound.LEAVE_DICE);
-                  showMainGui();
-        }
-      } catch (SQLException e) {
+    try {
+      currentUser = dbAccess.logIn(userName, password);
+      System.out.println("after dbAccess.logIn(userName,password)");
+      System.out.println(currentUser.getEmail());
+      if (currentUser != null) {
         Sound pling = new Sound();
-        pling.playMp3SoundInThread(Sound.NO);
-        processException(e);
-        ErrorView.showError("Inloggningsfel", "fel vid inloggning","Kontrollera era uppgifter" , 0, e);
+        Sound.playSoundInThread(Sound.LEAVE_DICE);
+        showMainGui();
       }
+    } catch (SQLException e) {
+      Sound pling = new Sound();
+      Sound.playMp3SoundInThread(Sound.NO);
+      processException(e);
+      ErrorView.showError("Inloggningsfel", "fel vid inloggning", "Kontrollera era uppgifter", 0, e);
     }
+  }
 
   public void showMainGui() {
-    if (currentUser == null){
+    if (currentUser == null) {
       currentUser = new BikeUser();
       currentUser.setlName("Override");
       currentUser.setfName("Override");
@@ -75,7 +76,7 @@ public class LoginVewController implements Initializable{
       currentUser.setPhone(101010);
       currentUser.setEmail("Override@Override.com");
     }
-      Main.getSpider().getMain().showMainView();
+    Main.getSpider().getMain().showMainView();
        /* try {
 
             FXMLLoader MainViewLoader = Main.getSpider().getMain().getMainViewLoader();
@@ -90,12 +91,12 @@ public class LoginVewController implements Initializable{
 
         }*/
 
-    }
+  }
 
   public void newUserClick(ActionEvent actionEvent) {
     System.out.println("clicked on newUserClick");
 
-      Main.getSpider().getMain().showNewUserView();
+    Main.getSpider().getMain().showNewUserView();
     /*try {
 
       FXMLLoader newUserLoader =Main.getSpider().getMain().getNewUserLoader();
@@ -116,10 +117,9 @@ public class LoginVewController implements Initializable{
   }
 
 
-
   public void setCurrentUser(BikeUser bikeUser) {
     System.out.println("in setcurentUser!!" + currentUser.getfName());
-   currentUser = bikeUser;
+    currentUser = bikeUser;
     System.out.println("updated bikeuser!!" + currentUser.getfName());
   }
 }
