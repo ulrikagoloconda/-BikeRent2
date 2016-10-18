@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="374.0" prefWidth="358.0" xmlns="http://javafx.com/javafx/8"
-            fx:controller="View.ChangeUserVewController">
+            fx:controller="View.TaBortDetta">
     <children>
         <AnchorPane fx:id="loginPane" layoutY="-4.0" prefHeight="390.0" prefWidth="374.0">
             <children>

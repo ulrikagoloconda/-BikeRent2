@@ -45,7 +45,6 @@ public class DeleteBikeViewController implements Initializable {
     Main.getSpider().setDeleteView(this);
     idMap = new HashMap<>();
     dbAccess = new DBAccessImpl();
-    System.out.println("Körs inte init ? " + dbAccess);
     deleteBikeBtn.setVisible(false);
     backToMain.setVisible(true);
     initDeleteView();
@@ -55,7 +54,6 @@ public class DeleteBikeViewController implements Initializable {
   public void initDeleteView() {
 
     allBikes = dbAccess.getAllBikes();
-    System.out.println("i init Del, storleken " + allBikes.size());
     if (allBikes.size() > 10) {
       List<Bike> shortList = allBikes.subList(0, 9);
       populateDeleteGrid(shortList);

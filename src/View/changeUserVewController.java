@@ -43,19 +43,16 @@ public class ChangeUserVewController implements Initializable {
   private TextField passwordCheckerText;
   @FXML
   private Label uniqeTextIdLabel;
-  @FXML
+
   private JDBCConnection jdbcConnection;
   private DBAccess dbAccess = new DBAccessImpl();
   private String errorTitle = "fel i uppdatera användare";
   private Integer userID = currentUser.getUserID();
 
-  public ChangeUserVewController() {
-  }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    Main.getSpider().setChangeUserVewController(this);
-
+   Main.getSpider().setChangeUserVewController(this);
     currentUser = (Main.getSpider().getLoginView().getCurrentUser());
     System.out.println("test i change user: " + currentUser.getEmail());
     populateText();
@@ -70,7 +67,6 @@ public class ChangeUserVewController implements Initializable {
     phoneText.setText(Integer.toString(currentUser.getPhone()));
     passwordText.setText("");
     passwordCheckerText.setText("");
-
     System.out.println("test i populate user" + currentUser.getEmail());
   }
 
@@ -264,18 +260,6 @@ public class ChangeUserVewController implements Initializable {
 
   private void goback() {
     Main.getSpider().getMain().showMainView();
-   /* try {
-
-      FXMLLoader MainViewLoader = Main.getSpider().getMain().getMainViewLoader();
-      Parent MainViewRoot = (Parent) MainViewLoader.load();
-      Scene MainViewScean = new Scene(MainViewRoot);
-      Main.getSpider().getMain().getPrimaryStage().setScene(MainViewScean);
-
-
-    } catch (IOException e) {
-      e.printStackTrace();
-      ErrorView.showError("Huvudfönster - fel", "fel vid inläsning av data..","Kontrollera er data.." ,  e);
-    }*/
   }
 
 
@@ -309,7 +293,5 @@ public class ChangeUserVewController implements Initializable {
       Main.getSpider().getMainView().populateUserTextInGUI(currentUser);
       Main.getSpider().getMain().showLoginView();
     }
-
-
   }
 }
