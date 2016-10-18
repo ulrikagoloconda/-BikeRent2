@@ -48,7 +48,6 @@ public class LoginVewController implements Initializable {
         try {
             currentUser = dbAccess.logIn(userName, password);
             if (currentUser.getUserID() > 0) {
-
                 Sound pling = new Sound();
                 pling.playSoundInThread(Sound.LEAVE_DICE);
                 showMainGui();
@@ -77,49 +76,14 @@ public class LoginVewController implements Initializable {
             currentUser.setEmail("Override@Override.com");
         }
         Main.getSpider().getMain().showMainView();
-       /* try {
-
-            FXMLLoader MainViewLoader = Main.getSpider().getMain().getMainViewLoader();
-            Parent MainViewRoot = (Parent) MainViewLoader.load();
-            Scene MainViewScean = new Scene(MainViewRoot);
-            Main.getSpider().getMain().getPrimaryStage().setScene(MainViewScean);
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            ErrorView.showError("Huvudfönster - fel", "fel vid inläsning av data..","Kontrollera er data.." ,  e);
-
-        }*/
-
     }
 
     public void newUserClick(ActionEvent actionEvent) {
-        System.out.println("clicked on newUserClick");
-
         Main.getSpider().getMain().showNewUserView();
-    /*try {
-
-      FXMLLoader newUserLoader =Main.getSpider().getMain().getNewUserLoader();
-      Parent newUserRoot = (Parent) newUserLoader.load();
-      Scene newUserScean = new Scene(newUserRoot);
-      Main.getSpider().getMain().getPrimaryStage().setScene(newUserScean);
-
-    } catch (IOException e) {
-      e.printStackTrace();
-      ErrorView.showError("Lägg till användare-fönster - fel", "fel vid inläsning av data..","Kontrollera er data.." ,  e);
-    }
-    */
     }
 
     public BikeUser getCurrentUser() {
         return currentUser;
 
-    }
-
-
-    public void setCurrentUser(BikeUser bikeUser) {
-        System.out.println("in setcurentUser!!" + currentUser.getfName());
-        currentUser = bikeUser;
-        System.out.println("updated bikeuser!!" + currentUser.getfName());
     }
 }

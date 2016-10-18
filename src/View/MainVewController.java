@@ -41,10 +41,9 @@ public class MainVewController implements Initializable {
     @FXML
     private Label messageLabel;
     @FXML
-    private Button executeLoanBtn, netBtn;
+    private Button executeLoanBtn, netBtn, adminBtn;
     @FXML
     private ComboBox<String> combobox;
-
     @FXML
     private Label userNameLabel, memberLevelLabel, activeLoanLabel, numberOfLoanedBikesLabel, statLabel;
 
@@ -70,14 +69,15 @@ public class MainVewController implements Initializable {
         populateUserTextInGUI(currentUser);
         executeLoanBtn.setDisable(true);
                 netBtn.setDisable(true);
-
-
+        if(currentUser.getMemberLevel()!= 10){
+            adminBtn.setVisible(false);
+        }
+        combobox.setEditable(true);
     }
 
     public void populateUserTextInGUI(BikeUser bikeUser) {
         ArrayList<Integer> bikesInUse = dbaccess.getUsersCurrentBikes(bikeUser.getUserID());
         ArrayList<Integer> totalBikes = dbaccess.getUsersTotalLoan(bikeUser.getUserID());
-        System.out.println("uppdaterar mainGUI!!");
         userNameLabel.setText(bikeUser.getUserName());
         memberLevelLabel.setText("* " + bikeUser.getMemberLevel() + " *");
 
@@ -105,7 +105,6 @@ public class MainVewController implements Initializable {
         idMap = new HashMap<>();
         executeLoanBtn.setVisible(false);
         netBtn.setVisible(false);
-        combobox.setEditable(true);
         availableBikes = dbaccess.selectAvailableBikes();
         availableBikesCopy = availableBikes;
         System.out.println(availableBikes.size());
@@ -131,8 +130,6 @@ public class MainVewController implements Initializable {
         }
         String[] topList = {"Bild", "Årsmodell", "Färg", "Cykeltyp", "Modell", "Ledig?"};
         ArrayList<String> values = new ArrayList<>();
-
-        // gridPane.gridLinesVisibleProperty().setValue(true);
         for (int i = 0; i < 6; i++) {
             Label l = new Label();
             l.setText(topList[i]);
@@ -153,7 +150,6 @@ public class MainVewController implements Initializable {
                     ImageView iv = new ImageView();
                     iv.setFitHeight(65);
                     iv.setFitWidth(95);
-                    System.out.println("Körs detta ");
                     iv.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
                         @Override
@@ -195,7 +191,6 @@ public class MainVewController implements Initializable {
         gridPane.getChildren().clear();
         String[] topList = {"Bild", "Årsmodell", "Färg", "Cykeltyp", "Modell", "Ledig?"};
         ArrayList<String> values = new ArrayList<>();
-        // gridPane.gridLinesVisibleProperty().setValue(true);
         for (int i = 0; i < 6; i++) {
             gridPane.add(new Label(topList[i]), i, 0);
         }
@@ -293,8 +288,8 @@ public class MainVewController implements Initializable {
 
 
     public void popuateComboBox(Event event) {
+        System.out.println("Körs detta i combobox nån annan gång ");
         searchMap = dbaccess.getSearchValue(combobox.getEditor().getText());
-        System.out.println(combobox.getEditor().getText());
         int count = 0;
         combobox.getItems().clear();
         for (Map.Entry<String, Integer> entry : searchMap.entrySet()) {
@@ -307,10 +302,14 @@ public class MainVewController implements Initializable {
     }
 
     public void setSearchResult(ActionEvent actionEvent) {
-        String selected = combobox.getSelectionModel().getSelectedItem().toString();
-        int bikeID = searchMap.get(selected);
-        selectedBikeSearch = dbaccess.getBikeByID(bikeID);
-        populateGridPane(selectedBikeSearch);
+        System.out.println("När körs detta "  );
+        if(combobox.getSelectionModel().getSelectedItem().toString() != null) {
+            String selected = combobox.getSelectionModel().getSelectedItem().toString();
+
+            int bikeID = searchMap.get(selected);
+            selectedBikeSearch = dbaccess.getBikeByID(bikeID);
+            populateGridPane(selectedBikeSearch);
+        }
 
     }
 
