@@ -56,7 +56,8 @@ DELIMITER ;
   }
 
   public static BikeUser loginUser(String userName, String tryPassW)  {
-    BikeUser returnUser = null;
+    BikeUser returnUser = new BikeUser();
+    int userID = 0;
     DBType dataBase = null;
     if (helpers.PCRelated.isThisNiklasPC()) {
       dataBase = DBType.Niklas;
@@ -65,19 +66,32 @@ DELIMITER ;
     }
     try {
       Connection conn = DBUtil.getConnection(dataBase);
-      String sql = "CALL temp_return_password_binary(?,?,?,?)";
+      String sql = "CALL temp_return_password_binary(?,?,?,?,?)";
       CallableStatement cs = conn.prepareCall(sql);
       cs.setString(1, userName);
       cs.setString(2, tryPassW);
       cs.registerOutParameter(3, Types.VARBINARY);
       cs.registerOutParameter(4, Types.VARBINARY);
+      cs.registerOutParameter(5,Types.INTEGER);
       cs.executeQuery();
       byte[] passw1 = cs.getBytes(3);
       byte[] passw2 = cs.getBytes(4);
-      System.out.println(passw1 + " " + passw2 + " ////////////////////////////////////////////");
-
-          returnUser = getBikeUserByID(1);
-      returnUser.setUserID(1);
+      userID = cs.getInt(5);
+      boolean testBol = true;
+      if(passw1.length>0) {
+        for (int i = 0; i < passw1.length; i++) {
+          if (passw1[i] != passw2[i]) {
+            testBol = false;
+          }
+        }
+      }else {
+        testBol = false;
+      }
+      if(testBol){
+        returnUser = getBikeUserByID(userID);
+      } else {
+        returnUser.setUserID(-1);
+      }
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -107,6 +121,7 @@ DELIMITER ;
         returnUser.setfName(rs.getString("fname"));
         returnUser.setMemberLevel(rs.getInt("memberlevel"));
         returnUser.setPhone(rs.getInt("phone"));
+        returnUser.setUserID(id);
       }
 
     } catch (Exception e) {
