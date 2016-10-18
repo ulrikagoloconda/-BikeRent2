@@ -23,7 +23,7 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * @author Goloconda Fahlén
+ * @author Ulrika Goloconda Fahlén
  * @version 1.0
  * @since 2016-09-15
  */
@@ -107,7 +107,6 @@ public class MainVewController implements Initializable {
         netBtn.setVisible(false);
         availableBikes = dbaccess.selectAvailableBikes();
         availableBikesCopy = availableBikes;
-        System.out.println(availableBikes.size());
         if (availableBikes.size() > 3) {
             currentListInView = availableBikes.subList(0, 3);
             populateGridPane(currentListInView);
@@ -271,10 +270,13 @@ public class MainVewController implements Initializable {
     }
 
     public void nextBikesOnList(ActionEvent actionEvent) {
+        System.out.println(availableBikes.size() + " avilableList ");
         gridPane.getChildren().clear();
         currentListInView.clear();
         if (availableBikes.size() >= 3) {
             currentListInView = availableBikes.subList(0, 3);
+            System.out.println(availableBikes.size() + " avilableList ");
+
         } else {
             currentListInView = availableBikes.subList(0, availableBikes.size() - 1);
         }
@@ -288,7 +290,6 @@ public class MainVewController implements Initializable {
 
 
     public void popuateComboBox(Event event) {
-        System.out.println("Körs detta i combobox nån annan gång ");
         searchMap = dbaccess.getSearchValue(combobox.getEditor().getText());
         int count = 0;
         combobox.getItems().clear();
@@ -302,7 +303,6 @@ public class MainVewController implements Initializable {
     }
 
     public void setSearchResult(ActionEvent actionEvent) {
-        System.out.println("När körs detta "  );
         if(combobox.getSelectionModel().getSelectedItem().toString() != null) {
             String selected = combobox.getSelectionModel().getSelectedItem().toString();
 
@@ -310,7 +310,6 @@ public class MainVewController implements Initializable {
             selectedBikeSearch = dbaccess.getBikeByID(bikeID);
             populateGridPane(selectedBikeSearch);
         }
-
     }
 
     public void showStatClick(ActionEvent actionEvent) {

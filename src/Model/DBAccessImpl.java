@@ -74,7 +74,7 @@ public class DBAccessImpl implements DeleteUser, InsertNewUser, DBAccess {
   @Override
   public boolean InsertNewUser(String fname, String lname, int memberlevel, String email, int phone, String username, String passw)  {
         System.out.println("in the add user");
-        return AccessUser.InsertNewUser(fname, lname, memberlevel, email, phone, username, passw);
+        return AccessUser.insertNewUser(fname, lname, memberlevel, email, phone, username, passw);
       }
 
     @Override

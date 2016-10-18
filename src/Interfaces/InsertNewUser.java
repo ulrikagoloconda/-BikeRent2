@@ -11,7 +11,7 @@ public interface InsertNewUser {
 
   boolean InsertNewUser(String fname, String lname, int memberlevel, String email, int phone, String username, String passw)throws SQLException ;
   /**
-   * TO use the: boolean InsertNewUser(String fname, String lname, int memberlevel, String email, int phone , String username , String passw , Date membersince  )
+   * TO use the: boolean insertNewUser(String fname, String lname, int memberlevel, String email, int phone , String username , String passw , Date membersince  )
    *
    * INSERT INTO bikeuser (fname, lname, memberlevel, email, phone , username , passw , membersince)
    * VALUES (String fname, String lname, int memberlevel, String email, int phone , String username , String passw , Date membersince);

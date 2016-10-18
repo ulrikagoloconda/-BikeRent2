@@ -38,14 +38,13 @@ public class DeleteBikeViewController implements Initializable{
     private Bike selected = null;
     private int bikeIdDel;
     private int lastIndex;
-    private LoginVewController loginVew;
+    private List<Bike> smallList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Main.getSpider().setDeleteView(this);
         idMap = new HashMap<>();
         dbAccess = new DBAccessImpl();
-        System.out.println("Körs inte init ? " + dbAccess);
         deleteBikeBtn.setVisible(false);
         backToMain.setVisible(true);
         initDeleteView();
@@ -55,10 +54,9 @@ public class DeleteBikeViewController implements Initializable{
     public void initDeleteView() {
 
         allBikes = dbAccess.getAllBikes();
-        System.out.println("i init Del, storleken " + allBikes.size());
         if (allBikes.size() > 10){
-            List<Bike> shortList = allBikes.subList(0, 9);
-            populateDeleteGrid(shortList);
+             smallList = allBikes.subList(0, 9);
+            populateDeleteGrid(smallList);
             forwardBtn.setDisable(false);
         } else {
             populateDeleteGrid(allBikes);
@@ -68,7 +66,6 @@ public class DeleteBikeViewController implements Initializable{
     }
 
     public void populateDeleteGrid(List<Bike> bikeList) {
-        gridDelBike.getChildren().clear();
         ArrayList<String> columnNames = new ArrayList<>();
         columnNames.add("CykelID");
         columnNames.add("Modell");
@@ -130,11 +127,13 @@ public class DeleteBikeViewController implements Initializable{
     }
 
     public void nextView(ActionEvent actionEvent) {
+        gridDelBike.getChildren().clear();
+        smallList.clear();
             if (allBikes.size() > 10) {
-                List<Bike> smallList = allBikes.subList(0, 10);
+                smallList = allBikes.subList(0, 9);
                 populateDeleteGrid(smallList);
             } else {
-                List<Bike> smallList = allBikes.subList(0, allBikes.size() - 1);
+                smallList = allBikes.subList(0, allBikes.size() - 1);
                 populateDeleteGrid(smallList);
                 forwardBtn.setDisable(true);
             }
