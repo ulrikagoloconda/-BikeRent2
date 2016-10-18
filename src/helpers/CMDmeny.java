@@ -8,7 +8,7 @@ package helpers;
 public class CMDmeny {
   public static void print() {
     System.out.println("what to do? \n" +
-        "1 : InsertNewUser(....)\n"+
+        "1 : insertNewUser(....)\n"+
         "2 : deleteUser(....) \n" +
         "3 : InsertNewBike(..) \n"+
         "4 : SelectAvalibleBikes() \n" +
