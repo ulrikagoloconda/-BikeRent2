@@ -79,9 +79,9 @@ public class DeleteBikeViewController implements Initializable{
             values.clear();
             values.add("" + b.getBikeID());
             values.add(b.getBrandName());
-            values.add(""+b.getModelYear());
-            values.add(""+b.getSize());
-            values.add( b.getColor());
+            values.add("" + b.getModelYear());
+            values.add("" + b.getSize());
+            values.add(b.getColor());
             values.add(b.getType());
 
             for (int i = 0; i < 6; i++) {
@@ -110,36 +110,39 @@ public class DeleteBikeViewController implements Initializable{
 
                     idMap.put(k, b.getBikeID());
                     gridDelBike.add(k, i, j);
-                    lastIndex= idMap.get(k);
+                    lastIndex = idMap.get(k);
+
                 }
+
             }
-            j++;
         }
+        j++;
     }
 
 
-    public void deleteBike(Event event) {
-      boolean b =  dbAccess.deleteBike(bikeIdDel);
-        if(b){
-            deletePane.setVisible(false);
+  public void deleteBike(Event event) {
+      boolean b = dbAccess.deleteBike(bikeIdDel);
+      if (b) {
+          deletePane.setVisible(false);
 
-        }
-    }
+      }
+  }
+
 
     public void nextView(ActionEvent actionEvent) {
         gridDelBike.getChildren().clear();
         smallList.clear();
-            if (allBikes.size() > 10) {
-                smallList = allBikes.subList(0, 9);
-                populateDeleteGrid(smallList);
-            } else {
-                smallList = allBikes.subList(0, allBikes.size() - 1);
-                populateDeleteGrid(smallList);
-                forwardBtn.setDisable(true);
-            }
+        if (allBikes.size() > 10) {
+            smallList = allBikes.subList(0, 9);
+            populateDeleteGrid(smallList);
+        } else {
+            smallList = allBikes.subList(0, allBikes.size() - 1);
+            populateDeleteGrid(smallList);
+            forwardBtn.setDisable(true);
+        }
     }
 
     public void showMainView(ActionEvent actionEvent) {
-       Main.getSpider().getLoginView().showMainGui();
+        Main.getSpider().getLoginView().showMainGui();
     }
 }

@@ -22,31 +22,36 @@ import java.util.ResourceBundle;
  * @since 2016-09-17
  */
 public class AdminViewController implements Initializable {
-    private Bike newBike;
-    private BikeUser currentUser;
-    //private loginVewController loginView;
-    private DBAccess dbAccess = new DBAccessImpl();
-    @FXML
-    private Label urlLabel;
-    @FXML
-    private TextField brandText, modelYearText, colorText, typeText, sizeText;
-    @FXML
-    private GridPane gridDelBike;
-    @FXML
-    private AnchorPane deletePane,addBikePane;
-    @FXML
-    private Pane editPane;
+  private Bike newBike;
+  private BikeUser currentUser;
+  //private loginVewController loginView;
+  private DBAccess dbAccess = new DBAccessImpl();
+  @FXML
+  private Label urlLabel;
+  @FXML
+  private TextField brandText, modelYearText, colorText, typeText, sizeText;
+  @FXML
+  private GridPane gridDelBike;
+  @FXML
+  private AnchorPane deletePane, addBikePane;
+  @FXML
+  private Pane editPane;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        Main.getSpider().setAdminView(this);
-    }
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    Main.getSpider().setAdminView(this);
+  }
 
-    public void showDeleteView(ActionEvent actionEvent) {
-       Main.getSpider().getMain().showDeleteView();
-    }
+  public void showDeleteView(ActionEvent actionEvent) {
+    Main.getSpider().getMain().showDeleteView();
+  }
 
-    public void showAddView(ActionEvent actionEvent) {
-        Main.getSpider().getMain().showAddBikeView();
-    }
+  public void showAddView(ActionEvent actionEvent) {
+    Main.getSpider().getMain().showAddBikeView();
+  }
+
+  public void showMainGui(ActionEvent actionEvent) {
+    Main.getSpider().getLoginView().showMainGui();
+
+  }
 }

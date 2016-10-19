@@ -35,10 +35,11 @@ public class UserLoginTable {
     }
     return buffer.toString();
   }
+
   public static String displayPassW(ResultSet rs) throws SQLException {
     StringBuffer buffer = new StringBuffer();
     while (rs.next()) {
-      buffer.append( rs.getInt("userID"));
+      buffer.append(rs.getInt("userID"));
       System.out.println(buffer.toString());
     }
     return buffer.toString();

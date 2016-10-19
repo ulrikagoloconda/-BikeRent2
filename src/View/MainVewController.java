@@ -68,8 +68,8 @@ public class MainVewController implements Initializable {
         currentUser = Main.getSpider().getLoginView().getCurrentUser();
         populateUserTextInGUI(currentUser);
         executeLoanBtn.setDisable(true);
-                netBtn.setDisable(true);
-        if(currentUser.getMemberLevel()!= 10){
+        netBtn.setDisable(true);
+        if (currentUser.getMemberLevel() != 10) {
             adminBtn.setVisible(false);
         }
         combobox.setEditable(true);
@@ -80,28 +80,26 @@ public class MainVewController implements Initializable {
         ArrayList<Integer> totalBikes = dbaccess.getUsersTotalLoan(bikeUser.getUserID());
         userNameLabel.setText(bikeUser.getUserName());
         memberLevelLabel.setText("* " + bikeUser.getMemberLevel() + " *");
-
         activeLoanLabel.setText("" + bikesInUse.size());
         numberOfLoanedBikesLabel.setText("" + totalBikes.size());
-
-      setstatLabel();
+        setStatLabel();
 
     }
 
-  private void setstatLabel() {
-    float free = dbaccess.selectAvailableBikes().size() ;
-    float total = dbaccess.getAllBikes().size();
-    System.out.println("free" + " " + free);
-    System.out.println("tot: " + total);
-    float poc = free/total;
-    System.out.println("poc: " + poc);
-    poc = poc * 100;
-    System.out.println(poc);
-    statLabel.setText("" + poc + " %" );
-  }
+    private void setStatLabel() {
+        float free = dbaccess.selectAvailableBikes().size();
+        float total = dbaccess.getAllBikes().size();
+        System.out.println("free" + " " + free);
+        System.out.println("tot: " + total);
+        float poc = free / total;
+        System.out.println("poc: " + poc);
+        poc = poc * 100;
+        System.out.println(poc);
+        statLabel.setText("" + poc + " %");
+    }
 
 
-  public void searchAvailableBikes(ActionEvent actionEvent) {
+    public void searchAvailableBikes(ActionEvent actionEvent) {
         idMap = new HashMap<>();
         executeLoanBtn.setVisible(false);
         netBtn.setVisible(false);
@@ -157,6 +155,7 @@ public class MainVewController implements Initializable {
                             onClickActions(n);
                         }
                     });
+
                     idMap.put(iv, b.getBikeID());
                     iv.setImage(image);
                     gridPane.add(iv, i, j);
@@ -175,7 +174,6 @@ public class MainVewController implements Initializable {
                     k.setFont(f);
                     idMap.put(k, b.getBikeID());
                     gridPane.add(k, i, j);
-
                 }
             }
             j++;
@@ -186,10 +184,12 @@ public class MainVewController implements Initializable {
         return true;
     }
 
+
     public boolean populateGridPane(Bike bike) {
         gridPane.getChildren().clear();
         String[] topList = {"Bild", "Årsmodell", "Färg", "Cykeltyp", "Modell", "Ledig?"};
         ArrayList<String> values = new ArrayList<>();
+        // gridPane.gridLinesVisibleProperty().setValue(true);
         for (int i = 0; i < 6; i++) {
             gridPane.add(new Label(topList[i]), i, 0);
         }
@@ -265,10 +265,6 @@ public class MainVewController implements Initializable {
         }
     }
 
-    public void showChangeUserView(ActionEvent actionEvent) {
-        Main.getSpider().getMain().showChangeUserView();
-    }
-
     public void nextBikesOnList(ActionEvent actionEvent) {
         System.out.println(availableBikes.size() + " avilableList ");
         gridPane.getChildren().clear();
@@ -281,6 +277,10 @@ public class MainVewController implements Initializable {
             currentListInView = availableBikes.subList(0, availableBikes.size() - 1);
         }
         populateGridPane(currentListInView);
+    }
+
+    public void showChangeUserView(ActionEvent actionEvent) {
+        Main.getSpider().getMain().showChangeUserView();
     }
 
     public void executeBikeLoan(ActionEvent actionEvent) {
@@ -302,8 +302,9 @@ public class MainVewController implements Initializable {
         }
     }
 
+
     public void setSearchResult(ActionEvent actionEvent) {
-        if(combobox.getSelectionModel().getSelectedItem().toString() != null) {
+        if (combobox.getSelectionModel().getSelectedItem().toString() != null) {
             String selected = combobox.getSelectionModel().getSelectedItem().toString();
 
             int bikeID = searchMap.get(selected);
@@ -315,5 +316,6 @@ public class MainVewController implements Initializable {
     public void showStatClick(ActionEvent actionEvent) {
         Main.getSpider().getMain().showStatView();
     }
+
 }
 

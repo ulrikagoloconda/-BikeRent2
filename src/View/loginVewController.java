@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static Model.DBUtil.processException;
+
 /**
  * @author Niklas Karlsson
  * @version 1.0
@@ -37,9 +38,7 @@ public class LoginVewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Main.getSpider().setLoginView(this);
-
-
-    }
+  }
 
     public void logInClick(Event event) {
         String userName = userNameText.getText();
@@ -60,11 +59,11 @@ public class LoginVewController implements Initializable {
             Sound pling = new Sound();
             pling.playMp3SoundInThread(Sound.NO);
             processException(e);
-            ErrorView.showError("Inloggningsfel", "fel vid inloggning", "Kontrollera era uppgifter", e);
+            //TODO nedanstående rad får felmeddelande som jag inte förstår
+          //  ErrorView.showError("Inloggningsfel", "fel vid inloggning", "Kontrollera era uppgifter", e);
 
         }
-    }
-
+  }
     public void showMainGui() {
         if (currentUser == null) {
             currentUser = new BikeUser();
@@ -84,6 +83,5 @@ public class LoginVewController implements Initializable {
 
     public BikeUser getCurrentUser() {
         return currentUser;
-
     }
 }

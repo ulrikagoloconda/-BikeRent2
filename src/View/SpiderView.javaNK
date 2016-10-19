@@ -1,15 +1,15 @@
 package View;
 
 /**
- * @version 1.0
  * @authorUlrika, Goloconda Fahlén
+ * @version 1.0
  * @since 2016-09-20
  */
 public class SpiderView {
-    private AddBikeController addBikeView;
+    private  AddBikeController addBikeView;
     private AdminViewController adminView;
     //private ChangeUserTry changeUserTry;
-    private ChangeUserVewController changeUserVewController;
+    private ChangeUserViewController2 changeUserVewController;
     private DeleteBikeViewController deleteView;
     private LoginVewController loginView;
     private MainVewController mainView;
@@ -18,7 +18,7 @@ public class SpiderView {
     private StatViewController statViewController;
     private Main main;
 
-    public SpiderView() {
+    public SpiderView( ){
 
     }
 
@@ -46,11 +46,11 @@ public class SpiderView {
     //    this.changeUserTry = changeUserTry;
     //}
 
-    public View.ChangeUserVewController getChangeUserVewController() {
+    public View.ChangeUserViewController2 getChangeUserVewController() {
         return changeUserVewController;
     }
 
-    public void setChangeUserVewController(View.ChangeUserVewController changeUserVewController) {
+    public void setChangeUserVewController(ChangeUserViewController2 changeUserVewController) {
         this.changeUserVewController = changeUserVewController;
     }
 
@@ -98,15 +98,14 @@ public class SpiderView {
         this.changeUserTry = changeUserTry;
     }
 
-    public ChangeUserTry getChangeUserView() {
+    public ChangeUserTry getChangeUserView(){
         return changeUserTry;
     }
 
     public void setStatViewContrller(StatViewController statViewController) {
         this.statViewController = statViewController;
     }
-
-    public StatViewController getStatViewController() {
+    public StatViewController getStatViewController(){
         return statViewController;
     }
 }

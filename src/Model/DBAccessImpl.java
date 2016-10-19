@@ -68,6 +68,7 @@ public class DBAccessImpl implements DeleteUser, InsertNewUser, DBAccess {
 
   @Override
   public boolean isUserAvalible(String userName) throws SQLException{
+
     return AccessUser.isUserAvalible(userName);
   }
 
@@ -77,38 +78,38 @@ public class DBAccessImpl implements DeleteUser, InsertNewUser, DBAccess {
         return AccessUser.insertNewUser(fname, lname, memberlevel, email, phone, username, passw);
       }
 
-    @Override
-    public ArrayList<Bike> getAllBikes() {
-        return AccessBike.getAllBikes();
-    }
+  @Override
+  public ArrayList<Bike> getAllBikes() {
+    return AccessBike.getAllBikes();
+  }
 
   @Override
   public boolean UpdateUser(String fName, String lName, int in_memberlevel, String email, int phone, String userName, String password) throws SQLException {
     return AccessUser.UpdateUser(fName, lName, in_memberlevel, email, phone, userName, password);
   }
 
-    @Override
-    public String executeBikeLoan(int bikeID, int userID) {
-       return AccessBike.executeBikeLoan(bikeID, userID);
-    }
+  @Override
+  public String executeBikeLoan(int bikeID, int userID) {
+    return AccessBike.executeBikeLoan(bikeID, userID);
+  }
 
-    @Override
-    public Map<String,Integer> getSearchValue(String text) {
-        return AccessBike.getSearchValue(text);
-    }
+  @Override
+  public Map<String, Integer> getSearchValue(String text) {
+    return AccessBike.getSearchValue(text);
+  }
 
-    @Override
-    public Bike getBikeByID(int bikeID) {
-        return AccessBike.getBikeByID(bikeID);
-    }
+  @Override
+  public Bike getBikeByID(int bikeID) {
+    return AccessBike.getBikeByID(bikeID);
+  }
 
-    @Override
-    public ArrayList<Integer> getUsersCurrentBikes(int userID) {
-        return AccessRentbridge.getUsersCurrnetBikes(userID);
-    }
+  @Override
+  public ArrayList<Integer> getUsersCurrentBikes(int userID) {
+    return AccessRentbridge.getUsersCurrnetBikes(userID);
+  }
 
-    @Override
-    public ArrayList<Integer> getUsersTotalLoan(int userID) {
-        return AccessRentbridge.getUsersTotalLoan(userID);
-    }
+  @Override
+  public ArrayList<Integer> getUsersTotalLoan(int userID) {
+    return AccessRentbridge.getUsersTotalLoan(userID);
+  }
 }

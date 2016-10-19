@@ -16,13 +16,13 @@ import javafx.scene.layout.StackPane;
 public class StatView {
 
 
-/**
- * Created by NIK1114 on 2016-09-18.
- *
- * StatView.showStatView("labelID1", 50, "labelID2", 50);
- * or
- * StatView.DoughnutChartView("labelID1", 50, "labelID2", 50);
- */
+  /**
+   * Created by NIK1114 on 2016-09-18.
+   * <p>
+   * StatView.showStatView("labelID1", 50, "labelID2", 50);
+   * or
+   * StatView.DoughnutChartView("labelID1", 50, "labelID2", 50);
+   */
 
   public static void showStatView(String labelID1, float stat0To100ID1, String labelID2, float stat0To100ID2, PieChart pieChart) {
 
@@ -50,19 +50,19 @@ public class StatView {
   }
 
   public static void DoughnutChartView(String labelID1, Integer stat0To100ID1, String labelID2, Integer stat0To100ID2) {
-   // System.out.println("Körs detta  i StatView !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    if ( (stat0To100ID1 + stat0To100ID2 ) != 100){
+    // System.out.println("Körs detta  i StatView !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    if ((stat0To100ID1 + stat0To100ID2) != 100) {
       //ErrorView.showError("fel" , "fel i diagram-indata", "summan blev inte 100", new Exception("summan blev inte 100 : " + stat0To100ID1 +"+" + stat0To100ID2 ));
       stat0To100ID1 = 25;
       stat0To100ID2 = 75;
     }
     ObservableList<PieChart.Data> pieChartData = getChartData(labelID1, stat0To100ID1, labelID2, stat0To100ID2);
 
-      final DoughnutChart pieChart = new DoughnutChart(pieChartData);
-      pieChart.setTitle("Statistik");
-      StackPane root = new StackPane();
-      root.getChildren().add(pieChart);
-    }
-
+    final DoughnutChart pieChart = new DoughnutChart(pieChartData);
+    pieChart.setTitle("Statistik");
+    StackPane root = new StackPane();
+    root.getChildren().add(pieChart);
   }
+
+}
 

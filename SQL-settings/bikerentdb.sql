@@ -55,3 +55,121 @@ CREATE TABLE `type` (
   PRIMARY KEY (`typeID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
 
+
+
+
+
+  USE bikerent ;
+create TABLE alterdUser(
+  alterID int(10) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  `userID` int(10) NOT NULL,
+  alterDate DATE NOT NULL,
+  `fname` nvarchar(40) DEFAULT NULL,
+  `lname` nvarchar(40) DEFAULT NULL,
+  `memberlevel` int(10) DEFAULT NULL,
+  `email` nvarchar(50) DEFAULT NULL,
+  `phone` int(11) DEFAULT NULL,
+  `username` nvarchar(40) NOT NULL,
+  `passw` varbinary(56) DEFAULT NULL,
+  CONSTRAINT useridalter_fk FOREIGN KEY (`userID`) REFERENCES `bikeuser` (`userID`)
+);
+
+DELIMITER //
+CREATE TRIGGER alterTrigger BEFORE UPDATE ON bikeuser
+FOR EACH ROW
+  BEGIN
+    INSERT INTO alterdUser (userID, alterDate, fname, lname, memberlevel, email, phone, username, passw)
+    VALUES(old.userID, NOW(), old.fname, old.lname, old.memberlevel,
+           old.email, old.phone, old.username, AES_ENCRYPT( old.passw,'tackforkaffet'));
+  END //
+
+DELIMITER ;
+
+USE bikerent ;
+
+USE bikerent ;
+CREATE TABLE bikerent.errorevent
+(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  date TIMESTAMP NOT NULL,
+  username VARCHAR(30),
+  errortext VARCHAR(10000)
+);
+drop FUNCTION insert_new_ErrorEvent;
+DELIMITER //
+CREATE FUNCTION insert_new_ErrorEvent(in_username varchar(30), in_error varchar(10000)) RETURNS smallint(6)
+  BEGIN
+    INSERT INTO errorevent (date,username , errortext)
+    VALUES (CURRENT_TIMESTAMP() , in_username , in_error);
+    RETURN 1;
+  END//
+DELIMITER ;
+
+SELECT insert_new_ErrorEvent(
+    'cykeltur', 'errortest...1234ÅÖÄ');
+
+USE bikerent ;
+
+DROP PROCEDURE IF EXISTS bikerent.insert_bike;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_bike`(IN brandNameIn VARCHAR(50),
+                                                          IN typeIn VARCHAR(30),
+                                                          IN modelYearIn SMALLINT(6),
+                                                          IN colorIn VARCHAR(50),
+                                                          IN sizeIn SMALLINT(6),
+                                                          IN imageIn LONGBLOB)
+  BEGIN
+    DECLARE brandIDDec INT(11);
+    DECLARE typeIDDec INT(10);
+
+    IF EXISTS(SELECT DISTINCT brandid FROM brand WHERE brandname=brandNameIn)
+    THEN
+      SET brandIDDec = (SELECT DISTINCT brandid FROM brand WHERE brandname=brandNameIn);
+    ELSE
+      INSERT INTO brand (brandname) VALUE (brandNameIn) ;
+      SELECT DISTINCT last_insert_id() INTO brandIDDec FROM brand;
+    END IF;
+    IF EXISTS(SELECT DISTINCT typeID FROM type WHERE typeName=typeIn)
+    THEN
+      SET typeIDDec = (SELECT DISTINCT typeID FROM type WHERE typeName=typeIn);
+    ELSE
+      INSERT INTO type (typeName)VALUE (typeIn);
+
+    END IF;
+
+    INSERT INTO bike (brandid, modelyear, color, size, insertDateTime, typeID,image)
+    VALUES (brandIDDec, modelYearIn, colorIn, sizeIn, CURRENT_TIMESTAMP(),typeIDDec,imageIn );
+  END;
+
+CREATE VIEW bike_object AS
+  SELECT bike.bikeID,bike.modelyear, bike.color, bike.image, bike.imageFileName,
+    bike.size, type.typeName, brand.brandname
+  FROM bike
+    LEFT JOIN rentbridge
+      ON bike.bikeID = rentbridge.bikeID
+    JOIN brand
+      ON bike.brandid = brand.brandid
+    JOIN type
+      ON bike.typeID = type.typeID;
+
+DROP FUNCTION IF EXISTS bikerentdb.check_password;
+CREATE DEFINER=`root`@`localhost` FUNCTION `check_password`(tryusername varchar(50), trypassword varchar(50)) RETURNS smallint(6)
+  BEGIN
+    DECLARE pw VARBINARY(56);
+    SET pw = (SELECT passw FROM bikeuser WHERE userName=tryusername);
+    if exists(SELECT * from bikeuser WHERE userName= tryusername AND pw=AES_ENCRYPT(trypassword,'tackforkaffet'))
+    THEN
+      RETURN 1;
+    ELSE
+      RETURN 0;
+    END IF;
+  END;
+
+ALTER TABLE bike add COLUMN insertDateTime DATETIME AFTER size ;
+
+DROP FUNCTION IF EXISTS bikerent.insert_new_ErrorEvent;
+CREATE DEFINER=`dbuser`@`localhost` FUNCTION `insert_new_ErrorEvent`(in_userID INT(10), in_error varchar(10000)) RETURNS smallint(6)
+  BEGIN
+    INSERT INTO errorevent (date,errortext, userID)
+    VALUES (CURRENT_TIMESTAMP() , in_error, in_userID );
+    RETURN 1;
+  END;
