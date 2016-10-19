@@ -72,12 +72,12 @@ public class ChangeUserController1 implements Initializable {
                 int phone = Integer.parseInt(phoneString);
                 System.out.println("we can now add some info");
                 int in_memberlevel = 1;
-                boolean isAddUserOK = dbAccess.InsertNewUser(fName, lName, in_memberlevel, email, phone, userName, password);
+                boolean isAddUserOK = dbAccess.UpdateUser(fName, lName, in_memberlevel, email, phone, userName, password);
                 if (!isAddUserOK) {
                     ErrorView.showError(errorTitle, "fel vid inläsning", "Kontrollera era uppgifter", userID, new IOException(" :-( kunde inte lägga till användare"));
                 }
                 if (isAddUserOK) {
-                    boolean d = DialogView.showSimpleInfo("Ny användare upplaggd", "Lyckades", "Ny användare är nu upplagd");
+                    boolean d = DialogView.showSimpleInfo("Användare uppdaterad", "Lyckades", "Användare är nu uppdaterad");
                     Main.getSpider().getMain().showLoginView();
                 }
             }
