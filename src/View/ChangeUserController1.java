@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 2016-10-18
  */
-public class TaBortDetta implements Initializable {
+public class ChangeUserController1 implements Initializable {
     private BikeUser currentUser;
     private JDBCConnection jdbcConnection;
     private DBAccess dbAccess;
@@ -34,7 +34,7 @@ public class TaBortDetta implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       // Main.getSpider().setChangeUserVewController(this);
+       Main.getSpider().setChangeUserVewController(this);
         currentUser = (Main.getSpider().getLoginView().getCurrentUser());
         dbAccess = new DBAccessImpl();
         errorTitle = "fel i uppdatera användare";
