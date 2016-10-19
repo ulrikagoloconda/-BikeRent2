@@ -23,6 +23,7 @@ import java.util.*;
  * @version 1.0
  * @since 2016-09-19
  */
+
 public class DeleteBikeViewController implements Initializable{
     @FXML
     private GridPane gridDelBike;
@@ -79,9 +80,9 @@ public class DeleteBikeViewController implements Initializable{
             values.clear();
             values.add("" + b.getBikeID());
             values.add(b.getBrandName());
-            values.add("" + b.getModelYear());
-            values.add("" + b.getSize());
-            values.add(b.getColor());
+            values.add(""+b.getModelYear());
+            values.add(""+b.getSize());
+            values.add( b.getColor());
             values.add(b.getType());
 
             for (int i = 0; i < 6; i++) {
@@ -101,23 +102,22 @@ public class DeleteBikeViewController implements Initializable{
                                     break;
                                 }
                             }
-                            String s = selected.getBikeID() + " " + selected.getBrandName() + " " + selected.getModelYear() +
-                                    " " + selected.getSize() + " " + selected.getColor() + " " + selected.getType();
-                            deleteLabel.setText(s);
-                            deleteBikeBtn.setVisible(true);
-                        }
-                    });
 
-                    idMap.put(k, b.getBikeID());
-                    gridDelBike.add(k, i, j);
-                    lastIndex = idMap.get(k);
-
-                }
-
+              String s = selected.getBikeID() + " " + selected.getBrandName() + " " + selected.getModelYear() +
+                  " " + selected.getSize() + " " + selected.getColor() + " " + selected.getType();
+              deleteLabel.setText(s);
+              deleteBikeBtn.setVisible(true);
             }
+          });
+
+          idMap.put(k, b.getBikeID());
+          gridDelBike.add(k, i, j);
+          lastIndex = idMap.get(k);
         }
-        j++;
+      }
+      j++;
     }
+  }
 
 
   public void deleteBike(Event event) {
@@ -128,21 +128,21 @@ public class DeleteBikeViewController implements Initializable{
       }
   }
 
-
     public void nextView(ActionEvent actionEvent) {
         gridDelBike.getChildren().clear();
         smallList.clear();
-        if (allBikes.size() > 10) {
-            smallList = allBikes.subList(0, 9);
-            populateDeleteGrid(smallList);
-        } else {
-            smallList = allBikes.subList(0, allBikes.size() - 1);
-            populateDeleteGrid(smallList);
-            forwardBtn.setDisable(true);
-        }
+            if (allBikes.size() > 10) {
+                smallList = allBikes.subList(0, 9);
+                populateDeleteGrid(smallList);
+            } else {
+                smallList = allBikes.subList(0, allBikes.size() - 1);
+                populateDeleteGrid(smallList);
+                forwardBtn.setDisable(true);
+            }
     }
 
-    public void showMainView(ActionEvent actionEvent) {
-        Main.getSpider().getLoginView().showMainGui();
-    }
+
+  public void showMainView(ActionEvent actionEvent) {
+    Main.getSpider().getLoginView().showMainGui();
+  }
 }
