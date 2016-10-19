@@ -53,6 +53,8 @@ public class LoginVewController implements Initializable {
 
             } else {
                 System.out.println("Fel lösenord eller användarnam");
+              String errorTitle = "Fel lösenord eller användarnam";
+              ErrorView.showError(errorTitle, "fel vid inläsning", "Kontrollera era uppgifter", 0, new Exception("Fel lösenord eller användarnam"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
