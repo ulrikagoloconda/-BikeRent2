@@ -1,22 +1,24 @@
 package View;
 
 /**
- * @version 1.0
  * @authorUlrika, Goloconda Fahlén
+ * @version 1.0
  * @since 2016-09-20
  */
 public class SpiderView {
-    private AddBikeController addBikeView;
+    private  AddBikeController addBikeView;
     private AdminViewController adminView;
-    private ChangeUserController1 changeUserController;
+    //private ChangeUserTry changeUserTry;
+    private ChangeUserViewController2 changeUserVewController;
     private DeleteBikeViewController deleteView;
     private LoginVewController loginView;
     private MainVewController mainView;
     private NewUserVewController newUserView;
+    private ChangeUserTry changeUserTry;
     private StatViewController statViewController;
     private Main main;
 
-    public SpiderView() {
+    public SpiderView( ){
 
     }
 
@@ -44,12 +46,12 @@ public class SpiderView {
     //    this.changeUserTry = changeUserTry;
     //}
 
-    public View.ChangeUserController1 getChangeUserVewController() {
-        return changeUserController;
+    public View.ChangeUserViewController2 getChangeUserVewController() {
+        return changeUserVewController;
     }
 
-    public void setChangeUserVewController(View.ChangeUserController1 changeUserVewController) {
-        this.changeUserController = changeUserVewController;
+    public void setChangeUserVewController(ChangeUserViewController2 changeUserVewController) {
+        this.changeUserVewController = changeUserVewController;
     }
 
     public DeleteBikeViewController getDeleteView() {
@@ -92,11 +94,18 @@ public class SpiderView {
         this.newUserView = newUserView;
     }
 
+    public void setChangeUserTry(ChangeUserTry changeUserTry) {
+        this.changeUserTry = changeUserTry;
+    }
+
+    public ChangeUserTry getChangeUserView(){
+        return changeUserTry;
+    }
+
     public void setStatViewContrller(StatViewController statViewController) {
         this.statViewController = statViewController;
     }
-
-    public StatViewController getStatViewController() {
+    public StatViewController getStatViewController(){
         return statViewController;
     }
 }

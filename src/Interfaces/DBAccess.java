@@ -33,4 +33,5 @@ public interface DBAccess {
     Bike getBikeByID(int bikeID);
     ArrayList<Integer> getUsersCurrentBikes(int userID);
     ArrayList<Integer> getUsersTotalLoan(int userID);
+
 }

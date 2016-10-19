@@ -23,6 +23,7 @@ import java.util.*;
  * @version 1.0
  * @since 2016-09-19
  */
+
 public class DeleteBikeViewController implements Initializable{
     @FXML
     private GridPane gridDelBike;
@@ -101,30 +102,31 @@ public class DeleteBikeViewController implements Initializable{
                                     break;
                                 }
                             }
-                            String s = selected.getBikeID() + " " + selected.getBrandName() + " " + selected.getModelYear() +
-                                    " " + selected.getSize() + " " + selected.getColor() + " " + selected.getType();
-                            deleteLabel.setText(s);
-                            deleteBikeBtn.setVisible(true);
-                        }
-                    });
 
-                    idMap.put(k, b.getBikeID());
-                    gridDelBike.add(k, i, j);
-                    lastIndex= idMap.get(k);
-                }
+              String s = selected.getBikeID() + " " + selected.getBrandName() + " " + selected.getModelYear() +
+                  " " + selected.getSize() + " " + selected.getColor() + " " + selected.getType();
+              deleteLabel.setText(s);
+              deleteBikeBtn.setVisible(true);
             }
-            j++;
+          });
+
+          idMap.put(k, b.getBikeID());
+          gridDelBike.add(k, i, j);
+          lastIndex = idMap.get(k);
         }
+      }
+      j++;
     }
+  }
 
 
-    public void deleteBike(Event event) {
-      boolean b =  dbAccess.deleteBike(bikeIdDel);
-        if(b){
-            deletePane.setVisible(false);
+  public void deleteBike(Event event) {
+      boolean b = dbAccess.deleteBike(bikeIdDel);
+      if (b) {
+          deletePane.setVisible(false);
 
-        }
-    }
+      }
+  }
 
     public void nextView(ActionEvent actionEvent) {
         gridDelBike.getChildren().clear();
@@ -139,7 +141,8 @@ public class DeleteBikeViewController implements Initializable{
             }
     }
 
-    public void showMainView(ActionEvent actionEvent) {
-       Main.getSpider().getLoginView().showMainGui();
-    }
+
+  public void showMainView(ActionEvent actionEvent) {
+    Main.getSpider().getLoginView().showMainGui();
+  }
 }

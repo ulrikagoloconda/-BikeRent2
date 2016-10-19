@@ -11,28 +11,7 @@ import java.sql.*;
  */
 public class AccessUser {
 
-
   public static BikeUser loginUser1(String userName, String passW) throws SQLException {
-//  userID fname lname memberlevel email phone username passw memberSince
-   /*
-DROP FUNCTION IF EXISTS check_password;
-DELIMITER //
-CREATE FUNCTION check_password(tryusername varchar(50), trypassword varchar(50)) RETURNS smallint(6)
-    BEGIN
-    DECLARE pw VARBINARY(56);
-    SET pw = (SELECT passw FROM bikeuser WHERE userName=tryusername);
-    if exists(SELECT * from bikeuser WHERE userName= tryusername AND pw=AES_ENCRYPT(trypassword,'tackforkaffet'))
-    THEN
-    RETURN 1;
-    ELSE
-    RETURN 0;
-    END IF;
-    END//
-DELIMITER ;
-    */
-//'Niklas', 'Karlsson', 0, 'cykeltur@gmail.com', 0703032191 , 'cykeltur' , AES_ENCRYPT('1234','tackforkaffet') , CURDATE());
-
-    //String SQLQueryLogInStage1 = "SELECT * FROM bikeuser WHERE userName = ? AND passw = ?";
 
     DBType dataBase = null;
     if (helpers.PCRelated.isThisNiklasPC()) {
@@ -41,17 +20,11 @@ DELIMITER ;
       dataBase = DBType.Ulrika;
 
     }
-    // boolean isLoginOK = isLoginInfoOK(userName, passW, dataBase);
-
-    //if ( isLoginInfoOK(userName, passW, dataBase) ){
     BikeUser logedInBikeUser = new BikeUser();
     logedInBikeUser = getUserinfo(userName, dataBase);
     System.out.println("accessBike in loginuser");
     System.out.println("logedInBikeUser: " + logedInBikeUser.getEmail());
     return logedInBikeUser;
-    //}else{
-    //  return null;
-    //}
 
   }
 
@@ -64,6 +37,7 @@ DELIMITER ;
     } else {
       dataBase = DBType.Ulrika;
     }
+
     try {
       Connection conn = DBUtil.getConnection(dataBase);
       String sql = "CALL temp_return_password_binary(?,?,?,?,?)";
@@ -91,7 +65,7 @@ DELIMITER ;
       if(testBol){
         returnUser = getBikeUserByID(userID);
       } else {
-        returnUser.setUserID(-1);
+          returnUser.setUserID(-1);
       }
 
     } catch (Exception e) {
@@ -186,25 +160,6 @@ DELIMITER ;
   }
 
 
-  private static boolean isLoginInfoOK(String userName, String passW, DBType dataBase) throws SQLException {
-    boolean isLoginOK;
-    String SQLQueryLogInStage = "{? = call check_password(?, ?)}";
-    ResultSet rs = null;
-    try ( //only in java 7 and later!!
-          Connection conn = DBUtil.getConnection(dataBase); //database_user type like ENUM and get PW :-);
-          CallableStatement stmt = conn.prepareCall(SQLQueryLogInStage);
-    ) {
-      stmt.registerOutParameter(1, Types.BOOLEAN);
-      stmt.setString(2, userName);
-      stmt.setString(3, passW);
-      stmt.execute();
-      isLoginOK = stmt.getBoolean(1); //1 or 0....
-    } finally {
-      if (rs != null) rs.close();
-    }
-    return isLoginOK;
-  }
-
   public static boolean insertNewUser(String fname, String lname, int memberlevel, String email, int phone, String username, String passw) {
     String SQLInsertUser = "SELECT insert_new_user(?, ?, ?, ?, ?, ?, ?)";
     ResultSet rs = null;
@@ -218,6 +173,7 @@ DELIMITER ;
           Connection conn = DBUtil.getConnection(dataBase); //database_user type like ENUM and get PW :-);
           PreparedStatement stmt = conn.prepareStatement(SQLInsertUser, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
     ) {
+
       stmt.setString(1, fname);
       stmt.setString(2, lname);
       stmt.setInt(3, memberlevel);
@@ -231,7 +187,6 @@ DELIMITER ;
         boolean isAddOK = rs.getBoolean(1);
         return isAddOK;
       }
-
     } catch (SQLException e) {
       DBUtil.processException(e);
       return false;

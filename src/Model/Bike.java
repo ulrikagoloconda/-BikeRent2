@@ -10,142 +10,156 @@ import java.io.FileInputStream;
  * @since 2016-09-15
  */
 public class Bike {
-    private int bikeID;
-    private String brandName;
-    private int modelYear;
-    private String color;
-    private String imagePath;
-    private int size;
-    private String type;
-    private boolean available;
-    private ByteArrayInputStream imageStream;
-    private BikeUser createdBy;
-    private String imageFileName;
-    private BufferedImage bufferedImage;
-   private FileInputStream fileInputImage;
+  private int bikeID;
+  private String brandName;
+  private int modelYear;
+  private String color;
+  private String imagePath;
+  private int size;
+  private String type;
+  private boolean available;
+  private ByteArrayInputStream imageStream;
+  private BikeUser createdBy;
+  private String imageFileName;
+  private BufferedImage bufferedImage;
+  private FileInputStream fileInputImage;
 
-    public Bike(){}
+  public Bike() {
+  }
 
-    public Bike( String brandName, int modelYear, String color, int size, String type){
-        this.brandName = brandName;
-        this.modelYear = modelYear;
-        this.color=color;
-        this.size = size;
-        this.type = type;
-    }
+  public Bike(String brandName, int modelYear, String color, int size, String type) {
+    this.brandName = brandName;
+    this.modelYear = modelYear;
+    this.color = color;
+    this.size = size;
+    this.type = type;
+  }
 
-    public Bike( String brandName, int modelYear, String color, int size, String type, int bikeID, String imagePath){
+  public Bike(String brandName, int modelYear, String color, int size, String type, int bikeID, String imagePath) {
 
-        this.brandName = brandName;
-        this.modelYear = modelYear;
-        this.color=color;
-        this.size = size;
-        this.type = type;
-        this.bikeID=bikeID;
-        this.imagePath=imagePath;
+    this.brandName = brandName;
+    this.modelYear = modelYear;
+    this.color = color;
+    this.size = size;
+    this.type = type;
+    this.bikeID = bikeID;
+    this.imagePath = imagePath;
 
-    }
-    public int getBikeID() {
-        return bikeID;
-    }
+  }
 
-    public void setBikeID(int bikeID) {
-        this.bikeID = bikeID;
-    }
+  public int getBikeID() {
+    return bikeID;
+  }
 
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
-    }
+  public void setBikeID(int bikeID) {
+    this.bikeID = bikeID;
+  }
 
-    public int getModelYear() {
-        return modelYear;
-    }
+  public int getModelYear() {
+    return modelYear;
+  }
 
-    public void setModelYear(int modelYear) {
-        this.modelYear = modelYear;
-    }
+  public void setModelYear(int modelYear) {
+    this.modelYear = modelYear;
+  }
 
-    public String getColor() {
-        return color;
-    }
+  public String getColor() {
+    return color;
+  }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
+  public void setColor(String color) {
+    this.color = color;
+  }
 
-    public String getImagePath() {
-        return imagePath;
-    }
+  public String getImagePath() {
+    return imagePath;
+  }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
+  public void setImagePath(String imagePath) {
+    this.imagePath = imagePath;
+  }
 
-    public int getSize() {
-        return size;
-    }
+  public int getSize() {
+    return size;
+  }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
+  public void setSize(int size) {
+    this.size = size;
+  }
 
-    public String getType() {
-        return type;
-    }
+  public String getType() {
+    return type;
+  }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+  public void setType(String type) {
+    this.type = type;
+  }
 
-    public boolean isAvailable() {
-        return available;
-    }
+  public boolean isAvailable() {
+    return available;
+  }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
+  public void setAvailable(boolean available) {
+    this.available = available;
+  }
 
-    public String getBrandName() {
-        return brandName;
-    }
+  public String getBrandName() {
+    return brandName;
+  }
 
-    public ByteArrayInputStream getImageStream() {
-        return imageStream;
-    }
+  public void setBrandName(String brandName) {
+    this.brandName = brandName;
+  }
 
-    public void setImageStream(ByteArrayInputStream imageStream) {
-        this.imageStream = imageStream;
-    }
+  public ByteArrayInputStream getImageStream() {
+    return imageStream;
+  }
 
-    public BikeUser getCreatedBy() {
-        return createdBy;
-    }
+  public void setImageStream(ByteArrayInputStream imageStream) {
+    this.imageStream = imageStream;
+  }
 
-    public void setCreatedBy(BikeUser createdBy) {
-        this.createdBy = createdBy;
-    }
+  public BikeUser getCreatedBy() {
+    return createdBy;
+  }
 
-    public String getImageFileName() {
-        return imageFileName;
-    }
+  public void setCreatedBy(BikeUser createdBy) {
+    this.createdBy = createdBy;
+  }
 
-    public void setImageFileName(String imageFileName) {
-        this.imageFileName = imageFileName;
-    }
+  public String getImageFileName() {
+    return imageFileName;
+  }
 
-    public BufferedImage getBufferedImage() {
-        return bufferedImage;
-    }
+  public void setImageFileName(String imageFileName) {
+    this.imageFileName = imageFileName;
+  }
 
-    public void setBufferedImage(BufferedImage bufferedImage) {
-        this.bufferedImage = bufferedImage;
-    }
+  public BufferedImage getBufferedImage() {
+    return bufferedImage;
+  }
 
-    public FileInputStream getFileInputImage() {
-        return fileInputImage;
-    }
+  public void setBufferedImage(BufferedImage bufferedImage) {
+    this.bufferedImage = bufferedImage;
+  }
 
-    public void setFileInputImage(FileInputStream fileInputImage) {
-        this.fileInputImage = fileInputImage;
-    }
+  public FileInputStream getFileInputImage() {
+    return fileInputImage;
+  }
+
+  public void setFileInputImage(FileInputStream fileInputImage) {
+    this.fileInputImage = fileInputImage;
+  }
+
+  @Override
+  public String toString() {
+    return "Bike Object: \n**********" + "\n" +
+        getBrandName() + "\n" +
+        //getImagePath() +"\n" +
+        getType() + "\n" +
+        getColor() + "\n" +
+        getModelYear() + "\n" +
+        getSize() + "\n ************";
+  }
+
 }
