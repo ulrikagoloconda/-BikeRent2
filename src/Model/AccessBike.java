@@ -31,20 +31,26 @@ public class AccessBike {
           dataBase = DBType.Ulrika;
       }
       try {
+          /*
+          IN bikeIDin INTEGER(11),
+IN userIDIn INTEGER(11),
+  OUT dayDiff INTEGER(11),
+OUT tempRentID INTEGER(11),
+OUT message VARCHAR(50))
+           */
           conn = DBUtil.getConnection(dataBase);
           String sql = "CALL return_bike(?,?,?,?, ?)";
           CallableStatement cs = conn.prepareCall(sql);
           cs.setInt(1,bikeID);
-          cs.registerOutParameter(2, Types.INTEGER);
+          cs.setInt(2,userID);
           cs.registerOutParameter(3, Types.INTEGER);
           cs.registerOutParameter(4, Types.INTEGER);
           cs.registerOutParameter(5, Types.VARCHAR);
           ResultSet rs = cs.executeQuery();
-         int första = cs.getInt(2);
-         int andra = cs.getInt(3);
-          int tredje = cs.getInt(4);
-          String fjärde = cs.getString(5);
-          System.out.println(" utskrift " + första + " " + andra + " " + tredje + fjärde);
+         int diff = cs.getInt(3);
+          int rentID = cs.getInt(4);
+          String message = cs.getString(5);
+          System.out.println(" utskrift " + diff + " " + rentID + " " + message );
       } catch (Exception e){
           e.printStackTrace();
       }
