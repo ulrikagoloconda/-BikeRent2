@@ -1,12 +1,14 @@
 package View;
 
 import Interfaces.DBAccess;
+import Model.AccessBike;
 import Model.Bike;
 import Model.BikeUser;
 import Model.DBAccessImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -36,10 +38,13 @@ public class AdminViewController implements Initializable {
   private AnchorPane deletePane, addBikePane;
   @FXML
   private Pane editPane;
+  @FXML
+  private Button returnBtn;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     Main.getSpider().setAdminView(this);
+    returnBtn.setDisable(false);
   }
 
   public void showDeleteView(ActionEvent actionEvent) {
@@ -53,5 +58,9 @@ public class AdminViewController implements Initializable {
   public void showMainGui(ActionEvent actionEvent) {
     Main.getSpider().getLoginView().showMainGui();
 
+  }
+
+  public void returnBike(ActionEvent actionEvent) {
+    AccessBike.returnBike(18, 1);
   }
 }

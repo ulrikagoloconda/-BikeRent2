@@ -17,6 +17,39 @@ import java.util.Map;
  * @since 2016-09-16
  */
 public class AccessBike {
+  public static int returnBike(int bikeID, int userID){
+    /*  IN bikeIDin INTEGER(11),
+              OUT dayDiff INTEGER(11),
+              OUT userIDOut INTEGER(11),
+              OUT tempRentID INTEGER(11))*/
+
+      DBType dataBase = null;
+      Connection conn = null;
+      if (helpers.PCRelated.isThisNiklasPC()) {
+          dataBase = DBType.Niklas;
+      } else {
+          dataBase = DBType.Ulrika;
+      }
+      try {
+          conn = DBUtil.getConnection(dataBase);
+          String sql = "CALL return_bike(?,?,?,?, ?)";
+          CallableStatement cs = conn.prepareCall(sql);
+          cs.setInt(1,bikeID);
+          cs.registerOutParameter(2, Types.INTEGER);
+          cs.registerOutParameter(3, Types.INTEGER);
+          cs.registerOutParameter(4, Types.INTEGER);
+          cs.registerOutParameter(5, Types.VARCHAR);
+          ResultSet rs = cs.executeQuery();
+         int första = cs.getInt(2);
+         int andra = cs.getInt(3);
+          int tredje = cs.getInt(4);
+          String fjärde = cs.getString(5);
+          System.out.println(" utskrift " + första + " " + andra + " " + tredje + fjärde);
+      } catch (Exception e){
+          e.printStackTrace();
+      }
+      return  0;
+  }
   public static int insertNewBike(Bike newBike) {
 
     DBType dataBase = null;

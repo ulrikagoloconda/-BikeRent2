@@ -185,7 +185,6 @@ public class MainVewController implements Initializable {
         return true;
     }
 
-
     public boolean populateGridPane(Bike bike) {
         gridPane.getChildren().clear();
         String[] topList = {"Bild", "Årsmodell", "Färg", "Cykeltyp", "Modell", "Ledig?"};
@@ -301,6 +300,12 @@ public class MainVewController implements Initializable {
         if(b.isAvailable()) {
             String message = dbaccess.executeBikeLoan(selectedFromGrid, Main.getSpider().getLoginView().getCurrentUser().getUserID());
             messageLabel.setText(message);
+            b.setAvailable(false);
+            populateGridPane(b);
+            populateUserTextInGUI(currentUser);
+            setStatLabel();
+        }else {
+            messageLabel.setText("Cykeln är tyvärr inte ledig");
         }
     }
 
