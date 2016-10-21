@@ -73,6 +73,7 @@ public class MainVewController implements Initializable {
             adminBtn.setVisible(false);
         }
         combobox.setEditable(true);
+        idMap = new HashMap<>();
     }
 
     public void populateUserTextInGUI(BikeUser bikeUser) {
@@ -100,7 +101,6 @@ public class MainVewController implements Initializable {
 
 
     public void searchAvailableBikes(ActionEvent actionEvent) {
-        idMap = new HashMap<>();
         executeLoanBtn.setVisible(false);
         netBtn.setVisible(false);
         availableBikes = dbaccess.selectAvailableBikes();
