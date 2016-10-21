@@ -40,34 +40,24 @@ public class AccessUser {
 
     try {
       Connection conn = DBUtil.getConnection(dataBase);
-      String sql = "CALL temp_return_password_binary(?,?,?,?,?)";
+      String sql = "CALL check_password_get_bikeuser(?,?,?)";
       CallableStatement cs = conn.prepareCall(sql);
       cs.setString(1, userName);
       cs.setString(2, tryPassW);
-      cs.registerOutParameter(3, Types.VARBINARY);
-      cs.registerOutParameter(4, Types.VARBINARY);
-      cs.registerOutParameter(5,Types.INTEGER);
-      cs.executeQuery();
-      byte[] passw1 = cs.getBytes(3);
-      byte[] passw2 = cs.getBytes(4);
-      userID = cs.getInt(5);
-      boolean testBol = true;
-
-      if(passw1.length>0) {
-        for (int i = 0; i < passw1.length; i++) {
-          if (passw1[i] != passw2[i]) {
-            testBol = false;
-          }
-        }
-      }else {
-        testBol = false;
-      }
-      if(testBol){
-        returnUser = getBikeUserByID(userID);
-      } else {
-          returnUser.setUserID(-1);
-      }
-
+      cs.registerOutParameter(3, Types.INTEGER);
+     ResultSet rs = cs.executeQuery();
+    int message = cs.getInt(3);
+       if(message > 0) {
+           if (rs.next()) {
+               returnUser.setUserID(rs.getInt("userID"));
+               returnUser.setfName(rs.getString("fname"));
+               returnUser.setlName(rs.getString("lname"));
+               returnUser.setMemberLevel(rs.getInt("memberlevel"));
+               returnUser.setEmail(rs.getString("email"));
+               returnUser.setPhone(rs.getInt("phone"));
+               returnUser.setUserName(rs.getString("username"));
+           }
+       }
     } catch (Exception e) {
       e.printStackTrace();
     }

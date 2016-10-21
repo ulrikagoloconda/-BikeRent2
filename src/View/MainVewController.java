@@ -1,6 +1,7 @@
 package View;
 
 import Interfaces.DBAccess;
+import Model.AccessBike;
 import Model.Bike;
 import Model.BikeUser;
 import Model.DBAccessImpl;
@@ -73,6 +74,7 @@ public class MainVewController implements Initializable {
             adminBtn.setVisible(false);
         }
         combobox.setEditable(true);
+        idMap = new HashMap<>();
     }
 
     public void populateUserTextInGUI(BikeUser bikeUser) {
@@ -100,8 +102,7 @@ public class MainVewController implements Initializable {
 
 
     public void searchAvailableBikes(ActionEvent actionEvent) {
-        idMap = new HashMap<>();
-        executeLoanBtn.setVisible(false);
+        executeLoanBtn.setDisable(true);
         netBtn.setVisible(false);
         availableBikes = dbaccess.selectAvailableBikes();
         availableBikesCopy = availableBikes;
@@ -186,6 +187,11 @@ public class MainVewController implements Initializable {
 
 
     public boolean populateGridPane(Bike bike) {
+        if(bike.isAvailable()){
+            executeLoanBtn.setDisable(false);
+        }else {
+            executeLoanBtn.setDisable(true);
+        }
         gridPane.getChildren().clear();
         String[] topList = {"Bild", "Årsmodell", "Färg", "Cykeltyp", "Modell", "Ledig?"};
         ArrayList<String> values = new ArrayList<>();
@@ -239,10 +245,24 @@ public class MainVewController implements Initializable {
 
 
     public void onClickActions(Node n) {
-
         if (availableBikes == null) {
-            executeLoanBtn.setVisible(true);
             selectedFromGrid = selectedBikeSearch.getBikeID();
+            if(selectedBikeSearch.isAvailable()){
+                executeLoanBtn.setDisable(false);
+            } else {
+                executeLoanBtn.setDisable(true);
+            }
+            executeLoanBtn.setDisable(false);
+            selectedFromGrid = selectedBikeSearch.getBikeID();
+            String available = "";
+                if (selectedBikeSearch.isAvailable()) {
+                    available = "Ja";
+                } else {
+                    available = "Nej";
+                }
+            String s = "Årsmodell: " + selectedBikeSearch.getModelYear() + " Färg: " + selectedBikeSearch.getColor() + " Cykeltyp: " +
+                    selectedBikeSearch.getType() + " Ledig? " + available;
+            messageLabel.setText(s);
         } else {
             selectedFromGrid = idMap.get(n);
             String available = "";
@@ -258,7 +278,6 @@ public class MainVewController implements Initializable {
                     String s = "Årsmodell: " + b.getModelYear() + " Färg: " + b.getColor() + " Cykeltyp: " +
                             b.getType() + " Ledig? " + available;
                     messageLabel.setText(s);
-                    executeLoanBtn.setVisible(true);
                 }
             }
 
@@ -266,12 +285,10 @@ public class MainVewController implements Initializable {
     }
 
     public void nextBikesOnList(ActionEvent actionEvent) {
-        System.out.println(availableBikes.size() + " avilableList ");
         gridPane.getChildren().clear();
         currentListInView.clear();
         if (availableBikes.size() >= 3) {
             currentListInView = availableBikes.subList(0, 3);
-            System.out.println(availableBikes.size() + " avilableList ");
 
         } else {
             currentListInView = availableBikes.subList(0, availableBikes.size() - 1);
@@ -284,8 +301,15 @@ public class MainVewController implements Initializable {
     }
 
     public void executeBikeLoan(ActionEvent actionEvent) {
-        String message = dbaccess.executeBikeLoan(selectedFromGrid, Main.getSpider().getLoginView().getCurrentUser().getUserID());
-        messageLabel.setText(message);
+      Bike b =  AccessBike.getBikeByID(selectedFromGrid);
+        if(b.isAvailable()) {
+            String message = dbaccess.executeBikeLoan(selectedFromGrid, Main.getSpider().getLoginView().getCurrentUser().getUserID());
+            messageLabel.setText(message);
+            b.setAvailable(false);
+            populateGridPane(b);
+        } else {
+            messageLabel.setText("Cykeln är tyvärr inte ledig");
+        }
     }
 
 
@@ -306,10 +330,12 @@ public class MainVewController implements Initializable {
     public void setSearchResult(ActionEvent actionEvent) {
         if (combobox.getSelectionModel().getSelectedItem().toString() != null) {
             String selected = combobox.getSelectionModel().getSelectedItem().toString();
+            if(searchMap.containsKey(selected)) {
+                int bikeID = searchMap.get(selected);
+                selectedBikeSearch = dbaccess.getBikeByID(bikeID);
+                populateGridPane(selectedBikeSearch);
+            }
 
-            int bikeID = searchMap.get(selected);
-            selectedBikeSearch = dbaccess.getBikeByID(bikeID);
-            populateGridPane(selectedBikeSearch);
         }
     }
 
