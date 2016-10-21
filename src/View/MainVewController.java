@@ -101,7 +101,7 @@ public class MainVewController implements Initializable {
 
 
     public void searchAvailableBikes(ActionEvent actionEvent) {
-        executeLoanBtn.setVisible(false);
+        executeLoanBtn.setDisable(true);
         netBtn.setVisible(false);
         availableBikes = dbaccess.selectAvailableBikes();
         availableBikesCopy = availableBikes;

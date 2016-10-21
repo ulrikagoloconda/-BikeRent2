@@ -29,6 +29,7 @@ public class AccessUser {
   }
 
   public static BikeUser loginUser(String userName, String tryPassW)  {
+      System.out.println("Är det denna som körs ");
     BikeUser returnUser = new BikeUser();
     int userID = 0;
     DBType dataBase = null;
