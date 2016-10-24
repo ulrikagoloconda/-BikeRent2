@@ -103,6 +103,8 @@ public class MainVewController implements Initializable {
 
 
     public void searchAvailableBikes(ActionEvent actionEvent) {
+        usersCurrentBikes = null;
+        selectedBikeSearch = null;
         executeLoanBtn.setDisable(true);
         netBtn.setVisible(false);
         availableBikes = dbaccess.selectAvailableBikes();
@@ -197,14 +199,15 @@ public class MainVewController implements Initializable {
     }
 
     public boolean populateGridPane(Bike bike) {
+        currentListInView.clear();
+        returnBtn.setVisible(false);
+        netBtn.setVisible(false);
         gridPane.getChildren().clear();
         String[] topList = {"Bild", "Årsmodell", "Färg", "Cykeltyp", "Modell", "Ledig?"};
         ArrayList<String> values = new ArrayList<>();
-        // gridPane.gridLinesVisibleProperty().setValue(true);
         for (int i = 0; i < 6; i++) {
             gridPane.add(new Label(topList[i]), i, 0);
         }
-
         values.add("" + bike.getModelYear());
         values.add(bike.getColor());
         values.add(bike.getType());
@@ -352,6 +355,8 @@ public class MainVewController implements Initializable {
 
 
     public void setSearchResult(ActionEvent actionEvent) {
+        usersCurrentBikes = null;
+        availableBikes = null;
         if (combobox.getSelectionModel().getSelectedItem().toString() != null) {
             String selected = combobox.getSelectionModel().getSelectedItem().toString();
             if(searchMap.containsKey(selected)) {
@@ -367,6 +372,8 @@ public class MainVewController implements Initializable {
     }
 
     public void showUsersBikes(ActionEvent actionEvent) {
+        availableBikes = null;
+
        usersCurrentBikes = AccessBike.getCurrentBikesByUserID(3);
         if (usersCurrentBikes.size() > 3) {
             currentListInView = usersCurrentBikes.subList(0, 3);
@@ -379,6 +386,8 @@ public class MainVewController implements Initializable {
 
     public void returnBike(ActionEvent actionEvent) {
         AccessBike.returnBike(selectedFromGrid, currentUser.getUserID());
+        populateUserTextInGUI(currentUser);
+        setStatLabel();
     }
 }
 

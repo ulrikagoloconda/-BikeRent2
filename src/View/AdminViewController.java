@@ -1,7 +1,6 @@
 package View;
 
 import Interfaces.DBAccess;
-import Model.AccessBike;
 import Model.Bike;
 import Model.BikeUser;
 import Model.DBAccessImpl;
@@ -61,6 +60,6 @@ public class AdminViewController implements Initializable {
   }
 
   public void returnBike(ActionEvent actionEvent) {
-    AccessBike.returnBike(18, 1);
+   // AccessBike.returnBike(18, 1);
   }
 }
