@@ -108,6 +108,7 @@
             <ComboBox fx:id="combobox" layoutX="209.0" layoutY="223.0" onAction="#setSearchResult" onInputMethodTextChanged="#popuateComboBox" onKeyPressed="#popuateComboBox" onKeyReleased="#popuateComboBox" prefWidth="150.0" />
             <Label id="memberLevelLabel" fx:id="statLabel" layoutX="511.0" layoutY="257.0" prefHeight="17.0" text="10" />
             <Label id="memberLevelLabel" layoutX="406.0" layoutY="257.0" prefHeight="17.0" text="Tillgängliga cyklar:" />
+            <Button fx:id="returnBtn" layoutX="347.0" layoutY="586.0" mnemonicParsing="false" onAction="#returnBike" text="Återlämna cykeln" />
    
            </children>
        </AnchorPane>

@@ -42,7 +42,7 @@ public class MainVewController implements Initializable {
     @FXML
     private Label messageLabel;
     @FXML
-    private Button executeLoanBtn, netBtn, adminBtn;
+    private Button executeLoanBtn, netBtn, adminBtn, returnBtn;
     @FXML
     private ComboBox<String> combobox;
     @FXML
@@ -51,12 +51,12 @@ public class MainVewController implements Initializable {
     private DBAccess dbaccess;
     private Map<Node, Integer> idMap;
     private int selectedFromGrid;
-    private ArrayList<Bike> availableBikesCopy;
     private ArrayList<Bike> availableBikes;
     private List<Bike> currentListInView;
     private BikeUser currentUser;
     Map<String, Integer> searchMap;
     private Bike selectedBikeSearch;
+   private  ArrayList<Bike> usersCurrentBikes;
 
 
     private String errorTitle = "Fel i huvidfönster";
@@ -75,6 +75,7 @@ public class MainVewController implements Initializable {
         }
         combobox.setEditable(true);
         idMap = new HashMap<>();
+        returnBtn.setVisible(false);
     }
 
     public void populateUserTextInGUI(BikeUser bikeUser) {
@@ -105,7 +106,6 @@ public class MainVewController implements Initializable {
         executeLoanBtn.setDisable(true);
         netBtn.setVisible(false);
         availableBikes = dbaccess.selectAvailableBikes();
-        availableBikesCopy = availableBikes;
         if (availableBikes.size() > 3) {
             currentListInView = availableBikes.subList(0, 3);
             populateGridPane(currentListInView);
@@ -120,11 +120,22 @@ public class MainVewController implements Initializable {
 
     public boolean populateGridPane(List<Bike> bikeArray) {
         gridPane.getChildren().clear();
-        if (availableBikes.size() <= 3) {
-            netBtn.setVisible(false);
-        } else {
-            netBtn.setDisable(false);
-            netBtn.setVisible(true);
+        returnBtn.setVisible(false);
+        if(availableBikes!=null) {
+            if (availableBikes.size() <= 3) {
+                netBtn.setVisible(false);
+            } else {
+                netBtn.setDisable(false);
+                netBtn.setVisible(true);
+            }
+        }
+        if(usersCurrentBikes!= null){
+            if(usersCurrentBikes.size() <=3){
+                netBtn.setVisible(false);
+            } else {
+                netBtn.setDisable(false);
+                netBtn.setVisible(true);
+            }
         }
         String[] topList = {"Bild", "Årsmodell", "Färg", "Cykeltyp", "Modell", "Ledig?"};
         ArrayList<String> values = new ArrayList<>();
@@ -239,7 +250,7 @@ public class MainVewController implements Initializable {
 
 
     public void onClickActions(Node n) {
-        if (availableBikes == null) {
+        if (selectedBikeSearch != null) {
             executeLoanBtn.setVisible(true);
             selectedFromGrid = selectedBikeSearch.getBikeID();
             String available = "";
@@ -252,9 +263,19 @@ public class MainVewController implements Initializable {
             }
 
             String s = "Årsmodell: " + selectedBikeSearch.getModelYear() + " Färg: " + selectedBikeSearch.getColor() + " Cykeltyp: " +
-                        selectedBikeSearch.getType() + " Ledig? " + available;
-                messageLabel.setText(s);
-                executeLoanBtn.setVisible(true);
+                    selectedBikeSearch.getType() + " Ledig? " + available;
+            messageLabel.setText(s);
+            executeLoanBtn.setVisible(true);
+        } else if (usersCurrentBikes != null) {
+            selectedFromGrid = idMap.get(n);
+            for(Bike b : usersCurrentBikes) {
+                if(b.getBikeID()==selectedFromGrid) {
+                    String s = "Årsmodell: " + b.getModelYear() + " Färg: " + b.getColor() + " Cykeltyp: " +
+                            b.getType();
+                    messageLabel.setText(s);
+                    returnBtn.setVisible(true);
+                }
+            }
 
         } else {
             selectedFromGrid = idMap.get(n);
@@ -275,18 +296,24 @@ public class MainVewController implements Initializable {
                     executeLoanBtn.setVisible(true);
                 }
             }
-
         }
     }
 
     public void nextBikesOnList(ActionEvent actionEvent) {
         gridPane.getChildren().clear();
         currentListInView.clear();
-        if (availableBikes.size() >= 3) {
-            currentListInView = availableBikes.subList(0, 3);
-
-        } else {
-            currentListInView = availableBikes.subList(0, availableBikes.size() - 1);
+        if(availableBikes != null) {
+            if (availableBikes.size() >= 3) {
+                currentListInView = availableBikes.subList(0, 3);
+            } else {
+                currentListInView = availableBikes.subList(0, availableBikes.size() - 1);
+            }
+        } else if(usersCurrentBikes != null){
+            if (usersCurrentBikes.size() >= 3) {
+                currentListInView = usersCurrentBikes.subList(0, 3);
+            } else {
+                currentListInView = usersCurrentBikes.subList(0, availableBikes.size() - 1);
+            }
         }
         populateGridPane(currentListInView);
     }
@@ -340,7 +367,18 @@ public class MainVewController implements Initializable {
     }
 
     public void showUsersBikes(ActionEvent actionEvent) {
-        ArrayList<Bike> usersBikes = AccessBike
+       usersCurrentBikes = AccessBike.getCurrentBikesByUserID(3);
+        if (usersCurrentBikes.size() > 3) {
+            currentListInView = usersCurrentBikes.subList(0, 3);
+            populateGridPane(currentListInView);
+        } else {
+            populateGridPane(usersCurrentBikes);
+        }
+        populateGridPane(usersCurrentBikes);
+    }
+
+    public void returnBike(ActionEvent actionEvent) {
+        AccessBike.returnBike(selectedFromGrid, currentUser.getUserID());
     }
 }
 
