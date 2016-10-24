@@ -22,8 +22,6 @@ public class AccessUser {
     }
     BikeUser logedInBikeUser = new BikeUser();
     logedInBikeUser = getUserinfo(userName, dataBase);
-    System.out.println("accessBike in loginuser");
-    System.out.println("logedInBikeUser: " + logedInBikeUser.getEmail());
     return logedInBikeUser;
 
   }

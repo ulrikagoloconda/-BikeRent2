@@ -339,5 +339,8 @@ public class MainVewController implements Initializable {
         Main.getSpider().getMain().showStatView();
     }
 
+    public void showUsersBikes(ActionEvent actionEvent) {
+        ArrayList<Bike> usersBikes = AccessBike
+    }
 }
 
