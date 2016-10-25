@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 public class AdminViewController implements Initializable {
   private Bike newBike;
   private BikeUser currentUser;
+  private static AdminViewController _adminViewController;
   //private loginVewController loginView;
   private DBAccess dbAccess = new DBAccessImpl();
   @FXML
@@ -42,6 +43,7 @@ public class AdminViewController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+      _adminViewController = this;
     Main.getSpider().setAdminView(this);
     returnBtn.setDisable(false);
   }
@@ -59,7 +61,12 @@ public class AdminViewController implements Initializable {
 
   }
 
+    public static AdminViewController getAdminViewController(){
+        return _adminViewController;
+    }
+
   public void returnBike(ActionEvent actionEvent) {
    // AccessBike.returnBike(18, 1);
+      //Användes för test av databasfunktion.
   }
 }

@@ -36,14 +36,6 @@ public class SpiderView {
         this.adminView = adminView;
     }
 
-    //public ChangeUserTry getChangeUserTry() {
-    //    return changeUserTry;
-    //}
-
-    //public void setChangeUserTry(ChangeUserTry changeUserTry) {
-    //    this.changeUserTry = changeUserTry;
-    //}
-
     public View.ChangeUserController1 getChangeUserVewController() {
         return changeUserController;
     }

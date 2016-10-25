@@ -1,7 +1,5 @@
 package Model;
 
-import sample.DBType;
-
 import java.sql.*;
 
 /**

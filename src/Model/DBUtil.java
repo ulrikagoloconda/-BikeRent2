@@ -11,8 +11,6 @@ package Model;
  * @since 2016-10-16
  */
 
-import sample.DBType;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;

@@ -1,4 +1,4 @@
-package sample;
+package Model;
 
 /**
  * @author Niklas Karlsson
