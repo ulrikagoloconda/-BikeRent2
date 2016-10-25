@@ -274,7 +274,7 @@ public class MainVewController implements Initializable {
             for(Bike b : usersCurrentBikes) {
                 if(b.getBikeID()==selectedFromGrid) {
                     String s = "Årsmodell: " + b.getModelYear() + " Färg: " + b.getColor() + " Cykeltyp: " +
-                            b.getType();
+                            b.getType() + " Återlämningsdag " + b.getDayOfReturn();
                     messageLabel.setText(s);
                     returnBtn.setVisible(true);
                 }
@@ -385,9 +385,17 @@ public class MainVewController implements Initializable {
     }
 
     public void returnBike(ActionEvent actionEvent) {
+        Bike bikeviewGrid = null;
+        for(Bike b : usersCurrentBikes){
+            if(b.getBikeID()==selectedFromGrid){
+                bikeviewGrid = b;
+            }
+        }
         AccessBike.returnBike(selectedFromGrid, currentUser.getUserID());
         populateUserTextInGUI(currentUser);
         setStatLabel();
+        bikeviewGrid.setAvailable(true);
+        populateGridPane(bikeviewGrid);
     }
 }
 
