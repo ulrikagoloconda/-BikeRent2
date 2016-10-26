@@ -10,9 +10,10 @@ import org.junit.Test;
  * @since 2016-10-25
  */
 public class MainTest {
+    Main main;
     @Before
     public void setUp() throws Exception {
-
+       main = new Main();
     }
 
     @After
@@ -23,11 +24,12 @@ public class MainTest {
     @Test
     public void showLoginView() throws Exception {
 
+        main.showLoginView();
     }
 
     @Test
     public void showNewUserView() throws Exception {
-
+        main.showNewUserView();
     }
 
     @Test

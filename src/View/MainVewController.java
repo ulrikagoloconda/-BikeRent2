@@ -274,7 +274,7 @@ public class MainVewController implements Initializable {
             for(Bike b : usersCurrentBikes) {
                 if(b.getBikeID()==selectedFromGrid) {
                     String s = "Årsmodell: " + b.getModelYear() + " Färg: " + b.getColor() + " Cykeltyp: " +
-                            b.getType() + " Återlämningsdag " + b.getDayOfReturn();
+                            b.getType() + " Återlämningsdag: " + b.getDayOfReturn();
                     messageLabel.setText(s);
                     returnBtn.setVisible(true);
                 }
