@@ -76,6 +76,7 @@ public class MainVewController implements Initializable {
         combobox.setEditable(true);
         idMap = new HashMap<>();
         returnBtn.setVisible(false);
+        currentListInView = new ArrayList<>();
     }
 
     public void populateUserTextInGUI(BikeUser bikeUser) {
@@ -315,13 +316,13 @@ public class MainVewController implements Initializable {
             if (availableBikes.size() >= 3) {
                 currentListInView = availableBikes.subList(0, 3);
             } else {
-                currentListInView = availableBikes.subList(0, availableBikes.size() - 1);
+                currentListInView = availableBikes.subList(0, availableBikes.size());
             }
         } else if(usersCurrentBikes != null){
             if (usersCurrentBikes.size() >= 3) {
                 currentListInView = usersCurrentBikes.subList(0, 3);
             } else {
-                currentListInView = usersCurrentBikes.subList(0, availableBikes.size() - 1);
+                currentListInView = usersCurrentBikes.subList(0, usersCurrentBikes.size());
             }
         }
         populateGridPane(currentListInView);
@@ -380,7 +381,7 @@ public class MainVewController implements Initializable {
 
     public void showUsersBikes(ActionEvent actionEvent) {
         availableBikes = null;
-
+        selectedBikeSearch = null;
        usersCurrentBikes = AccessBike.getCurrentBikesByUserID(3);
         if (usersCurrentBikes.size() > 3) {
             currentListInView = usersCurrentBikes.subList(0, 3);
