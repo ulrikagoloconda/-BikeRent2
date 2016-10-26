@@ -1,7 +1,5 @@
 package Model;
 
-import sample.DBType;
-
 import java.sql.*;
 
 /**
@@ -22,8 +20,6 @@ public class AccessUser {
     }
     BikeUser logedInBikeUser = new BikeUser();
     logedInBikeUser = getUserinfo(userName, dataBase);
-    System.out.println("accessBike in loginuser");
-    System.out.println("logedInBikeUser: " + logedInBikeUser.getEmail());
     return logedInBikeUser;
 
   }
@@ -45,19 +41,18 @@ public class AccessUser {
       cs.setString(1, userName);
       cs.setString(2, tryPassW);
       cs.registerOutParameter(3, Types.INTEGER);
-     ResultSet rs = cs.executeQuery();
-    int message = cs.getInt(3);
-       if(message > 0) {
-           if (rs.next()) {
-               returnUser.setUserID(rs.getInt("userID"));
-               returnUser.setfName(rs.getString("fname"));
-               returnUser.setlName(rs.getString("lname"));
-               returnUser.setMemberLevel(rs.getInt("memberlevel"));
-               returnUser.setEmail(rs.getString("email"));
-               returnUser.setPhone(rs.getInt("phone"));
-               returnUser.setUserName(rs.getString("username"));
-           }
-       }
+      ResultSet rs = cs.executeQuery();
+      userID = cs.getInt(3);
+        if(userID >0){
+            if(rs.next()){
+                returnUser.setUserID(rs.getInt("userID"));
+                returnUser.setfName(rs.getString("fname"));
+                returnUser.setlName(rs.getString("lname"));
+                returnUser.setUserName(rs.getString("username"));
+                returnUser.setEmail(rs.getString("email"));
+                returnUser.setMemberLevel(rs.getInt("memberlevel"));
+            }
+        }
     } catch (Exception e) {
       e.printStackTrace();
     }

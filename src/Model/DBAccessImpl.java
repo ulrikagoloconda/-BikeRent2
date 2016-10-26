@@ -112,4 +112,9 @@ public class DBAccessImpl implements DeleteUser, InsertNewUser, DBAccess {
   public ArrayList<Integer> getUsersTotalLoan(int userID) {
     return AccessRentbridge.getUsersTotalLoan(userID);
   }
+
+    @Override
+    public ArrayList<Bike> getCurrentBikesByUserID(int userID) {
+        return AccessBike.getCurrentBikesByUserID(userID);
+    }
 }

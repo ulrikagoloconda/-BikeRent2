@@ -3,6 +3,7 @@ package Model;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.time.LocalDate;
 
 /**
  * @author Niklas Karlsson
@@ -23,6 +24,9 @@ public class Bike {
   private String imageFileName;
   private BufferedImage bufferedImage;
   private FileInputStream fileInputImage;
+  private LocalDate dayOfReturn;
+  private LocalDate dayOfRent;
+
 
   public Bike() {
   }
@@ -149,6 +153,22 @@ public class Bike {
 
   public void setFileInputImage(FileInputStream fileInputImage) {
     this.fileInputImage = fileInputImage;
+  }
+
+  public LocalDate getDayOfReturn() {
+    return dayOfReturn;
+  }
+
+  public void setDayOfReturn(LocalDate dayOfReturn) {
+    this.dayOfReturn = dayOfReturn;
+  }
+
+  public LocalDate getDayOfRent() {
+    return dayOfRent;
+  }
+
+  public void setDayOfRent(LocalDate dayOfRent) {
+    this.dayOfRent = dayOfRent;
   }
 
   @Override

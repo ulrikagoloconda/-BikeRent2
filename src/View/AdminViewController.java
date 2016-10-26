@@ -7,6 +7,7 @@ import Model.DBAccessImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -24,6 +25,7 @@ import java.util.ResourceBundle;
 public class AdminViewController implements Initializable {
   private Bike newBike;
   private BikeUser currentUser;
+  private static AdminViewController _adminViewController;
   //private loginVewController loginView;
   private DBAccess dbAccess = new DBAccessImpl();
   @FXML
@@ -36,10 +38,14 @@ public class AdminViewController implements Initializable {
   private AnchorPane deletePane, addBikePane;
   @FXML
   private Pane editPane;
+  @FXML
+  private Button returnBtn;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+      _adminViewController = this;
     Main.getSpider().setAdminView(this);
+    returnBtn.setDisable(false);
   }
 
   public void showDeleteView(ActionEvent actionEvent) {
@@ -53,5 +59,14 @@ public class AdminViewController implements Initializable {
   public void showMainGui(ActionEvent actionEvent) {
     Main.getSpider().getLoginView().showMainGui();
 
+  }
+
+    public static AdminViewController getAdminViewController(){
+        return _adminViewController;
+    }
+
+  public void returnBike(ActionEvent actionEvent) {
+   // AccessBike.returnBike(18, 1);
+      //Användes för test av databasfunktion.
   }
 }
