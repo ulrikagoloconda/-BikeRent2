@@ -424,3 +424,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `users_total_loan`(
   END ;;
 DELIMITER ;
 
+CREATE VIEW `bike_object`
+AS
+  select `bike`.`bikeID` AS `bikeID`,
+         `bike`.`modelyear` AS `modelyear`,
+         `bike`.`color` AS `color`,
+         `bike`.`image` AS `image`,
+         `bike`.`imageFileName` AS `imageFileName`,
+         `bike`.`size` AS `size`,
+         `type`.`typeName` AS `typeName`,
+         `brand`.`brandname` AS `brandname`
+  from (((`bike` left join `rentbridge`
+      on((`bike`.`bikeID` = `rentbridge`.`bikeID`)))
+    join `brand` on((`bike`.`brandid` = `brand`.`brandid`)))
+    join `type`
+      on((`bike`.`typeID` = `type`.`typeID`)));

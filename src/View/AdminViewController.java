@@ -45,7 +45,7 @@ public class AdminViewController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
       _adminViewController = this;
     Main.getSpider().setAdminView(this);
-    returnBtn.setDisable(false);
+    returnBtn.setDisable(true);
   }
 
   public void showDeleteView(ActionEvent actionEvent) {

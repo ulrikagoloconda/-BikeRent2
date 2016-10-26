@@ -53,14 +53,15 @@ public class LoginVewController implements Initializable {
 
             } else {
                 System.out.println("Fel lösenord eller användarnam");
+                ErrorView.showError("Inloggningsfel", "fel vid inloggning", "Kontrollera era uppgifter", 0,new Exception("Wrong user information."));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
             Sound pling = new Sound();
             pling.playMp3SoundInThread(Sound.NO);
             processException(e);
-            //TODO nedanstående rad får felmeddelande som jag inte förstår
-          //  ErrorView.showError("Inloggningsfel", "fel vid inloggning", "Kontrollera era uppgifter", e);
+           ErrorView.showError("Inloggningsfel", "fel vid inloggning", "Kontrollera era uppgifter", 0,e);
 
         }
   }
