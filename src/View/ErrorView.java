@@ -40,7 +40,7 @@ public class ErrorView {
     if (exceptionText.length() > 9999) {
       exceptionText = exceptionText.substring(1, 9000);
     }
-    System.out.println("*  added error to log: " + AccessErrorLog.InsertNewError(userId, exceptionText) + "           *");
+    System.out.println("*  added error to log: " + AccessErrorLog.insertNewError(userId, exceptionText) + "           *");
     TextArea textArea = new TextArea(exceptionText);
     textArea.setEditable(false);
     textArea.setWrapText(true);

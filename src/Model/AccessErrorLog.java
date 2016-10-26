@@ -16,7 +16,7 @@ import java.util.Calendar;
 public class AccessErrorLog {
 
 
-  public static boolean InsertNewError(int userId, String errorMess) {
+  public static boolean insertNewError(int userId, String errorMess) {
     String SQLInsertUser = "SELECT insert_new_ErrorEvent(?, ?)";
     ResultSet rs = null;
     DBType dataBase = null;

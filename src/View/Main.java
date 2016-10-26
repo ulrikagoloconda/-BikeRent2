@@ -60,7 +60,7 @@ public class Main extends Application {
       primaryStage.setScene(loginScene);
     } catch (Exception e) {
       e.printStackTrace();
-      AccessErrorLog.InsertNewError(0, e.toString());
+      AccessErrorLog.insertNewError(0, e.toString());
     }
   }
 
@@ -73,7 +73,7 @@ public class Main extends Application {
         primaryStage.setScene(newUserScene);
       } catch (Exception e) {
         e.printStackTrace();
-        AccessErrorLog.InsertNewError(0, e.toString());
+        AccessErrorLog.insertNewError(0, e.toString());
       }
 
     } else {
@@ -90,7 +90,7 @@ public class Main extends Application {
         primaryStage.setScene(mainScene);
       } catch (Exception e) {
         e.printStackTrace();
-        AccessErrorLog.InsertNewError(0, e.toString());
+        AccessErrorLog.insertNewError(0, e.toString());
       }
     } else {
       primaryStage.setScene(mainScene);
@@ -106,7 +106,7 @@ public class Main extends Application {
         primaryStage.setScene(changeUserScene);
       } catch (Exception e) {
         e.printStackTrace();
-        AccessErrorLog.InsertNewError(0, e.toString());
+        AccessErrorLog.insertNewError(0, e.toString());
 
       }
     } else {
@@ -131,7 +131,7 @@ public class Main extends Application {
         primaryStage.setScene(statViewScean);
       } catch (Exception e) {
         e.printStackTrace();
-        AccessErrorLog.InsertNewError(0, e.toString());
+        AccessErrorLog.insertNewError(0, e.toString());
       }
 
     } else {
@@ -157,7 +157,7 @@ public class Main extends Application {
         primaryStage.setScene(deleteBikeScene);
       } catch (Exception e) {
         e.printStackTrace();
-        AccessErrorLog.InsertNewError(0, e.toString());
+        AccessErrorLog.insertNewError(0, e.toString());
       }
     } else {
       primaryStage.setScene(deleteBikeScene);
@@ -174,7 +174,7 @@ public class Main extends Application {
         primaryStage.setScene(adminScene);
       } catch (Exception e) {
         e.printStackTrace();
-        AccessErrorLog.InsertNewError(0, e.toString());
+        AccessErrorLog.insertNewError(0, e.toString());
       }
     } else {
       primaryStage.setScene(adminScene);
