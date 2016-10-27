@@ -1,21 +1,35 @@
 BikeRent
 
-"Find a avalible bike.."
+Synopsis
+Projektet är examinerande I kursen Databasteknik och Java och är utfört med ett grafiskt gränssnitt I JavaFX. 
+I programmet BikeRent kan man, som administratör, lägga upp cyklar för uthyrning likväl som man kan radera dem. Som användare kan man låna cyklar, söka efter lediga cyklar, söka med wilde card, överblicka sina lån och hantera sina lån och sina användaruppgifter. I programmet finns även en statistikvy.
 
-This is a JavaFX and JDBC test-program
-to test how to add, change and update user.
-This program also can add bike's with pictures
-(prefered picture is with a transparent background)
-the program altso have a statistic-diagram.
-(please look at chart in View)
+Kod Exempel
+Vårt största fokus har varit att skapa en säker databas. Ett exempel på detta är den funktion som genomför kontroll av krypterat lösenord. 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_password_get_bikeuser`(
+  IN tryusername varchar(50),
+  IN trypassword varchar(50),
+  OUT message INT(10))
+BEGIN
+DECLARE id INT(10);
+SET id = (SELECT userID FROM bikeuser WHERE username = tryusername AND passw = AES_ENCRYPT(trypassword,'tackforkaffet') );
+    if (id > 0)
+    THEN
+      SELECT * FROM bikeuser WHERE userID = id;
+      SET message = id;
+    ELSE
+      SET message = -50;
+    END IF;
+  END;
 
-when a user is adding a account
-the email is passed thrue a validator
-using Pattern,
-and if the user want: send a email to a Admin that a User have been added.
+Motivation
+Vi har utgått från två databaser i produktion och dragit lärdomar av hur dessa är implementerade. 
+Installation
+För att köra programmet krävs en databas och en driver. Script till databasen finns under fliken SQL-settings.  
 
-The databaseMS is a MySQL-DB
-and all the SQL scripr is in the SQL-settings-folder
-the database have many functions, triggers, and so no so please look in this folder.
+Contributors
+Niklas Karlson, cykeltur, och Ulrika Goloconda Fahlén är de som författat programmet. 
 
- In the class DBUtil you put your SQL-path and User/password.
+Licenser
+Vi har använt Apache commons library, MySQL utöver biblioteken i java.
+
