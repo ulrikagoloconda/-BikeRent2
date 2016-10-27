@@ -24,8 +24,11 @@ SET id = (SELECT userID FROM bikeuser WHERE username = tryusername AND passw = A
 
 Motivation
 Vi har utgått från två databaser i produktion och dragit lärdomar av hur dessa är implementerade. 
+
 Installation
-För att köra programmet krävs en databas och en driver. Script till databasen finns under fliken SQL-settings.  
+För att köra programmet krävs en databas och en driver. Script till databasen finns under fliken SQL-settings. 
+Klassen DBUtil läser användarnamn, lösenord och databasnamn från en fil. 
+För att koppla upp sig mot databasen krävs att korrekta uppgifter införs i dokumentet.
 
 Contributors
 Niklas Karlson, cykeltur, och Ulrika Goloconda Fahlén är de som författat programmet. 
